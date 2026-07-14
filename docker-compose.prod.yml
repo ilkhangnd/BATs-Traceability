@@ -1,0 +1,68 @@
+services:
+  postgis:
+    image: postgis/postgis:16-3.4
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: bats
+      POSTGRES_USER: bats
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+    volumes:
+      - bats-production-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bats -d bats"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  backend:
+    build:
+      context: .
+      target: backend
+    restart: unless-stopped
+    depends_on:
+      postgis:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      API_PORT: 4000
+      OPENAPI_ENABLED: ${OPENAPI_ENABLED:-true}
+      RATE_LIMIT_MAX: ${RATE_LIMIT_MAX:-120}
+      RATE_LIMIT_WINDOW_MS: ${RATE_LIMIT_WINDOW_MS:-60000}
+      TRUST_PROXY: ${TRUST_PROXY:-true}
+      DATABASE_URL: postgresql://bats:${POSTGRES_PASSWORD}@postgis:5432/bats?connection_limit=${PRISMA_POOL_SIZE:-60}&pool_timeout=${PRISMA_POOL_TIMEOUT:-30}
+      BATS_STORAGE: postgres
+      BUSINESS_TIMEZONE: ${BUSINESS_TIMEZONE:-Asia/Ho_Chi_Minh}
+      SESSION_SECRET: ${SESSION_SECRET:?SESSION_SECRET is required}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:?ADMIN_EMAIL is required}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?ADMIN_PASSWORD is required}
+      WEB_ORIGINS: ${WEB_ORIGINS:?WEB_ORIGINS is required}
+      CHAIN_RPC_URL: ${CHAIN_RPC_URL:-}
+      ANCHOR_CONTRACT_ADDRESS: ${ANCHOR_CONTRACT_ADDRESS:-}
+      ANCHOR_PRIVATE_KEY: ${ANCHOR_PRIVATE_KEY:-}
+      ANCHOR_SCHEDULER_ENABLED: ${ANCHOR_SCHEDULER_ENABLED:-false}
+      ANCHOR_SCHEDULER_INTERVAL_MS: ${ANCHOR_SCHEDULER_INTERVAL_MS:-300000}
+      ANCHOR_RETRY_BASE_MS: ${ANCHOR_RETRY_BASE_MS:-60000}
+      ANCHOR_RETRY_MAX_MS: ${ANCHOR_RETRY_MAX_MS:-86400000}
+      EVIDENCE_STORAGE_PATH: /app/uploads
+    volumes:
+      - bats-production-evidence:/app/uploads
+    ports:
+      - "${API_PORT:-4000}:4000"
+
+  web:
+    build:
+      context: .
+      target: web
+      args:
+        NEXT_PUBLIC_API_URL: ${PUBLIC_API_URL:?PUBLIC_API_URL is required}
+        NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${NEXT_PUBLIC_GOOGLE_MAPS_API_KEY:-}
+        NEXT_PUBLIC_GOOGLE_MAP_ID: ${NEXT_PUBLIC_GOOGLE_MAP_ID:-}
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+
+volumes:
+  bats-production-postgres:
+  bats-production-evidence:

@@ -1,0 +1,108 @@
+{
+  "generatedAt": "2026-07-05T18:02:36.856Z",
+  "seed": "0x5eed1234",
+  "dataset": "deterministic noisy synthetic validation set",
+  "total": 2150,
+  "valid": 1430,
+  "injectedFraud": 720,
+  "confusionMatrix": {
+    "tp": 700,
+    "fp": 30,
+    "tn": 1400,
+    "fn": 20
+  },
+  "precision": 0.958904109589041,
+  "recall": 0.9722222222222222,
+  "f1": 0.9655172413793104,
+  "falsePositiveRate": 0.02097902097902098,
+  "falseNegativeRate": 0.027777777777777776,
+  "perRule": {
+    "G": {
+      "tp": 100,
+      "fp": 0,
+      "tn": 2030,
+      "fn": 20,
+      "precision": 1,
+      "recall": 0.8333333333333334,
+      "f1": 0.9090909090909091,
+      "falsePositiveRate": 0,
+      "falseNegativeRate": 0.16666666666666666
+    },
+    "Y": {
+      "tp": 100,
+      "fp": 0,
+      "tn": 2050,
+      "fn": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "falsePositiveRate": 0,
+      "falseNegativeRate": 0
+    },
+    "D": {
+      "tp": 100,
+      "fp": 0,
+      "tn": 2050,
+      "fn": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "falsePositiveRate": 0,
+      "falseNegativeRate": 0
+    },
+    "T": {
+      "tp": 100,
+      "fp": 0,
+      "tn": 2050,
+      "fn": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "falsePositiveRate": 0,
+      "falseNegativeRate": 0
+    },
+    "R": {
+      "tp": 100,
+      "fp": 0,
+      "tn": 2050,
+      "fn": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "falsePositiveRate": 0,
+      "falseNegativeRate": 0
+    },
+    "W": {
+      "tp": 100,
+      "fp": 0,
+      "tn": 2050,
+      "fn": 0,
+      "precision": 1,
+      "recall": 1,
+      "f1": 1,
+      "falsePositiveRate": 0,
+      "falseNegativeRate": 0
+    },
+    "A": {
+      "tp": 100,
+      "fp": 30,
+      "tn": 2020,
+      "fn": 0,
+      "precision": 0.7692307692307693,
+      "recall": 1,
+      "f1": 0.8695652173913044,
+      "falsePositiveRate": 0.014634146341463415,
+      "falseNegativeRate": 0
+    }
+  },
+  "noiseCases": {
+    "degradedGpsOperationallyValid": 30,
+    "spoofedGpsInsidePolygon": 20
+  },
+  "limitations": [
+    "Synthetic labels and noise cases do not establish field accuracy.",
+    "GPS spoofing that reports an in-geofence coordinate is intentionally missed by geofence-only validation.",
+    "Degraded but legitimate GPS is intentionally counted as an operational false positive.",
+    "Pilot labels must be assigned independently before thresholds are tuned."
+  ]
+}

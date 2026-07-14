@@ -1,0 +1,31 @@
+{
+  "benchmark": "api-load-node",
+  "label": "staging-smoke",
+  "baseUrl": "http://localhost:4400",
+  "startedAt": "2026-07-09T08:42:31.418Z",
+  "durationSeconds": 5,
+  "vus": 3,
+  "totalRequests": 1094,
+  "successfulRequests": 1094,
+  "failedRequests": 0,
+  "errorRate": 0,
+  "rps": 218.258,
+  "latencyMs": {
+    "min": 6.872,
+    "avg": 13.622,
+    "p50": 9.85,
+    "p95": 30.562,
+    "p99": 40.083,
+    "max": 249.331
+  },
+  "statusCounts": {
+    "201": 1094
+  },
+  "sampleErrors": [],
+  "environment": {
+    "node": "v25.2.1",
+    "platform": "darwin 27.0.0",
+    "hostname": "khangnd-3.local",
+    "cpus": 10
+  }
+}

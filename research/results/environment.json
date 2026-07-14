@@ -1,0 +1,38 @@
+{
+  "capturedAt": "2026-07-05T18:03:42.780Z",
+  "timezone": "Asia/Saigon",
+  "git": {
+    "commit": "unavailable",
+    "status": "?? .env.example\n?? .github/\n?? .gitignore\n?? README.md\n?? ROADMAP_PROJECT_PAPER.md\n?? apps/\n?? docker-compose.yml\n?? docs/\n?? package.json\n?? packages/\n?? pnpm-lock.yaml\n?? pnpm-workspace.yaml\n?? research/\n?? tsconfig.base.json\n?? turbo.json"
+  },
+  "runtime": {
+    "node": "v24.14.0",
+    "v8": "13.6.233.17-node.41",
+    "platform": "darwin",
+    "architecture": "arm64"
+  },
+  "machine": {
+    "hostname": "Mac.lan",
+    "os": "Darwin 27.0.0",
+    "cpuModel": "Apple M4",
+    "logicalCores": 10,
+    "totalMemoryBytes": 17179869184
+  },
+  "experimentParameters": {
+    "merkleSizes": "1000,10000,100000,1000000",
+    "merkleRepeats": "3",
+    "businessTimezone": "Asia/Ho_Chi_Minh"
+  },
+  "resultChecksums": {
+    "fraud-dataset.csv": "7d4d2355218c519933956fca2463fa5e7cadb45df070d41e896ef8d879cffe57",
+    "fraud-metrics.json": "d6db62c573a8753869102b11946430e7a5ba8867297ca78ee4acd8ba55644754",
+    "gas-benchmark.csv": "acb47a0342923be4a4df935133470d38ecf323e154fda6c24e8732ab47c0e908",
+    "gas-benchmark.json": "5ed5ac427c0b499024544acf99c548d69564537e1def3ebd88c23da9bfd9a13c",
+    "merkle-benchmark.csv": "e35a755ba17b2e61abc5be42f9ef61996e6e99a924c54fc3caafe6c026a841b7",
+    "merkle-benchmark.json": "bd718e7423e2596496e7bd73733720e70929d3b53b222567da5af641e20db9bc",
+    "merkle-summary.json": "9b90c1db5260c2f2e87762fb8b79c19884edc8ee152fef5477ed1c3cbc7f3a16",
+    "postgis-benchmark.csv": "ab8a004ed1dcbc48e184e82a599c21dc39d7ce4d559b48c86158f773a17690ff",
+    "postgis-benchmark.txt": "a043e61c9842e9ca4e89e6ce1ef5e56d873eaca22ab1c6cab1a413d9d5dcb4f1",
+    "postgis-summary.json": "d777a893182a37cabcc5b0c3849599a145afeea2ba32619d7fe956461bff946b"
+  }
+}

@@ -1,0 +1,16 @@
+.git
+.github
+.env
+**/.env.local
+**/node_modules
+**/.next*
+**/dist
+**/coverage
+apps/blockchain/artifacts
+apps/blockchain/cache
+apps/blockchain/deployments
+backups
+uploads
+research/results
+*.log
+.DS_Store

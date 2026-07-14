@@ -1,0 +1,25 @@
+{
+  "version": "1.0.0",
+  "timezone": "Asia/Ho_Chi_Minh",
+  "warmupRuns": 3,
+  "measuredRuns": 10,
+  "experiments": {
+    "api": {
+      "virtualUsers": [100, 500, 1000, 5000],
+      "metrics": ["rps", "p50_ms", "p95_ms", "p99_ms", "error_rate"]
+    },
+    "postgis": {
+      "polygonCounts": [100, 1000, 10000, 100000],
+      "metrics": ["planning_ms", "execution_ms", "shared_buffer_hits"]
+    },
+    "merkle": {
+      "eventCounts": [1000, 10000, 100000, 1000000],
+      "metrics": ["root_ms", "proof_ms", "verify_ms", "proof_bytes"]
+    },
+    "gas": {
+      "eventCounts": [1000, 10000, 100000, 1000000],
+      "metrics": ["median_gas", "projected_daily_gas", "saving_percent"]
+    }
+  },
+  "claimPolicy": "Only measured results with raw output, environment metadata and checksum may be cited."
+}

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <rect width="1200" height="720" fill="#fbfcf8"/>
+  <style>
+    text{font-family:Inter,Arial,sans-serif;fill:#14251b}
+    .title{font-size:30px;font-weight:700}.subtitle{font-size:15px;fill:#52625a}
+    .axis{stroke:#85928b;stroke-width:1}.grid{stroke:#dfe5e0;stroke-width:1}
+    .label{font-size:14px}.value{font-size:13px;font-weight:600}
+  </style>
+  <text x="75" y="58" class="title">Synthetic fraud detection by rule</text>
+  <text x="75" y="86" class="subtitle">Per-rule F1 on deterministic noisy scenarios · not a field-accuracy claim</text>
+  <line x1="75" y1="580" x2="1120" y2="580" class="axis"/>
+    <rect x="100" y="189.09090909090912" width="90" height="390.9090909090909" rx="9" fill="#17683f"/>
+      <text x="145" y="175.09090909090912" text-anchor="middle" class="value">0.909</text>
+      <text x="145" y="612" text-anchor="middle" class="label">G</text><rect x="245" y="150" width="90" height="430" rx="9" fill="#17683f"/>
+      <text x="290" y="136" text-anchor="middle" class="value">1.000</text>
+      <text x="290" y="612" text-anchor="middle" class="label">Y</text><rect x="390" y="150" width="90" height="430" rx="9" fill="#17683f"/>
+      <text x="435" y="136" text-anchor="middle" class="value">1.000</text>
+      <text x="435" y="612" text-anchor="middle" class="label">D</text><rect x="535" y="150" width="90" height="430" rx="9" fill="#17683f"/>
+      <text x="580" y="136" text-anchor="middle" class="value">1.000</text>
+      <text x="580" y="612" text-anchor="middle" class="label">T</text><rect x="680" y="150" width="90" height="430" rx="9" fill="#17683f"/>
+      <text x="725" y="136" text-anchor="middle" class="value">1.000</text>
+      <text x="725" y="612" text-anchor="middle" class="label">R</text><rect x="825" y="150" width="90" height="430" rx="9" fill="#17683f"/>
+      <text x="870" y="136" text-anchor="middle" class="value">1.000</text>
+      <text x="870" y="612" text-anchor="middle" class="label">W</text><rect x="970" y="206.08695652173907" width="90" height="373.91304347826093" rx="9" fill="#17683f"/>
+      <text x="1015" y="192.08695652173907" text-anchor="middle" class="value">0.870</text>
+      <text x="1015" y="612" text-anchor="middle" class="label">A</text>
+    <text x="34" y="365" transform="rotate(-90 34 365)" text-anchor="middle" class="label">F1 score</text>
+    <text x="600" y="680" text-anchor="middle" class="subtitle">G includes undetected in-geofence spoofing; A includes legitimate degraded GPS.</text>
+</svg>

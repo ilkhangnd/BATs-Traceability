@@ -1,0 +1,3 @@
+UPDATE batches
+SET gtin = '8930000000019'
+WHERE gtin = '8930000000018';

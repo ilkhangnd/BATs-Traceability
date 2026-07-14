@@ -1,0 +1,49 @@
+name: BATS CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      DATABASE_URL: postgresql://bats:bats@localhost:5433/bats
+      BATS_STORAGE: postgres
+      ADMIN_EMAIL: admin@bats.vn
+    services:
+      postgis:
+        image: postgis/postgis:16-3.4
+        env:
+          POSTGRES_DB: bats
+          POSTGRES_USER: bats
+          POSTGRES_PASSWORD: bats
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd "pg_isready -U bats -d bats"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.7.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @bats/backend db:generate
+      - run: pnpm --filter @bats/backend db:deploy
+      - run: pnpm --filter @bats/backend db:seed
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm --filter @bats/backend test:integration
+      - run: pnpm build

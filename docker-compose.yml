@@ -1,0 +1,26 @@
+services:
+  postgis:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_DB: bats
+      POSTGRES_USER: bats
+      POSTGRES_PASSWORD: bats
+    ports:
+      - "5433:5432"
+    volumes:
+      - bats-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bats"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  anvil:
+    image: ghcr.io/foundry-rs/foundry:latest
+    entrypoint: ["anvil"]
+    command: ["--host", "0.0.0.0"]
+    ports:
+      - "8545:8545"
+
+volumes:
+  bats-postgres:

@@ -1,0 +1,29 @@
+{
+  "name": "@bats/zalo-mini-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/offline-queue.js",
+  "types": "./dist/offline-queue.d.ts",
+  "dependencies": {
+    "lucide-react": "^1.16.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "zmp-sdk": "2.44.3-6",
+    "zmp-ui": "^1.11.14",
+    "zmp-vite-plugin": "^1.1.6"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && vite build && cp -f zmp-config.json www/ 2>/dev/null && rm -rf dist-app && cp -r www dist-app || true",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "dev": "vite --port 3500 --host 0.0.0.0",
+    "test": "echo 'Offline queue requires a browser IndexedDB runtime'"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.6",
+    "@types/react-dom": "^19.1.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.8.3",
+    "vite": "^5.4.14"
+  }
+}

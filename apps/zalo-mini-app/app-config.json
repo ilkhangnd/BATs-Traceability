@@ -1,0 +1,28 @@
+{
+  "app": {
+    "appId": "786922732143670563",
+    "title": "BATS - Sổ Tay Nông Hộ",
+    "headerColor": "#0068FF",
+    "textColor": "white",
+    "statusBar": "normal",
+    "actionBars": [
+      {
+        "type": "button",
+        "icon": "refresh"
+      }
+    ]
+  },
+  "listPSC": [
+    {
+      "scope": "scope.userInfo",
+      "reason": "Xác định danh tính nông hộ hoặc đơn vị thu mua tham gia chuỗi truy xuất nguồn gốc BATS"
+    },
+    {
+      "scope": "scope.userLocation",
+      "reason": "Xác thực tọa độ GPS của rẫy thu hoạch nhằm kiểm tra địa giới Geofence hợp lệ trước khi chốt lô"
+    }
+  ],
+  "pages": [
+    "index"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "name": "bats",
+  "private": true,
+  "packageManager": "pnpm@11.7.0",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "build": "turbo build",
+    "dev": "pnpm --parallel --filter @bats/backend --filter @bats/web dev",
+    "dev:backend": "pnpm --filter @bats/backend dev",
+    "dev:web": "pnpm --filter @bats/web dev",
+    "dev:zalo": "pnpm --filter @bats/zalo-mini-app dev",
+    "dev:all": "pnpm --parallel --filter @bats/backend --filter @bats/web --filter @bats/zalo-mini-app dev",
+    "db:backup": "bash scripts/backup-local.sh",
+    "db:restore": "bash scripts/restore-local.sh",
+    "staging:up": "bash scripts/staging-up.sh",
+    "staging:down": "bash scripts/staging-down.sh",
+    "staging:token": "node scripts/benchmark-token.mjs",
+    "research:merkle": "node research/benchmarks/merkle.mjs",
+    "research:fraud": "pnpm --filter @bats/backend build && node apps/backend/dist/research/fraud-evaluation.js --output research/results",
+    "research:gas": "pnpm --filter @bats/blockchain research:gas",
+    "research:api:node": "node research/benchmarks/api-load-node.mjs",
+    "research:api:k6": "node research/benchmarks/run-k6-suite.mjs",
+    "research:charts": "node research/benchmarks/charts.mjs",
+    "research:metadata": "node research/benchmarks/capture-environment.mjs",
+    "research:postgis:summary": "node research/benchmarks/summarize-postgis.mjs",
+    "research:merkle:summary": "node research/benchmarks/summarize-merkle.mjs",
+    "research:all": "pnpm research:merkle && pnpm research:fraud && pnpm research:gas && pnpm research:charts",
+    "test": "turbo test",
+    "typecheck": "turbo typecheck"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.4",
+    "typescript": "^5.8.3"
+  }
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "scenario": "mixed",
+    "targetVus": 100,
+    "totalRequests": 184,
+    "rps": 5.3,
+    "errorRate": 9.239,
+    "latencyMs": {
+      "avg": 13365.08,
+      "med": 10314.81,
+      "p90": 28476.78,
+      "p95": 29078.44,
+      "p99": 29685.64,
+      "max": 29850.36
+    }
+  },
+  {
+    "scenario": "mixed",
+    "targetVus": 500,
+    "totalRequests": 122,
+    "rps": 2.36,
+    "errorRate": 18.033,
+    "latencyMs": {
+      "avg": 22182.76,
+      "med": 14820.95,
+      "p90": 48187.39,
+      "p95": 49352.17,
+      "p99": 50236.22,
+      "max": 50588.23
+    }
+  },
+  {
+    "scenario": "mixed",
+    "targetVus": 1000,
+    "totalRequests": 1604,
+    "rps": 29.16,
+    "errorRate": 100,
+    "latencyMs": {
+      "avg": 15001.56,
+      "med": 15000.7,
+      "p90": 15002.2,
+      "p95": 15005.6,
+      "p99": 15020.59,
+      "max": 15040.04
+    }
+  },
+  {
+    "scenario": "mixed",
+    "targetVus": 5000,
+    "totalRequests": 12020,
+    "rps": 172.27,
+    "errorRate": 100,
+    "latencyMs": {
+      "avg": 15390.49,
+      "med": 15000.58,
+      "p90": 15008.45,
+      "p95": 15023.03,
+      "p99": 15329.75,
+      "max": 60009.67
+    }
+  },
+  {
+    "scenario": "harvest",
+    "targetVus": 100,
+    "totalRequests": 145,
+    "rps": 4.36,
+    "errorRate": 100,
+    "latencyMs": {
+      "avg": 15016.27,
+      "med": 15001.16,
+      "p90": 15009.6,
+      "p95": 15139.14,
+      "p99": 15284.98,
+      "max": 15323.83
+    }
+  },
+  {
+    "scenario": "harvest",
+    "targetVus": 500,
+    "totalRequests": 787,
+    "rps": 15.13,
+    "errorRate": 100,
+    "latencyMs": {
+      "avg": 15001.51,
+      "med": 15000.97,
+      "p90": 15001.83,
+      "p95": 15004.22,
+      "p99": 15016.27,
+      "max": 15035.39
+    }
+  }
+]

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <rect width="1200" height="720" fill="#fbfcf8"/>
+  <style>
+    text{font-family:Inter,Arial,sans-serif;fill:#14251b}
+    .title{font-size:30px;font-weight:700}.subtitle{font-size:15px;fill:#52625a}
+    .axis{stroke:#85928b;stroke-width:1}.grid{stroke:#dfe5e0;stroke-width:1}
+    .label{font-size:14px}.value{font-size:13px;font-weight:600}
+  </style>
+  <text x="75" y="58" class="title">Projected EVM gas at 1,000 events per day</text>
+  <text x="75" y="86" class="subtitle">Median of 30 local Hardhat samples · logarithmic y-axis</text>
+  <line x1="100" y1="600" x2="1110" y2="600" class="axis"/>
+    <rect x="130" y="140" width="210" height="460" rx="10" fill="#b66b39"/>
+      <text x="235" y="124" text-anchor="middle" class="value">48,564,000 gas</text>
+      <text x="235" y="634" text-anchor="middle" class="label">Minimal token</text><rect x="450" y="142.46608301332083" width="210" height="457.5339169866792" rx="10" fill="#657b70"/>
+      <text x="555" y="126.46608301332083" text-anchor="middle" class="value">44,168,000 gas</text>
+      <text x="555" y="634" text-anchor="middle" class="label">Direct event log</text><rect x="770" y="302.19156825604557" width="210" height="297.80843174395443" rx="10" fill="#17683f"/>
+      <text x="875" y="286.19156825604557" text-anchor="middle" class="value">94,666 gas</text>
+      <text x="875" y="634" text-anchor="middle" class="label">BATS daily root</text>
+    <text x="34" y="370" transform="rotate(-90 34 370)" text-anchor="middle" class="label">Gas used (log scale)</text>
+    <text x="600" y="680" text-anchor="middle" class="subtitle">Baselines are minimal research contracts; token baseline is not full ERC-721.</text>
+</svg>

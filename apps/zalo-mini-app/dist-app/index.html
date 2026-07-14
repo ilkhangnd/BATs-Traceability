@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>BATS - Sổ Tay Nông Hộ Zalo Mini App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <style>
+      /* ===== BATS Design Tokens ===== */
+      :root {
+        --zmp-primary: #155d3b;
+        --zmp-primary-dark: #0c3e29;
+        --farm-green: #155d3b;
+        --farm-green-dark: #0c3e29;
+        --farm-green-light: #e8f0eb;
+        --farm-lime: #cbed71;
+        --farm-amber: #e4a734;
+        --farm-bg: #f5f5ef;
+        --card-bg: #ffffff;
+        --text-main: #172019;
+        --text-sub: #667069;
+        --border-color: #dfe3da;
+
+        /* Responsive spacing scale — adjusted per breakpoint below */
+        --sp-xs: 4px;
+        --sp-sm: 8px;
+        --sp-md: 12px;
+        --sp-lg: 16px;
+        --sp-xl: 20px;
+
+        /* Responsive font scale */
+        --fs-xs: 10px;
+        --fs-sm: 12px;
+        --fs-body: 14px;
+        --fs-md: 14px;
+        --fs-lg: 15px;
+        --fs-xl: 17px;
+        --fs-2xl: 21px;
+
+        /* Component sizing */
+        --header-h: 56px;
+        --tabbar-h: 64px;
+        --card-radius: 14px;
+        --btn-radius: 12px;
+        --icon-size: 20px;
+      }
+
+      /* ===== Reset ===== */
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      html {
+        font-size: 16px;
+        /* Prevent iOS tap-zoom */
+        touch-action: manipulation;
+      }
+
+      body {
+        background-color: #172019;
+        color: var(--text-main);
+        font-size: var(--fs-body);
+        line-height: 1.55;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100dvh;            /* use dvh for mobile address-bar awareness */
+        min-height: 100vh;             /* fallback */
+        text-align: left;
+        overflow: hidden;
+      }
+
+      p, li {
+        font-size: var(--fs-body);
+      }
+
+      button, input, select, textarea {
+        font: inherit;
+      }
+
+      /* ===== Phone Frame Container ===== */
+      #mobile-frame {
+        width: 100%;
+        max-width: 430px;
+        height: 100dvh;
+        height: 100vh;
+        background-color: var(--farm-bg);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+      }
+
+      #root {
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        overflow: hidden;
+      }
+
+      /* Always-visible scrollbar for content area */
+      .scroll-area {
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-y: contain;
+        overflow-y: auto !important;
+      }
+      .scroll-area::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+        display: none;
+      }
+      .scroll-area::-webkit-scrollbar-track {
+        background: transparent;
+        border-radius: 999px;
+      }
+      .scroll-area::-webkit-scrollbar-thumb {
+        background: rgba(21, 93, 59, 0.22);
+        border-radius: 999px;
+        min-height: 40px;
+      }
+      .scroll-area::-webkit-scrollbar-thumb:hover {
+        background: rgba(21, 93, 59, 0.34);
+      }
+      .scroll-area {
+        scrollbar-width: none;
+        scrollbar-color: transparent transparent;
+      }
+
+      /* ================================================================
+         RESPONSIVE BREAKPOINTS — smallest phones first
+         ================================================================ */
+
+      /* ── Tiny phones: iPhone SE / 5s / Galaxy A01 (≤360px) ── */
+      @media (max-width: 360px) {
+        :root {
+          --sp-xs: 3px; --sp-sm: 6px; --sp-md: 10px; --sp-lg: 12px; --sp-xl: 16px;
+          --fs-xs: 9px; --fs-sm: 11px; --fs-md: 13px; --fs-lg: 14px; --fs-xl: 16px; --fs-2xl: 19px;
+          --header-h: 48px; --tabbar-h: 56px; --card-radius: 10px; --icon-size: 18px;
+        }
+      }
+
+      /* ── Small phones: iPhone Mini / Galaxy S21 (361–389px) ── */
+      @media (min-width: 361px) and (max-width: 389px) {
+        :root {
+          --sp-xs: 4px; --sp-sm: 7px; --sp-md: 11px; --sp-lg: 14px; --sp-xl: 18px;
+          --fs-xs: 10px; --fs-sm: 11px; --fs-md: 13px; --fs-lg: 15px; --fs-xl: 17px; --fs-2xl: 20px;
+          --header-h: 52px; --tabbar-h: 60px; --card-radius: 12px; --icon-size: 19px;
+        }
+      }
+
+      /* ── Standard phones: iPhone 15 / Pixel 7 (390–413px) ── */
+      @media (min-width: 390px) and (max-width: 413px) {
+        :root {
+          --sp-xs: 4px; --sp-sm: 8px; --sp-md: 12px; --sp-lg: 16px; --sp-xl: 20px;
+          --fs-xs: 10px; --fs-sm: 12px; --fs-md: 14px; --fs-lg: 16px; --fs-xl: 18px; --fs-2xl: 22px;
+          --header-h: 56px; --tabbar-h: 64px; --card-radius: 14px; --icon-size: 20px;
+        }
+      }
+
+      /* ── Large phones: iPhone Plus / Pro Max / Galaxy S Ultra (414–430px) ── */
+      @media (min-width: 414px) and (max-width: 430px) {
+        :root {
+          --sp-xs: 4px; --sp-sm: 8px; --sp-md: 14px; --sp-lg: 18px; --sp-xl: 22px;
+          --fs-xs: 10px; --fs-sm: 12px; --fs-md: 14px; --fs-lg: 17px; --fs-xl: 19px; --fs-2xl: 23px;
+          --header-h: 58px; --tabbar-h: 66px; --card-radius: 16px; --icon-size: 22px;
+        }
+      }
+
+      /* ── Short phones height fix (e.g. SE landscape, foldables ≤ 670px tall) ── */
+      @media (max-height: 670px) {
+        :root {
+          --header-h: 44px;
+          --tabbar-h: 52px;
+        }
+      }
+
+      /* ================================================================
+         DESKTOP: show phone frame simulator (≥640px viewport)
+         ================================================================ */
+      @media (min-width: 640px) {
+        body {
+          background: radial-gradient(ellipse at center, #1e293b 0%, #0f172a 100%);
+        }
+        #mobile-frame {
+          max-height: 900px;
+          border-radius: 40px;
+          border: 6px solid #334155;
+          box-shadow:
+            0 0 0 2px rgba(255,255,255,0.08),
+            0 30px 60px -15px rgba(0, 0, 0, 0.65),
+            inset 0 0 0 1px rgba(255,255,255,0.04);
+          margin: 16px 0;
+        }
+      }
+
+      /* Tablets or wider — still keep phone frame */
+      @media (min-width: 1024px) {
+        #mobile-frame {
+          max-height: 920px;
+        }
+      }
+
+      /* ===== Touch Target Minimums ===== */
+      button, a, [role="button"] {
+        min-height: 44px;          /* Apple HIG & WCAG 2.5.8 */
+        min-width: 44px;
+      }
+
+      /* ===== Safe-area insets for notch devices ===== */
+      @supports (padding-top: env(safe-area-inset-top)) {
+        #mobile-frame {
+          padding-top: env(safe-area-inset-top);
+        }
+      }
+
+      /* ===== Utility: hide scrollbar but keep scrollable ===== */
+      .hide-scrollbar::-webkit-scrollbar { display: none; }
+      .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+      /* ===== Input Styling Reset for Mobile ===== */
+      input, select, textarea {
+        font-size: var(--fs-lg);   /* ≥16px to prevent iOS zoom */
+        border-radius: var(--btn-radius);
+      }
+    </style>
+    <script type="module" crossorigin src="./assets/index.B6Bl4QqI.module.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-7SHd8kTU.css">
+  </head>
+  <body>
+    <div id="mobile-frame">
+      <div id="root"></div>
+    </div>
+  </body>
+</html>

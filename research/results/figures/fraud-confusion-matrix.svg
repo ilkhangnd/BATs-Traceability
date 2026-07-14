@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <rect width="1200" height="720" fill="#fbfcf8"/>
+  <style>
+    text{font-family:Inter,Arial,sans-serif;fill:#14251b}
+    .title{font-size:30px;font-weight:700}.subtitle{font-size:15px;fill:#52625a}
+    .axis{stroke:#85928b;stroke-width:1}.grid{stroke:#dfe5e0;stroke-width:1}
+    .label{font-size:14px}.value{font-size:13px;font-weight:600}
+  </style>
+  <text x="75" y="58" class="title">Synthetic fraud-detection confusion matrix</text>
+  <text x="75" y="86" class="subtitle">2150 deterministic samples · F1=0.966 · not a field-accuracy claim</text>
+  <text x="465" y="140" text-anchor="middle" class="label">Predicted fraud</text>
+    <text x="795" y="140" text-anchor="middle" class="label">Predicted valid</text>
+    <text x="250" y="280" text-anchor="end" class="label">Actual fraud</text>
+    <text x="250" y="500" text-anchor="end" class="label">Actual valid</text>
+    <rect x="300" y="180" width="300" height="190" rx="14" fill="#2f8056" opacity="0.92"/>
+      <text x="450" y="255" text-anchor="middle" font-size="20" fill="white">True positive</text>
+      <text x="450" y="315" text-anchor="middle" font-size="46" font-weight="700" fill="white">700</text><rect x="630" y="180" width="300" height="190" rx="14" fill="#d88c5a" opacity="0.92"/>
+      <text x="780" y="255" text-anchor="middle" font-size="20" fill="white">False negative</text>
+      <text x="780" y="315" text-anchor="middle" font-size="46" font-weight="700" fill="white">20</text><rect x="300" y="400" width="300" height="190" rx="14" fill="#d88c5a" opacity="0.92"/>
+      <text x="450" y="475" text-anchor="middle" font-size="20" fill="white">False positive</text>
+      <text x="450" y="535" text-anchor="middle" font-size="46" font-weight="700" fill="white">30</text><rect x="630" y="400" width="300" height="190" rx="14" fill="#2f8056" opacity="0.92"/>
+      <text x="780" y="475" text-anchor="middle" font-size="20" fill="white">True negative</text>
+      <text x="780" y="535" text-anchor="middle" font-size="46" font-weight="700" fill="white">1400</text>
+</svg>

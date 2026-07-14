@@ -1,0 +1,67 @@
+Timing is on.
+CREATE EXTENSION
+Time: 2.517 ms
+DROP TABLE
+Time: 0.759 ms
+CREATE TABLE
+Time: 32.969 ms
+CREATE INDEX
+Time: 2.917 ms
+INSERT 0 100000
+Time: 672.840 ms
+VACUUM
+Time: 105.945 ms
+N=100
+                                                                            QUERY PLAN                                                                            
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Index Scan using research_farm_plot_geometries_gix on research_farm_plot_geometries  (cost=0.28..20.80 rows=1 width=8) (actual time=1.676..1.791 rows=1 loops=1)
+   Index Cond: (polygon ~ '0101000020E6100000FAEDEBC039C35A4039D6C56D34002640'::geometry)
+   Filter: ((id <= 100) AND st_contains(polygon, '0101000020E6100000FAEDEBC039C35A4039D6C56D34002640'::geometry))
+   Buffers: shared hit=18
+ Planning:
+   Buffers: shared hit=80 read=5 dirtied=2
+ Planning Time: 6.334 ms
+ Execution Time: 2.155 ms
+(8 rows)
+
+Time: 13.057 ms
+N=1000
+                                                                            QUERY PLAN                                                                            
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Index Scan using research_farm_plot_geometries_gix on research_farm_plot_geometries  (cost=0.28..20.80 rows=1 width=8) (actual time=0.037..0.037 rows=1 loops=1)
+   Index Cond: (polygon ~ '0101000020E6100000C7BAB88D06E05A4039D6C56D34002640'::geometry)
+   Filter: ((id <= 1000) AND st_contains(polygon, '0101000020E6100000C7BAB88D06E05A4039D6C56D34002640'::geometry))
+   Buffers: shared hit=5
+ Planning:
+   Buffers: shared hit=3
+ Planning Time: 0.089 ms
+ Execution Time: 0.046 ms
+(8 rows)
+
+Time: 0.283 ms
+N=10000
+                                                                            QUERY PLAN                                                                            
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Index Scan using research_farm_plot_geometries_gix on research_farm_plot_geometries  (cost=0.28..20.80 rows=1 width=8) (actual time=0.037..0.038 rows=1 loops=1)
+   Index Cond: (polygon ~ '0101000020E6100000C7BAB88D06E05A40FBCBEEC9C3022640'::geometry)
+   Filter: ((id <= 10000) AND st_contains(polygon, '0101000020E6100000C7BAB88D06E05A40FBCBEEC9C3022640'::geometry))
+   Buffers: shared hit=5
+ Planning Time: 0.062 ms
+ Execution Time: 0.047 ms
+(6 rows)
+
+Time: 0.212 ms
+N=100000
+                                                                            QUERY PLAN                                                                            
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Index Scan using research_farm_plot_geometries_gix on research_farm_plot_geometries  (cost=0.28..20.80 rows=1 width=8) (actual time=0.035..0.036 rows=1 loops=1)
+   Index Cond: (polygon ~ '0101000020E6100000C7BAB88D06E05A40D26F5F07CE192640'::geometry)
+   Filter: ((id <= 100000) AND st_contains(polygon, '0101000020E6100000C7BAB88D06E05A40D26F5F07CE192640'::geometry))
+   Buffers: shared hit=5
+ Planning:
+   Buffers: shared hit=3
+ Planning Time: 0.079 ms
+ Execution Time: 0.043 ms
+(8 rows)
+
+Time: 0.223 ms

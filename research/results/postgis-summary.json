@@ -1,0 +1,46 @@
+{
+  "generatedAt": "2026-07-05T17:18:37.867Z",
+  "protocol": {
+    "warmupRuns": 3,
+    "measuredRuns": 10
+  },
+  "groups": [
+    {
+      "polygonCount": 100,
+      "runs": 10,
+      "meanMs": 0.3099,
+      "medianMs": 0.064,
+      "p95Ms": 2.452,
+      "p99Ms": 2.452,
+      "allMatched": true
+    },
+    {
+      "polygonCount": 1000,
+      "runs": 10,
+      "meanMs": 0.04769999999999999,
+      "medianMs": 0.048,
+      "p95Ms": 0.049,
+      "p99Ms": 0.049,
+      "allMatched": true
+    },
+    {
+      "polygonCount": 10000,
+      "runs": 10,
+      "meanMs": 0.04719999999999999,
+      "medianMs": 0.048,
+      "p95Ms": 0.048,
+      "p99Ms": 0.048,
+      "allMatched": true
+    },
+    {
+      "polygonCount": 100000,
+      "runs": 10,
+      "meanMs": 0.0501,
+      "medianMs": 0.05,
+      "p95Ms": 0.056,
+      "p99Ms": 0.056,
+      "allMatched": true
+    }
+  ],
+  "caveat": "Local single-client microbenchmark. Results characterize indexed ST_Contains latency, not end-to-end API concurrency."
+}

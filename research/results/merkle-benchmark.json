@@ -1,0 +1,408 @@
+{
+  "generatedAt": "2026-07-05T17:18:51.422Z",
+  "node": "v24.14.0",
+  "platform": "darwin-arm64",
+  "repeats": 10,
+  "results": [
+    {
+      "size": 1000,
+      "run": 1,
+      "rootMs": 1.7567920000000008,
+      "proofMs": 0.9735420000000001,
+      "verifyMs": 0.028541000000000594,
+      "proofHashes": 10,
+      "proofBytes": 320,
+      "verified": true
+    },
+    {
+      "size": 1000,
+      "run": 2,
+      "rootMs": 0.7083329999999997,
+      "proofMs": 1.2483329999999988,
+      "verifyMs": 0.012000000000000455,
+      "proofHashes": 10,
+      "proofBytes": 320,
+      "verified": true
+    },
+    {
+      "size": 1000,
+      "run": 3,
+      "rootMs": 0.7154170000000022,
+      "proofMs": 0.740000000000002,
+      "verifyMs": 0.010208000000002215,
+      "proofHashes": 10,
+      "proofBytes": 320,
+      "verified": true
+    },
+    {
+      "size": 1000,
+      "run": 4,
+      "rootMs": 0.913291000000001,
+      "proofMs": 0.6609169999999978,
+      "verifyMs": 0.007542000000000826,
+      "proofHashes": 10,
+      "proofBytes": 320,
+      "verified": true
+    },
+    {
+      "size": 1000,
+      "run": 5,
+      "rootMs": 0.8103750000000005,
+      "proofMs": 0.5705419999999997,
+      "verifyMs": 0.007667000000001423,
+      "proofHashes": 10,
+      "proofBytes": 320,
+      "verified": true
+    },
+    {
+      "size": 1000,
+      "run": 6,
+      "rootMs": 0.619333000000001,
+      "proofMs": 0.7889999999999979,
+      "verifyMs": 0.0066670000000002005,
+      "proofHashes": 10,
+      "proofBytes": 320,
+      "verified": true
+    },
+    {
+      "size": 1000,
+      "run": 7,
+      "rootMs": 0.4529580000000024,
+      "proofMs": 0.4306250000000027,
+      "verifyMs": 0.005583000000001448,
+      "proofHashes": 10,
+      "proofBytes": 320,
+      "verified": true
+    },
+    {
+      "size": 1000,
+      "run": 8,
+      "rootMs": 0.679000000000002,
+      "proofMs": 0.4292499999999997,
+      "verifyMs": 0.005124999999999602,
+      "proofHashes": 10,
+      "proofBytes": 320,
+      "verified": true
+    },
+    {
+      "size": 1000,
+      "run": 9,
+      "rootMs": 0.4606250000000003,
+      "proofMs": 0.6660409999999999,
+      "verifyMs": 0.005624999999998437,
+      "proofHashes": 10,
+      "proofBytes": 320,
+      "verified": true
+    },
+    {
+      "size": 1000,
+      "run": 10,
+      "rootMs": 0.47104100000000315,
+      "proofMs": 0.44083300000000136,
+      "verifyMs": 0.0050829999999990605,
+      "proofHashes": 10,
+      "proofBytes": 320,
+      "verified": true
+    },
+    {
+      "size": 10000,
+      "run": 1,
+      "rootMs": 5.562957999999995,
+      "proofMs": 5.451332999999998,
+      "verifyMs": 0.009624999999999773,
+      "proofHashes": 14,
+      "proofBytes": 448,
+      "verified": true
+    },
+    {
+      "size": 10000,
+      "run": 2,
+      "rootMs": 5.561458000000002,
+      "proofMs": 5.779374999999995,
+      "verifyMs": 0.013458999999997445,
+      "proofHashes": 14,
+      "proofBytes": 448,
+      "verified": true
+    },
+    {
+      "size": 10000,
+      "run": 3,
+      "rootMs": 5.818499999999993,
+      "proofMs": 6.013333999999993,
+      "verifyMs": 0.025374999999996817,
+      "proofHashes": 14,
+      "proofBytes": 448,
+      "verified": true
+    },
+    {
+      "size": 10000,
+      "run": 4,
+      "rootMs": 8.635708999999991,
+      "proofMs": 5.941791999999992,
+      "verifyMs": 0.011583000000001675,
+      "proofHashes": 14,
+      "proofBytes": 448,
+      "verified": true
+    },
+    {
+      "size": 10000,
+      "run": 5,
+      "rootMs": 4.955290999999988,
+      "proofMs": 5.557709000000003,
+      "verifyMs": 0.012375000000005798,
+      "proofHashes": 14,
+      "proofBytes": 448,
+      "verified": true
+    },
+    {
+      "size": 10000,
+      "run": 6,
+      "rootMs": 5.563124999999999,
+      "proofMs": 5.575249999999997,
+      "verifyMs": 0.009750000000011028,
+      "proofHashes": 14,
+      "proofBytes": 448,
+      "verified": true
+    },
+    {
+      "size": 10000,
+      "run": 7,
+      "rootMs": 5.498416999999989,
+      "proofMs": 4.490624999999994,
+      "verifyMs": 0.011125000000006935,
+      "proofHashes": 14,
+      "proofBytes": 448,
+      "verified": true
+    },
+    {
+      "size": 10000,
+      "run": 8,
+      "rootMs": 5.454499999999996,
+      "proofMs": 5.426249999999996,
+      "verifyMs": 0.010624999999990337,
+      "proofHashes": 14,
+      "proofBytes": 448,
+      "verified": true
+    },
+    {
+      "size": 10000,
+      "run": 9,
+      "rootMs": 5.642708999999996,
+      "proofMs": 5.440375000000017,
+      "verifyMs": 0.010000000000019327,
+      "proofHashes": 14,
+      "proofBytes": 448,
+      "verified": true
+    },
+    {
+      "size": 10000,
+      "run": 10,
+      "rootMs": 4.634332999999998,
+      "proofMs": 6.252416000000011,
+      "verifyMs": 0.01095900000001393,
+      "proofHashes": 14,
+      "proofBytes": 448,
+      "verified": true
+    },
+    {
+      "size": 100000,
+      "run": 1,
+      "rootMs": 67.15799999999999,
+      "proofMs": 57.990500000000054,
+      "verifyMs": 0.01445899999998801,
+      "proofHashes": 17,
+      "proofBytes": 544,
+      "verified": true
+    },
+    {
+      "size": 100000,
+      "run": 2,
+      "rootMs": 55.195790999999986,
+      "proofMs": 57.79116699999997,
+      "verifyMs": 0.017291999999997643,
+      "proofHashes": 17,
+      "proofBytes": 544,
+      "verified": true
+    },
+    {
+      "size": 100000,
+      "run": 3,
+      "rootMs": 61.474792000000036,
+      "proofMs": 60.13458399999996,
+      "verifyMs": 0.01712499999996453,
+      "proofHashes": 17,
+      "proofBytes": 544,
+      "verified": true
+    },
+    {
+      "size": 100000,
+      "run": 4,
+      "rootMs": 55.109457999999904,
+      "proofMs": 54.20275000000004,
+      "verifyMs": 0.01183400000002166,
+      "proofHashes": 17,
+      "proofBytes": 544,
+      "verified": true
+    },
+    {
+      "size": 100000,
+      "run": 5,
+      "rootMs": 54.16520800000001,
+      "proofMs": 53.83908300000007,
+      "verifyMs": 0.012791999999990367,
+      "proofHashes": 17,
+      "proofBytes": 544,
+      "verified": true
+    },
+    {
+      "size": 100000,
+      "run": 6,
+      "rootMs": 54.033709000000044,
+      "proofMs": 54.77891699999998,
+      "verifyMs": 0.011541000000079293,
+      "proofHashes": 17,
+      "proofBytes": 544,
+      "verified": true
+    },
+    {
+      "size": 100000,
+      "run": 7,
+      "rootMs": 56.5759579999999,
+      "proofMs": 55.17404099999999,
+      "verifyMs": 0.012458000000037828,
+      "proofHashes": 17,
+      "proofBytes": 544,
+      "verified": true
+    },
+    {
+      "size": 100000,
+      "run": 8,
+      "rootMs": 63.74995799999999,
+      "proofMs": 66.72304200000008,
+      "verifyMs": 0.015083000000004176,
+      "proofHashes": 17,
+      "proofBytes": 544,
+      "verified": true
+    },
+    {
+      "size": 100000,
+      "run": 9,
+      "rootMs": 55.379459,
+      "proofMs": 55.13870900000006,
+      "verifyMs": 0.01212500000019645,
+      "proofHashes": 17,
+      "proofBytes": 544,
+      "verified": true
+    },
+    {
+      "size": 100000,
+      "run": 10,
+      "rootMs": 55.410041999999976,
+      "proofMs": 54.37887500000011,
+      "verifyMs": 0.013167000000066764,
+      "proofHashes": 17,
+      "proofBytes": 544,
+      "verified": true
+    },
+    {
+      "size": 1000000,
+      "run": 1,
+      "rootMs": 589.779,
+      "proofMs": 573.9929999999999,
+      "verifyMs": 0.014958999999635125,
+      "proofHashes": 20,
+      "proofBytes": 640,
+      "verified": true
+    },
+    {
+      "size": 1000000,
+      "run": 2,
+      "rootMs": 627.9670000000001,
+      "proofMs": 589.9282499999999,
+      "verifyMs": 0.016666000000441272,
+      "proofHashes": 20,
+      "proofBytes": 640,
+      "verified": true
+    },
+    {
+      "size": 1000000,
+      "run": 3,
+      "rootMs": 576.6760000000004,
+      "proofMs": 578.945917,
+      "verifyMs": 0.015625,
+      "proofHashes": 20,
+      "proofBytes": 640,
+      "verified": true
+    },
+    {
+      "size": 1000000,
+      "run": 4,
+      "rootMs": 577.6620409999996,
+      "proofMs": 576.1410000000005,
+      "verifyMs": 0.014541999999892141,
+      "proofHashes": 20,
+      "proofBytes": 640,
+      "verified": true
+    },
+    {
+      "size": 1000000,
+      "run": 5,
+      "rootMs": 563.7310829999997,
+      "proofMs": 568.4794170000005,
+      "verifyMs": 0.016165999999429914,
+      "proofHashes": 20,
+      "proofBytes": 640,
+      "verified": true
+    },
+    {
+      "size": 1000000,
+      "run": 6,
+      "rootMs": 574.7129169999998,
+      "proofMs": 603.2394999999997,
+      "verifyMs": 0.016458999998576473,
+      "proofHashes": 20,
+      "proofBytes": 640,
+      "verified": true
+    },
+    {
+      "size": 1000000,
+      "run": 7,
+      "rootMs": 580.6938330000012,
+      "proofMs": 643.5284169999995,
+      "verifyMs": 0.016458999998576473,
+      "proofHashes": 20,
+      "proofBytes": 640,
+      "verified": true
+    },
+    {
+      "size": 1000000,
+      "run": 8,
+      "rootMs": 600.3697080000002,
+      "proofMs": 587.355916999999,
+      "verifyMs": 0.015875000000960426,
+      "proofHashes": 20,
+      "proofBytes": 640,
+      "verified": true
+    },
+    {
+      "size": 1000000,
+      "run": 9,
+      "rootMs": 580.1725000000006,
+      "proofMs": 588.8269579999996,
+      "verifyMs": 0.01520899999923131,
+      "proofHashes": 20,
+      "proofBytes": 640,
+      "verified": true
+    },
+    {
+      "size": 1000000,
+      "run": 10,
+      "rootMs": 584.5994160000009,
+      "proofMs": 577.8144589999993,
+      "verifyMs": 0.015541999999186373,
+      "proofHashes": 20,
+      "proofBytes": 640,
+      "verified": true
+    }
+  ]
+}

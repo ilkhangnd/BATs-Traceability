@@ -1,0 +1,85 @@
+{
+  "generatedAt": "2026-07-05T05:39:27.432Z",
+  "network": "hardhat",
+  "samples": 30,
+  "medianGas": {
+    "anchor": "94666",
+    "direct": "44168",
+    "token": "48564"
+  },
+  "methodology": "Measured median transaction gas on the local Hardhat EVM, then projected per-event baselines linearly. Token baseline is not a full ERC-721 implementation.",
+  "rows": [
+    {
+      "approach": "minimal_batch_token_baseline",
+      "events": 1000,
+      "gas": "48564000",
+      "savingVsBaselinePercent": 99.80506959887983
+    },
+    {
+      "approach": "direct_event_log_baseline",
+      "events": 1000,
+      "gas": "44168000",
+      "savingVsBaselinePercent": 99.78566835718166
+    },
+    {
+      "approach": "bats_daily_merkle_anchor",
+      "events": 1000,
+      "gas": "94666",
+      "savingVsBaselinePercent": 0
+    },
+    {
+      "approach": "minimal_batch_token_baseline",
+      "events": 10000,
+      "gas": "485640000",
+      "savingVsBaselinePercent": 99.98050695988798
+    },
+    {
+      "approach": "direct_event_log_baseline",
+      "events": 10000,
+      "gas": "441680000",
+      "savingVsBaselinePercent": 99.97856683571817
+    },
+    {
+      "approach": "bats_daily_merkle_anchor",
+      "events": 10000,
+      "gas": "94666",
+      "savingVsBaselinePercent": 0
+    },
+    {
+      "approach": "minimal_batch_token_baseline",
+      "events": 100000,
+      "gas": "4856400000",
+      "savingVsBaselinePercent": 99.9980506959888
+    },
+    {
+      "approach": "direct_event_log_baseline",
+      "events": 100000,
+      "gas": "4416800000",
+      "savingVsBaselinePercent": 99.99785668357181
+    },
+    {
+      "approach": "bats_daily_merkle_anchor",
+      "events": 100000,
+      "gas": "94666",
+      "savingVsBaselinePercent": 0
+    },
+    {
+      "approach": "minimal_batch_token_baseline",
+      "events": 1000000,
+      "gas": "48564000000",
+      "savingVsBaselinePercent": 99.99980506959888
+    },
+    {
+      "approach": "direct_event_log_baseline",
+      "events": 1000000,
+      "gas": "44168000000",
+      "savingVsBaselinePercent": 99.99978566835718
+    },
+    {
+      "approach": "bats_daily_merkle_anchor",
+      "events": 1000000,
+      "gas": "94666",
+      "savingVsBaselinePercent": 0
+    }
+  ]
+}
