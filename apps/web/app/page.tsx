@@ -1,285 +1,434 @@
 import Image from "next/image";
 import Link from "next/link";
+import {
+  SproutIcon,
+  UsersIcon,
+  PlotIcon,
+  LockIcon,
+  AuditIcon,
+  SyncIcon,
+  QrIcon,
+  CheckCircleIcon,
+  ScaleIcon,
+  BoxIcon,
+  BellIcon,
+  FilterIcon,
+  MapPinIcon,
+  AlertIcon
+} from "./components/Icons";
+
+const supplyChainSteps = [
+  {
+    role: "Vùng trồng & Nông hộ",
+    desc: "Ghi nhận GPS & Nhật ký thực địa tại vườn",
+    icon: SproutIcon,
+    badge: "Đã ký số #R-1549",
+    color: "green"
+  },
+  {
+    role: "Thương lái & Thu mua",
+    desc: "Quét QR nhận lô & Phiếu cân điện tử",
+    icon: ScaleIcon,
+    badge: "Khớp 1,250 Kg",
+    color: "orange"
+  },
+  {
+    role: "Hợp tác xã & Đóng gói",
+    desc: "Chuẩn hóa tem GS1 Digital Link & Kiểm định",
+    icon: BoxIcon,
+    badge: "EPCIS 2.0 Ready",
+    color: "blue"
+  },
+  {
+    role: "Sổ cái Blockchain",
+    desc: "Neo Merkle root bảo mật chống chỉnh sửa",
+    icon: LockIcon,
+    badge: "Block #4,812,901",
+    color: "purple"
+  }
+];
+
+const problems = [
+  {
+    title: "Mạo danh vùng trồng & Nguồn gốc",
+    desc: "Đối chiếu tọa độ GPS thực địa với polygon vùng trồng đã đăng ký, phát hiện ngay sự cố lệch vị trí.",
+    icon: MapPinIcon
+  },
+  {
+    title: "Khai báo sản lượng bất thường",
+    desc: "Hệ thống tự động kiểm tra năng suất tối đa theo diện tích vườn, ngăn chặn khai báo khống trọng lượng.",
+    icon: AlertIcon
+  },
+  {
+    title: "Dữ liệu giấy tờ dễ bị chỉnh sửa",
+    desc: "Mỗi sự kiện thu hoạch và bàn giao đều được băm SHA-256 và neo bằng chứng lên Blockchain bất biến.",
+    icon: LockIcon
+  },
+  {
+    title: "Khó thao tác tại vùng sóng yếu",
+    desc: "Zalo Mini App hỗ trợ cơ chế Offline-first, tự động lưu trữ hàng chờ khi mất mạng và đồng bộ khi có kết nối.",
+    icon: SyncIcon
+  }
+];
+
+const workflow = [
+  {
+    step: "01",
+    title: "Nông dân tạo lô",
+    desc: "Nhập thông tin giống cây, sản lượng dự kiến, chụp ảnh thực địa và lưu nhật ký ngay tại vườn."
+  },
+  {
+    step: "02",
+    title: "Hệ thống kiểm tra",
+    desc: "Bộ máy kiểm duyệt rủi ro 6 bước đối chiếu tọa độ GPS, mã số nông hộ và lịch sử thu hoạch."
+  },
+  {
+    step: "03",
+    title: "Thương lái ghi nhận",
+    desc: "Quét mã QR bàn giao, kiểm định trọng lượng thực tế tại điểm thu mua và xác nhận phiếu cân."
+  },
+  {
+    step: "04",
+    title: "Chuẩn hóa GS1 EPCIS",
+    desc: "Dữ liệu chuỗi sự kiện được chuẩn hóa theo chuẩn quốc tế GS1 EPCIS 2.0, tạo cây Merkle hàng ngày."
+  },
+  {
+    step: "05",
+    title: "Người mua tra cứu",
+    desc: "Người tiêu dùng hoặc đối tác nhập khẩu quét tem GS1 Digital Link để kiểm chứng toàn bộ hành trình."
+  }
+];
+
+const audiences = [
+  {
+    title: "Nông dân / Chủ vườn",
+    icon: SproutIcon,
+    items: [
+      "Tạo lô thu hoạch siêu tốc ngay trên điện thoại",
+      "Lưu trữ nhật ký offline không lo mất sóng",
+      "Tạo mã QR định danh cho từng lô hàng"
+    ],
+    target: "/portal?role=farmer"
+  },
+  {
+    title: "Thương lái / Điểm thu mua",
+    icon: ScaleIcon,
+    items: [
+      "Quét mã QR nhận bàn giao chỉ trong 3 giây",
+      "Ghi nhận và khớp phiếu cân trọng lượng",
+      "Giảm thiểu sai lệch dữ liệu với nông dân"
+    ],
+    target: "/portal?role=collector"
+  },
+  {
+    title: "Hợp tác xã & Doanh nghiệp",
+    icon: BoxIcon,
+    items: [
+      "Quản lý tổng thể vùng trồng & nông hộ thành viên",
+      "Phát hành tem GS1 Digital Link xuất khẩu",
+      "Xuất báo cáo truy xuất nguồn gốc chuẩn quốc tế"
+    ],
+    target: "/portal?role=cooperative"
+  },
+  {
+    title: "Người mua & Đối tác xuất khẩu",
+    icon: AuditIcon,
+    items: [
+      "Kiểm chứng tính xác thực bằng chứng Blockchain",
+      "Xem minh bạch toàn bộ hành trình từ vườn trồng",
+      "Kết nối dữ liệu liên thông qua API chuẩn EPCIS"
+    ],
+    target: "/verify/8930000000019/SR-20260704-000001/0001"
+  }
+];
+
+const features = [
+  { title: "Chuẩn GS1 EPCIS 2.0", icon: AuditIcon, desc: "Liên thông dữ liệu toàn cầu" },
+  { title: "GS1 Digital Link & QR", icon: QrIcon, desc: "Tem truy xuất thông minh đa tầng" },
+  { title: "GPS Polygon & PostGIS", icon: PlotIcon, desc: "Xác thực ranh giới vùng trồng" },
+  { title: "Cơ chế Offline-first", icon: SyncIcon, desc: "Hoạt động mượt mà khi mất mạng" },
+  { title: "Kiểm duyệt Rủi ro 6 bước", icon: CheckCircleIcon, desc: "Phát hiện gian lận sản lượng tự động" },
+  { title: "Blockchain Merkle Root", icon: LockIcon, desc: "Neo bằng chứng bất biến hàng ngày" }
+];
 
 export default function Home() {
   return (
-    <main className="homeMain">
-      {/* Hero Section */}
-      <section className="hero">
-        <div className="heroContent">
-          <div className="heroBadge">
-            <span className="liveIndicator" /> Hệ thống chính thức · Đa dạng Nông sản & Trái cây Việt Nam
+    <main className="landingPageModern">
+      {/* HERO SECTION */}
+      <section className="landingHeroModern">
+        <div className="heroContentModern">
+          <div className="heroBadgePulse">
+            <span className="pulseIndicator" />
+            <strong>BATS Traceability v1.0</strong>
+            <span>• Nền tảng Nông nghiệp Số chuẩn Blockchain</span>
           </div>
-          <div className="eyebrow">TRUY XUẤT NGUỒN GỐC · KIỂM CHỨNG THỰC TẾ · MINH BẠCH DỮ LIỆU</div>
-          <h1>
-            Mỗi nông sản sạch,<br />một hành trình minh bạch.
+
+          <h1 className="heroTitleModern">
+            Truy xuất nguồn gốc nông sản minh bạch <span className="highlightText">từ vườn đến thị trường</span>
           </h1>
-          <p>
-            Ghi nhận nhật ký canh tác và thu hoạch tự động cho <strong>Sầu riêng, Xoài Cát, Cà phê, Thanh long, Bưởi Da Xanh...</strong> Cảnh báo sai lệch ngay tại vườn dưới 60 giây và lưu trữ bằng chứng an toàn tuyệt đối — đơn giản, dễ dùng cho mọi nông hộ.
+
+          <p className="heroDescModern">
+            BATS kết nối Nông dân, Thương lái, Hợp tác xã và Doanh nghiệp trên một nền tảng duy nhất. Chuẩn hóa hành trình nông sản theo định dạng <strong>GS1 EPCIS 2.0</strong> và neo bằng chứng bảo mật lên <strong>Blockchain</strong> không thể chỉnh sửa.
           </p>
-          <div className="heroActions">
-            <Link className="button primary" href="/dashboard/batches">
-              🌿 Mở bảng điều hành chuỗi
+
+          <div className="heroActionsModern">
+            <Link className="button primary heroBtnPrimary" href="/verify/8930000000019/SR-20260704-000001/0001">
+              Tra cứu nguồn gốc lô ngay <span className="arrowRight">→</span>
             </Link>
-            <Link className="button secondary" href="/verify/8930000000019/SR-20260704-000001/0001">
-              🔍 Xem lô mẫu Sầu Riêng
+            <Link className="button secondary heroBtnSecondary" href="/login">
+              Đăng nhập hệ thống
             </Link>
-            <Link className="textLink" href="/architecture">
-              Khám phá kiến trúc BATS →
+            <Link className="button secondary heroBtnPortal" href="/portal">
+              <SproutIcon size={16} /> Sổ tay Nông hộ
             </Link>
           </div>
-          <div className="stats">
-            <div>
-              <strong>8+</strong>
-              <span>Loại cây trồng đặc sản</span>
-            </div>
-            <div>
-              <strong>7</strong>
-              <span>Quy tắc kiểm tra thực địa</span>
-            </div>
-            <div>
-              <strong>Chuẩn Quốc Tế</strong>
-              <span>Mã QR Truy Xuất Nguồn Gốc</span>
-            </div>
-            <div>
-              <strong>Bảo Mật Cao</strong>
-              <span>Lưu trữ Blockchain Bất biến</span>
-            </div>
+
+          <div className="heroTrustBarModern">
+            <span><CheckCircleIcon size={15} /> Chuẩn GS1 EPCIS 2.0</span>
+            <span className="dotSeparator">•</span>
+            <span><CheckCircleIcon size={15} /> Neo SHA-256 Merkle Root</span>
+            <span className="dotSeparator">•</span>
+            <span><CheckCircleIcon size={15} /> Đồng bộ Zalo Mini App</span>
           </div>
         </div>
 
-        <div className="heroVisual">
-          <div className="heroImageCard">
-            <Image
-              src="/images/farm-hero.png"
-              alt="Vùng trồng trái cây đặc sản Việt Nam dưới ánh nắng sớm"
-              width={640}
-              height={420}
-              className="featuredImage"
-              priority
-            />
-            <div className="heroImageCaption">
-              <span className="captionBadge">🌿 Thực địa chuẩn hóa</span>
-              <p>Số hóa vườn cây, quản lý tọa độ polygon và định danh từng vụ mùa chất lượng cao.</p>
+        {/* HERO RIGHT SHOWCASE PANEL */}
+        <div className="heroShowcaseModern" aria-label="Hành trình nông sản trực quan">
+          <div className="showcaseCardHeader">
+            <div className="liveTrackingTitle">
+              <span className="dotGreenLive" />
+              <strong>LIVE TRACKING · LÔ SẦU RIÊNG RI6</strong>
+            </div>
+            <span className="batchIdBadge">#SR-20260715-DLK</span>
+          </div>
+
+          <div className="supplyChainStackModern">
+            {supplyChainSteps.map((step, idx) => {
+              const IconComponent = step.icon;
+              return (
+                <div key={step.role} className="supplyChainCardModern">
+                  <div className={`stepIconCircle circle-${step.color}`}>
+                    <IconComponent size={20} />
+                  </div>
+                  <div className="stepTextColumn">
+                    <div className="stepTitleRow">
+                      <strong>{step.role}</strong>
+                      <span className={`statusTag tag-${step.color}`}>{step.badge}</span>
+                    </div>
+                    <p>{step.desc}</p>
+                  </div>
+                  {idx < supplyChainSteps.length - 1 && <div className="stepConnectorLine" />}
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="showcaseCardFooter">
+            <LockIcon size={15} />
+            <span>Bằng chứng bất biến công khai · Hash: <strong>0x8f9b...3c2a</strong></span>
+          </div>
+        </div>
+      </section>
+
+      {/* QUICK LOOKUP SECTION */}
+      <section className="lookupSectionModern">
+        <div className="lookupCardModern">
+          <div className="lookupHeaderColumn">
+            <div className="lookupIconCircle"><QrIcon size={24} /></div>
+            <div>
+              <h2>Tra cứu nhanh lô nông sản hoặc mã GS1</h2>
+              <p>Nhập mã lô hàng, chuỗi định danh GS1 Digital Link hoặc quét tem QR trên sản phẩm.</p>
+            </div>
+          </div>
+          <form className="lookupFormModern">
+            <input placeholder="VD: SR-20260704-000001 hoặc 8930000000019/SR-20260704/0001..." aria-label="Mã lô" />
+            <Link className="button primary lookupSubmitBtn" href="/verify/8930000000019/SR-20260704-000001/0001">
+              Tra cứu hành trình →
+            </Link>
+          </form>
+          <Link className="button secondary lookupQrBtn" href="/verify/8930000000019/SR-20260704-000001/0001">
+            <QrIcon size={16} /> Quét QR bằng Camera
+          </Link>
+        </div>
+      </section>
+
+      {/* PROBLEMS & WORKFLOW SECTION */}
+      <section className="twoColumnSectionModern">
+        <div className="problemColumn">
+          <div className="sectionHeadingRow">
+            <h2>BATS giải quyết những vấn đề gì?</h2>
+            <p>Khắc phục triệt để các hạn chế của phương thức quản lý nông sản truyền thống.</p>
+          </div>
+          <div className="problemGridModern">
+            {problems.map((item) => {
+              const IconComp = item.icon;
+              return (
+                <article key={item.title} className="featureCardModern">
+                  <div className="featureCardIconBox"><IconComp size={22} /></div>
+                  <h3>{item.title}</h3>
+                  <p>{item.desc}</p>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="workflowColumn">
+          <div className="sectionHeadingRow">
+            <h2>BATS hoạt động như thế nào?</h2>
+            <p>Quy trình 5 bước khép kín từ thực địa vườn trồng đến tay người tiêu dùng.</p>
+          </div>
+          <div className="workflowGridModern">
+            {workflow.map((item) => (
+              <article key={item.step} className="workflowCardModern">
+                <div className="stepNumBadge">{item.step}</div>
+                <div className="workflowCardText">
+                  <h3>{item.title}</h3>
+                  <p>{item.desc}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* AUDIENCES & STATS SECTION */}
+      <section className="audienceStatsSectionModern">
+        <div className="audienceColumn">
+          <div className="sectionHeadingRow">
+            <h2>Dành cho ai?</h2>
+            <p>Hệ thống được thiết kế riêng biệt và tối ưu thao tác cho từng vai trò trong chuỗi.</p>
+          </div>
+          <div className="audienceGridModern">
+            {audiences.map((aud) => {
+              const IconComp = aud.icon;
+              return (
+                <article key={aud.title} className="audienceCardModern">
+                  <div className="audHeaderRow">
+                    <div className="audIconBox"><IconComp size={20} /></div>
+                    <h3>{aud.title}</h3>
+                  </div>
+                  <ul className="audListModern">
+                    {aud.items.map((it) => (
+                      <li key={it}>
+                        <CheckCircleIcon size={14} className="checkItemIcon" />
+                        <span>{it}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link href={aud.target} className="audExploreLink">
+                    Vào cổng thông tin {aud.title.split(" / ")[0]} →
+                  </Link>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+
+        <aside className="statsCardModern">
+          <div className="statsCardHeader">
+            <h2>BATS trong những con số</h2>
+            <p>Khả năng mở rộng & tốc độ xử lý thực địa</p>
+          </div>
+          <dl className="statsListModern">
+            <div className="statItemModern">
+              <dt>&lt; 60 giây</dt>
+              <dd>Thời gian nông dân hoàn tất tạo & chốt 1 lô thu hoạch ngay tại vườn</dd>
+            </div>
+            <div className="statItemModern">
+              <dt>100% Minh bạch</dt>
+              <dd>Dữ liệu gắn liền định danh GPS, chữ ký số và mốc thời gian thực tế</dd>
+            </div>
+            <div className="statItemModern">
+              <dt>4+ Vai trò đồng bộ</dt>
+              <dd>Nông dân, Thương lái, HTX và Quản trị viên cùng chung một nguồn dữ liệu</dd>
+            </div>
+            <div className="statItemModern">
+              <dt>SHA-256 & Merkle</dt>
+              <dd>Mã hóa chống chỉnh sửa, neo bằng chứng bảo mật lên Blockchain hàng ngày</dd>
+            </div>
+          </dl>
+          <div className="statsFooterAction">
+            <Link href="/architecture" className="statsTechLink">Xem chi tiết kiến trúc kỹ thuật →</Link>
+          </div>
+        </aside>
+      </section>
+
+      {/* FEATURES GRID SECTION */}
+      <section className="featuresSectionModern">
+        <div className="sectionHeadingRow center">
+          <h2>Tính năng công nghệ cốt lõi</h2>
+          <p>Sự kết hợp hoàn hảo giữa công nghệ thực địa IoT, chuẩn hóa toàn cầu GS1 và bảo mật Blockchain.</p>
+        </div>
+        <div className="featuresGridModern">
+          {features.map((feat) => {
+            const IconComp = feat.icon;
+            return (
+              <article key={feat.title} className="featureItemBoxModern">
+                <div className="featIconCircleModern"><IconComp size={22} /></div>
+                <div>
+                  <strong>{feat.title}</strong>
+                  <p>{feat.desc}</p>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ECOSYSTEM SHOWCASE SECTION */}
+      <section className="ecosystemSectionModern">
+        <div className="sectionHeadingRow center">
+          <h2>Một hệ sinh thái, đa nền tảng, đồng bộ thời gian thực.</h2>
+          <p>Zalo Mini App siêu nhẹ phục vụ nông dân thực địa; Web Dashboard mạnh mẽ cho HTX và Quản trị viên.</p>
+        </div>
+        <div className="ecosystemGridModern">
+          <div className="ecoCardModern">
+            <div className="ecoImgWrap">
+              <Image src="/images/farmer-check.png" alt="Zalo Mini App" width={320} height={190} className="ecoImg" />
+            </div>
+            <div className="ecoText">
+              <strong>1. Zalo Mini App Thực Địa</strong>
+              <p>Không cần tải hay cài đặt phức tạp. Nông dân mở Zalo là có thể ghi nhật ký và chụp ảnh vùng trồng.</p>
+            </div>
+          </div>
+          <div className="ecoCardModern">
+            <div className="ecoImgWrap">
+              <Image src="/images/harvest-showcase.png" alt="Sổ tay Nông hộ Web" width={320} height={190} className="ecoImg" />
+            </div>
+            <div className="ecoText">
+              <strong>2. Sổ Tay Nông Hộ & HTX (`/portal`)</strong>
+              <p>Quản lý biểu đồ thu hoạch theo tháng, chốt lô hàng loạt, đồng bộ dữ liệu chờ và quản lý tem QR.</p>
+            </div>
+          </div>
+          <div className="ecoCardModern">
+            <div className="ecoImgWrap">
+              <Image src="/images/farm-hero.png" alt="Trung tâm BATS Central" width={320} height={190} className="ecoImg" />
+            </div>
+            <div className="ecoText">
+              <strong>3. BATS Central Control (`/admin`)</strong>
+              <p>Hệ thống tự động phát hiện rủi ro mạo danh, kiểm duyệt vùng trồng GPS và chốt khóa Merkle Blockchain.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Crop Showcase Section (Đa dạng nông sản & trái cây) */}
-      <section className="cropsShowcase">
-        <div className="sectionIntro center">
-          <div className="eyebrow">KHÔNG CHỈ SẦU RIÊNG · ĐA DẠNG HỆ SINH THÁI</div>
-          <h2>Nền tảng chuẩn hóa cho mọi nông sản đặc sản Việt Nam</h2>
-          <p>
-            Hệ thống BATS linh hoạt thích ứng với các quy trình canh tác, thu hoạch và chế biến khác nhau, từ trái cây tươi xuất khẩu đến nông sản công nghiệp.
-          </p>
-        </div>
-
-        <div className="cropGrid">
-          <article className="cropCard durian">
-            <div className="cropIcon">🍈</div>
-            <div className="cropMeta">Đắk Lắk · Krông Pắc</div>
-            <h3>Sầu riêng Ri6 & Dona</h3>
-            <p>Kiểm soát vùng trồng chuẩn mã số xuất khẩu, theo dõi hàm lượng chất khô và thời gian cách ly phân thuốc.</p>
-            <Link className="cropLink" href="/verify/8930000000019/SR-20260704-000001/0001">
-              Tra cứu lô mẫu SR-000001 →
+      {/* FINAL CALL TO ACTION SECTION */}
+      <section className="ctaSectionModern">
+        <div className="ctaContentModern">
+          <h2>Sẵn sàng chuyển đổi số cho chuỗi nông sản đặc sản Việt Nam?</h2>
+          <p>Khám phá giao diện quản trị, trải nghiệm Sổ tay nông hộ hoặc tra cứu ngay bằng chứng xác thực Blockchain.</p>
+          <div className="ctaBtnGroupModern">
+            <Link className="button primary ctaBtnMain" href="/verify/8930000000019/SR-20260704-000001/0001">
+              Tra cứu mã lô ngay <span className="arrowRight">→</span>
             </Link>
-          </article>
-
-          <article className="cropCard mango">
-            <div className="cropIcon">🥭</div>
-            <div className="cropMeta">Tiền Giang · Cái Bè</div>
-            <h3>Xoài Cát Hòa Lộc</h3>
-            <p>Ghi nhận quy trình bao trái, độ Brix thu hoạch và quy trình xử lý nhiệt hơi nước trước khi đóng gói.</p>
-            <Link className="cropLink" href="/verify/8930000000026/XC-20260705-000002/0001">
-              Tra cứu lô mẫu XC-000002 →
+            <Link className="button secondary ctaBtnLogin" href="/login">
+              Đăng nhập / Phân quyền
             </Link>
-          </article>
-
-          <article className="cropCard coffee">
-            <div className="cropIcon">☕</div>
-            <div className="cropMeta">Đắk Lắk · Cư M&apos;gar</div>
-            <h3>Cà phê Robusta Sẻ</h3>
-            <p>Đảm bảo tỷ lệ quả chín trên 95%, kiểm soát nhiệt độ lên men và độ ẩm phơi giàn nhà kính.</p>
-            <Link className="cropLink" href="/verify/8930000000033/CP-20260706-000003/0001">
-              Tra cứu lô mẫu CP-000003 →
+            <Link className="button secondary ctaBtnPortal" href="/portal">
+              Sổ tay Nông hộ & HTX
             </Link>
-          </article>
-
-          <article className="cropCard dragon">
-            <div className="cropIcon">🐲</div>
-            <div className="cropMeta">Bình Thuận · Hàm Thuận Nam</div>
-            <h3>Thanh long Ruột Đỏ LĐ1</h3>
-            <p>Quản lý nhật ký chông đèn xông trái, kiểm định dư lượng bảo vệ thực vật theo tiêu chuẩn GlobalGAP.</p>
-            <Link className="cropLink" href="/verify/8930000000040/TL-20260707-000004/0001">
-              Tra cứu lô mẫu TL-000004 →
-            </Link>
-          </article>
-
-          <article className="cropCard pomelo">
-            <div className="cropIcon">🍊</div>
-            <div className="cropMeta">Bến Tre · Châu Thành</div>
-            <h3>Bưởi Da Xanh Phúc Lộc</h3>
-            <p>Truy xuất nguồn gốc cây giống gốc ghép, kiểm tra quy trình rửa trái, bọc màng co và giữ tươi tự nhiên.</p>
-            <Link className="cropLink" href="/verify/8930000000057/BD-20260708-000005/0001">
-              Tra cứu lô mẫu BD-000005 →
-            </Link>
-          </article>
-
-          <article className="cropCard longan">
-            <div className="cropIcon">🍒</div>
-            <div className="cropMeta">Hưng Yên · Khoái Châu</div>
-            <h3>Nhãn Lồng Hương Chi</h3>
-            <p>Kiểm định quy trình tỉa chùm, theo dõi độ ngọt Brix tự nhiên và tiêu chuẩn đóng thùng giữ tươi lạnh xuất khẩu.</p>
-            <Link className="cropLink" href="/verify/8930000000064/HY-20260708-000006/0001">
-              Tra cứu lô mẫu HY-000006 →
-            </Link>
-          </article>
-
-          <article className="cropCard avocado">
-            <div className="cropIcon">🥑</div>
-            <div className="cropMeta">Lâm Đồng · Bảo Lộc</div>
-            <h3>Bơ Sáp 034 Đặc Sản</h3>
-            <p>Quy trình thu hoạch đúng độ tuổi chín già, không chất bảo quản, kiểm tra tỷ lệ dầu và độ dẻo vàng hạt nhỏ chuẩn VietGAP.</p>
-            <Link className="cropLink" href="/verify/8930000000071/LD-20260709-000007/0001">
-              Tra cứu lô mẫu LD-000007 →
-            </Link>
-          </article>
-
-          <article className="cropCard mangosteen">
-            <div className="cropIcon">🟣</div>
-            <div className="cropMeta">Bình Dương · Lái Thiêu</div>
-            <h3>Măng Cụt Lái Thiêu</h3>
-            <p>Đặc sản vườn cây lâu năm, ghi nhận thời điểm hái trái điểm hồng và quy trình đóng thùng xốp chống dập nát khi vận chuyển.</p>
-            <Link className="cropLink" href="/verify/8930000000088/MC-20260709-000008/0001">
-              Tra cứu lô mẫu MC-000008 →
-            </Link>
-          </article>
-        </div>
-      </section>
-
-      {/* Visual Principles Section */}
-      <section className="principlesVisual">
-        <div className="principlesText">
-          <div className="eyebrow">THÂN THIỆN NÔNG HỘ · NGHIỆP VỤ CHẶT CHẼ</div>
-          <h2>Công nghệ phục vụ người nông dân</h2>
-          <p>
-            Thay vì bắt nông dân gõ phím hay hiểu khái niệm blockchain trừu tượng, Zalo Mini App và web dashboard tối giản thao tác bằng nút bấm lớn, chụp ảnh tự động đính tọa độ GPS và quét mã nhanh chóng.
-          </p>
-
-          <div className="principlesList">
-            <article>
-              <span>01</span>
-              <div>
-                <h3>Thu thập tại vườn dưới 60 giây</h3>
-                <p>Nông dân chỉ cần bấm chọn lô, nhập sản lượng và chụp ảnh đống trái vừa hái. Tọa độ GPS và thời gian thực được khóa tự động.</p>
-              </div>
-            </article>
-            <article>
-              <span>02</span>
-              <div>
-                <h3>Kiểm soát rủi ro thực địa tức thì</h3>
-                <p>Hệ thống tự động báo động nếu vị trí thu hoạch lệch khỏi vùng trồng, năng suất vượt quá diện tích, hoặc ảnh bị dùng lại nhiều lần.</p>
-              </div>
-            </article>
-            <article>
-              <span>03</span>
-              <div>
-                <h3>Kiểm chứng Blockchain độc lập</h3>
-                <p>Mỗi sự kiện thu hoạch được đóng gói bằng mã bảo mật và lưu trên sổ cái Blockchain, giúp nhà nhập khẩu kiểm chứng độ trung thực của lô hàng mà không bị lộ bí mật kinh doanh.</p>
-              </div>
-            </article>
           </div>
-        </div>
-
-        <div className="principlesImageGrid">
-          <div className="imageWrapper">
-            <Image
-              src="/images/harvest-showcase.png"
-              alt="Giỏ trái cây đặc sản thu hoạch thực tế"
-              width={480}
-              height={340}
-              className="roundedImage"
-            />
-            <span className="imageTag">🍎 Giỏ nông sản đa dạng thu hoạch tại vườn</span>
-          </div>
-          <div className="imageWrapper">
-            <Image
-              src="/images/farmer-check.png"
-              alt="Nông dân kiểm tra mã QR truy xuất GS1"
-              width={480}
-              height={340}
-              className="roundedImage"
-            />
-            <span className="imageTag">📱 Thao tác quét QR dễ dàng cho nhà vườn</span>
-          </div>
-        </div>
-      </section>
-
-      {/* Architecture Section */}
-      <section className="homeArchitecture">
-        <div className="sectionIntro">
-          <div>
-            <div className="eyebrow">KIẾN TRÚC HỆ THỐNG BATS</div>
-            <h2>Dữ liệu nghiệp vụ ở trung tâm.<br />Bảo mật Blockchain ở đúng vị trí.</h2>
-          </div>
-          <p>
-            Hệ thống BATS tối ưu hóa lưu trữ và chi phí: Cơ sở dữ liệu chuyên dụng quản lý thông tin canh tác và bản đồ vùng trồng (GPS), bộ kiểm định tự động chặn rủi ro gian lận ngay tại vườn, còn công nghệ Blockchain chỉ dùng để đóng gói và khóa bảo mật mã xác thực, vừa nhanh chóng vừa chống làm giả.
-          </p>
-        </div>
-        <div className="miniFlow" aria-label="Luồng kiến trúc BATS">
-          <article>
-            <span>01 · GIAO DIỆN</span>
-            <strong>Zalo · Web · QR</strong>
-            <small>Ghi nhận dễ dàng ngay tại vườn</small>
-          </article>
-          <b>→</b>
-          <article>
-            <span>02 · XỬ LÝ</span>
-            <strong>Kiểm định · Bản đồ GPS</strong>
-            <small>Chuẩn hóa & kiểm tra tự động</small>
-          </article>
-          <b>→</b>
-          <article>
-            <span>03 · BẢO MẬT</span>
-            <strong>Khóa Minh Bạch · Blockchain</strong>
-            <small>Lưu trữ an toàn, chống làm giả</small>
-          </article>
-        </div>
-        <div className="architectureCta">
-          <div>
-            <span className="pulseDot" /> 9 thành phần kiến trúc đã hoàn thiện mã nguồn
-          </div>
-          <Link className="button primary" href="/architecture">Xem sơ đồ & tài liệu chi tiết →</Link>
-        </div>
-      </section>
-
-      {/* Outcomes Section */}
-      <section className="outcomes">
-        <div className="sectionIntro light">
-          <div>
-            <div className="eyebrow">MỘT LUỒNG DỮ LIỆU, NHIỀU VAI TRÒ</div>
-            <h2>Từ nông trại đến bàn ăn thị trường quốc tế.</h2>
-          </div>
-          <p>Mỗi bên tham gia chỉ thấy giao diện thân thiện với công việc của mình, nhưng cùng tạo nên một chuỗi giá trị minh bạch không thể làm giả.</p>
-        </div>
-        <div className="roleGrid">
-          <article>
-            <span>👨‍🌾 Nhà Vườn / Hợp Tác Xã</span>
-            <h3>Ghi nhận thu hoạch & chăm sóc</h3>
-            <p>Zalo Mini App hoạt động mượt mà cho phép nông dân chụp ảnh, tự động định danh mã lô và gửi dữ liệu ngay cả khi vườn mất sóng internet.</p>
-          </article>
-          <article>
-            <span>📦 Xưởng Đóng Gói / Sơ Chế</span>
-            <h3>Bàn giao & chứng nhận chất lượng</h3>
-            <p>Đối chiếu khối lượng thực tế, gộp nhiều lô nông sản vào thùng/pallet và đính kèm giấy chứng nhận VietGAP, GlobalGAP, kiểm dịch xuất khẩu.</p>
-          </article>
-          <article>
-            <span>🌍 Nhà Nhập Khẩu / Người Tiêu Dùng</span>
-            <h3>Quét QR & tra cứu minh bạch</h3>
-            <p>Quét mã QR trên tem nhãn để xem trọn vẹn hành trình, điểm tin cậy chất lượng và đối chiếu mã xác thực bảo mật trên sổ cái Blockchain.</p>
-          </article>
         </div>
       </section>
     </main>

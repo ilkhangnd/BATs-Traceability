@@ -1,7 +1,9 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import Link from "next/link";
 import GoogleMap, { type MapPoint } from "../components/GoogleMap";
+import { SyncIcon, PlotIcon, UsersIcon, LockIcon, AuditIcon, RefreshIcon, CheckCircleIcon, AlertIcon } from "../components/Icons";
 
 type Role = "ADMIN" | "COOPERATIVE" | "FARMER" | "COLLECTOR" | "PACKING" | "EXPORTER";
 type Actor = {
@@ -42,6 +44,17 @@ type Anchor = {
   blockNumber?: string;
   status: "pending" | "confirmed" | "failed";
 };
+type Batch = {
+  id: string;
+  variety: string;
+  quantityKg: number;
+  status: string;
+  riskScore: number;
+  riskBand: "green" | "yellow" | "red";
+  createdAt: string;
+  identity: { gtin: string; lot: string; serial: string };
+};
+type AdminTab = "overview" | "sync" | "plots" | "actors" | "anchors" | "audit";
 
 const api = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
 const emptyActor = { name: "", role: "FARMER" as Role, phone: "", organization: "", zaloUserId: "" };
@@ -82,6 +95,32 @@ function getAnchorStatusLabel(status: string): string {
   }
 }
 
+function getBatchStatusLabel(status: string): string {
+  switch (status?.toLowerCase()) {
+    case "harvested": return "Đã thu hoạch (Mini App)";
+    case "collected": return "Đã thu mua (Mini App)";
+    case "packed": return "Đã đóng gói";
+    case "shipped": return "Đã xuất kho";
+    case "verified": return "Đã kiểm tra thực địa";
+    default: return status || "Chờ xử lý";
+  }
+}
+
+function getBatchRiskLabel(band: string): string {
+  switch (band) {
+    case "green": return "Khớp kiểm định Rule Engine";
+    case "yellow": return "Cần tra soát GPS / Lô";
+    case "red": return "Cảnh báo sai lệch dữ liệu";
+    default: return "Đang kiểm định";
+  }
+}
+
+function getMonthKey(date: string): string {
+  const parsed = new Date(date);
+  if (Number.isNaN(parsed.getTime())) return "N/A";
+  return `${String(parsed.getMonth() + 1).padStart(2, "0")}/${parsed.getFullYear()}`;
+}
+
 async function request(path: string, options: RequestInit = {}) {
   let response: Response;
   try {
@@ -106,11 +145,12 @@ async function request(path: string, options: RequestInit = {}) {
 export default function AdminPage() {
   const [authenticated, setAuthenticated] = useState<boolean | null>(null);
   const [adminName, setAdminName] = useState("");
-  const [tab, setTab] = useState<"plots" | "actors" | "anchors" | "audit">("plots");
+  const [tab, setTab] = useState<AdminTab>("overview");
   const [actors, setActors] = useState<Actor[]>([]);
   const [plots, setPlots] = useState<Plot[]>([]);
   const [logs, setLogs] = useState<AuditLog[]>([]);
   const [anchors, setAnchors] = useState<Anchor[]>([]);
+  const [batches, setBatches] = useState<Batch[]>([]);
   const [anchorDate, setAnchorDate] = useState(new Date().toISOString().slice(0, 10));
   const [actorForm, setActorForm] = useState(emptyActor);
   const [plotForm, setPlotForm] = useState(emptyPlot);
@@ -119,16 +159,18 @@ export default function AdminPage() {
   const [error, setError] = useState("");
 
   async function loadAdmin() {
-    const [actorData, plotData, logData, anchorData] = await Promise.all([
+    const [actorData, plotData, logData, anchorData, batchData] = await Promise.all([
       request("/admin/actors?pageSize=100"),
       request("/admin/plots?pageSize=100"),
       request("/admin/audit-logs?pageSize=100"),
-      request("/admin/anchors")
+      request("/admin/anchors"),
+      request("/batches?pageSize=100")
     ]);
-    setActors(actorData.items);
-    setPlots(plotData.items);
-    setLogs(logData.items);
-    setAnchors(anchorData);
+    setActors(actorData.items || []);
+    setPlots(plotData.items || []);
+    setLogs(logData.items || []);
+    setAnchors(anchorData || []);
+    setBatches(batchData.items || []);
   }
 
   useEffect(() => {
@@ -208,6 +250,22 @@ export default function AdminPage() {
     }
   }
 
+  const activePlots = plots.filter((plot) => plot.status === "active").length;
+  const pendingBatches = batches.filter((batch) => batch.riskBand !== "green" || batch.status?.toLowerCase() === "harvested").length;
+  const syncedBatches = Math.max(0, batches.length - pendingBatches);
+  const totalQuantityKg = batches.reduce((sum, batch) => sum + (Number(batch.quantityKg) || 0), 0);
+  const recentBatches = [...batches]
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .slice(0, 6);
+  const monthlyHarvest = Object.entries(
+    batches.reduce<Record<string, number>>((acc, batch) => {
+      const key = getMonthKey(batch.createdAt);
+      acc[key] = (acc[key] ?? 0) + 1;
+      return acc;
+    }, {})
+  ).slice(-7);
+  const maxMonthlyHarvest = Math.max(1, ...monthlyHarvest.map(([, count]) => count));
+
   if (authenticated === null) {
     return <main className="adminLogin"><div className="loadingMark">Đang kiểm tra phiên đăng nhập…</div></main>;
   }
@@ -216,10 +274,10 @@ export default function AdminPage() {
     return (
       <main className="adminLogin">
         <form className="loginCard" onSubmit={login}>
-          <span className="adminSeal">B</span>
-          <div className="eyebrow">BATS CONTROL CENTER</div>
-          <h1>Đăng nhập quản trị</h1>
-          <p>Phiên đăng nhập được lưu bằng cookie HttpOnly và được kiểm tra tại backend.</p>
+          <img src="/bats-logo.png" alt="BATS Logo" style={{ width: "64px", height: "64px", objectFit: "contain", margin: "0 auto 4px" }} />
+          <div className="eyebrow">BATS Admin</div>
+          <h1>Đăng nhập</h1>
+          <p>Quản lý vùng trồng, lô hàng và người dùng.</p>
           <label>Email<input name="email" type="email" placeholder="admin@bats.vn" required /></label>
           <label>Mật khẩu<input name="password" type="password" required /></label>
           {error && <div className="formError">{error}</div>}
@@ -232,22 +290,221 @@ export default function AdminPage() {
   return (
     <main className="adminShell">
       <aside className="adminSidebar">
-        <div><span className="adminSeal small">B</span><strong>Quản Trị BATS</strong></div>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <img src="/bats-logo.png" alt="BATS Logo" style={{ width: "38px", height: "38px", objectFit: "contain", background: "white", padding: "4px", borderRadius: "10px", boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }} />
+          <strong>BATS Admin</strong>
+        </div>
         <nav className="adminNav">
-          <button className={tab === "plots" ? "active" : ""} onClick={() => setTab("plots")}>Vùng trồng</button>
-          <button className={tab === "actors" ? "active" : ""} onClick={() => setTab("actors")}>Người dùng & quyền</button>
-          <button className={tab === "anchors" ? "active" : ""} onClick={() => setTab("anchors")}>Chốt Khóa Blockchain</button>
-          <button className={tab === "audit" ? "active" : ""} onClick={() => setTab("audit")}>Lịch sử Kiểm toán</button>
+          <button className={tab === "overview" ? "active" : ""} onClick={() => setTab("overview")}><CheckCircleIcon size={18} /> Tổng quan</button>
+          <button className={tab === "sync" ? "active" : ""} onClick={() => setTab("sync")}><SyncIcon size={18} /> Đồng bộ</button>
+          <button className={tab === "plots" ? "active" : ""} onClick={() => setTab("plots")}><PlotIcon size={18} /> Vùng trồng</button>
+          <button className={tab === "actors" ? "active" : ""} onClick={() => setTab("actors")}><UsersIcon size={18} /> Người dùng</button>
+          <button className={tab === "anchors" ? "active" : ""} onClick={() => setTab("anchors")}><LockIcon size={18} /> Blockchain</button>
+          <button className={tab === "audit" ? "active" : ""} onClick={() => setTab("audit")}><AuditIcon size={18} /> Nhật ký</button>
         </nav>
         <small>Đăng nhập: {adminName}</small>
       </aside>
 
       <section className="adminContent">
         <div className="adminHeading">
-          <div><div className="eyebrow">KHÔNG GIAN QUẢN TRỊ BATS</div><h1>{tab === "plots" ? "Vùng trồng" : tab === "actors" ? "Người dùng & quyền" : tab === "anchors" ? "Chốt Khóa Blockchain" : "Lịch sử Kiểm toán"}</h1></div>
-          <span>{plots.filter((plot) => plot.status === "active").length} vùng hoạt động</span>
+          <div>
+            <div className="eyebrow">Quản trị</div>
+            <h1>{tab === "overview" ? "Tổng quan" : tab === "sync" ? "Đồng bộ" : tab === "plots" ? "Vùng trồng" : tab === "actors" ? "Người dùng" : tab === "anchors" ? "Blockchain" : "Nhật ký"}</h1>
+          </div>
+          <span>{tab === "overview" ? `${batches.length} lô · ${activePlots} vùng` : tab === "sync" ? `${batches.length} lô` : `${activePlots} vùng`}</span>
         </div>
         {error && <div className="formError">{error}<button onClick={() => setError("")}>×</button></div>}
+
+        {tab === "overview" && (
+          <div className="overviewDashboard">
+            <section className="overviewWelcome">
+              <div>
+                <div className="eyebrow">Sổ tay nông hộ BATS</div>
+                <h2>Xin chào, {adminName || "Admin"} 👋</h2>
+                <p>Theo dõi nhanh dữ liệu từ Mini App, vùng trồng, lô hàng và trạng thái xác thực.</p>
+              </div>
+              <button className="button secondary" onClick={() => void loadAdmin()}>
+                <RefreshIcon size={15} /> Làm mới
+              </button>
+            </section>
+
+            <div className="overviewMetrics">
+              <article>
+                <span className="metricIcon green"><PlotIcon size={22} /></span>
+                <div><small>Tổng số lô</small><strong>{batches.length}</strong></div>
+              </article>
+              <article>
+                <span className="metricIcon amber"><AlertIcon size={22} /></span>
+                <div><small>Chờ kiểm tra</small><strong>{pendingBatches}</strong></div>
+              </article>
+              <article>
+                <span className="metricIcon green"><CheckCircleIcon size={22} /></span>
+                <div><small>Đã ổn định</small><strong>{syncedBatches}</strong></div>
+              </article>
+              <article>
+                <span className="metricIcon blue"><SyncIcon size={22} /></span>
+                <div><small>Sản lượng</small><strong>{totalQuantityKg.toLocaleString("vi-VN")} kg</strong></div>
+              </article>
+            </div>
+
+            <div className="overviewGrid">
+              <section className="overviewCard">
+                <div className="overviewCardHead">
+                  <h3>Chức năng nhanh</h3>
+                  <span>Thao tác thường dùng</span>
+                </div>
+                <div className="quickActionGrid">
+                  <button onClick={() => setTab("plots")}><PlotIcon size={20} /><span>Thêm vùng trồng</span><small>GPS & polygon</small></button>
+                  <button onClick={() => setTab("sync")}><SyncIcon size={20} /><span>Đồng bộ lô</span><small>Từ Zalo Mini App</small></button>
+                  <button onClick={() => setTab("actors")}><UsersIcon size={20} /><span>Người dùng</span><small>Quyền & Zalo ID</small></button>
+                  <button onClick={() => setTab("anchors")}><LockIcon size={20} /><span>Blockchain</span><small>Chốt Merkle Root</small></button>
+                </div>
+              </section>
+
+              <section className="overviewCard">
+                <div className="overviewCardHead">
+                  <h3>Số lô theo tháng</h3>
+                  <span>{monthlyHarvest.length || 0} tháng gần nhất</span>
+                </div>
+                <div className="miniBarChart">
+                  {(monthlyHarvest.length ? monthlyHarvest : [["N/A", 0] as [string, number]]).map(([month, count]) => {
+                    const value = Number(count) || 0;
+                    return (
+                      <div key={month} className="barItem">
+                        <span style={{ height: `${Math.max(8, (value / maxMonthlyHarvest) * 120)}px` }} />
+                        <small>{month}</small>
+                        <b>{value}</b>
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            </div>
+
+            <section className="overviewCard recentTableCard">
+              <div className="overviewCardHead">
+                <h3>Lô gần đây</h3>
+                <button className="button secondary" onClick={() => setTab("sync")}>Xem tất cả</button>
+              </div>
+              <div className="tableWrap">
+                <table>
+                  <thead>
+                    <tr><th>Mã lô</th><th>Giống</th><th>Sản lượng</th><th>Ngày tạo</th><th>Trạng thái</th><th></th></tr>
+                  </thead>
+                  <tbody>
+                    {recentBatches.length === 0 ? (
+                      <tr><td colSpan={6} style={{ textAlign: "center", color: "var(--muted)", padding: 34 }}>Chưa có lô gần đây.</td></tr>
+                    ) : recentBatches.map((batch) => (
+                      <tr key={batch.id}>
+                        <td><strong>{batch.id}</strong><small>{batch.identity?.lot}</small></td>
+                        <td>{batch.variety}</td>
+                        <td><strong>{batch.quantityKg?.toLocaleString("vi-VN")} kg</strong></td>
+                        <td>{new Date(batch.createdAt).toLocaleDateString("vi-VN")}</td>
+                        <td><span className={`syncBadge ${batch.riskBand === "green" ? "synced" : "pending"}`}>{getBatchRiskLabel(batch.riskBand)}</span></td>
+                        <td>
+                          {batch.identity && (
+                            <Link href={`/verify/${batch.identity.gtin}/${batch.identity.lot}/${batch.identity.serial}`}>
+                              QR →
+                            </Link>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        )}
+
+        {tab === "sync" && (
+          <div>
+            <div className="syncGrid">
+              <div className="syncMetricCard">
+                <span>Lô từ Mini App</span>
+                <strong>{batches.length}</strong>
+              </div>
+              <div className="syncMetricCard">
+                <span>Cần kiểm tra</span>
+                <strong>{batches.filter((b) => b.riskBand !== "green" || b.status?.toLowerCase() === "harvested").length}</strong>
+              </div>
+              <div className="syncMetricCard">
+                <span>Đồng bộ</span>
+                <strong>Online</strong>
+              </div>
+            </div>
+
+            <div className="syncTableWrap">
+              <div className="syncHeader">
+                <h2>Dữ liệu thực địa</h2>
+                <div style={{ display: "flex", gap: "10px" }}>
+                  <button className="button secondary" onClick={() => void loadAdmin()} style={{ display: "flex", alignItems: "center", gap: "6px", padding: "8px 14px", fontSize: "12px" }}>
+                    <RefreshIcon size={14} /> Làm mới
+                  </button>
+                </div>
+              </div>
+              <div className="tableWrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Mã lô</th>
+                      <th>Giống</th>
+                      <th>Nguồn</th>
+                      <th>Trạng thái</th>
+                      <th>Rủi ro</th>
+                      <th>Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {batches.length === 0 ? (
+                      <tr>
+                        <td colSpan={6} style={{ padding: "40px", textAlign: "center", color: "var(--muted)" }}>
+                          Chưa có lô hàng.
+                        </td>
+                      </tr>
+                    ) : (
+                      batches.map((batch) => (
+                        <tr key={batch.id}>
+                          <td>
+                            <strong>{batch.id}</strong>
+                            <small>{batch.identity?.gtin} · {batch.identity?.lot}</small>
+                          </td>
+                          <td>
+                            <strong>{batch.variety}</strong>
+                            <small>{batch.quantityKg?.toLocaleString("vi-VN")} kg</small>
+                          </td>
+                          <td>
+                            <span>Zalo Mini App</span>
+                            <small>{new Date(batch.createdAt).toLocaleString("vi-VN")}</small>
+                          </td>
+                          <td>
+                            <span className="status">{getBatchStatusLabel(batch.status)}</span>
+                          </td>
+                          <td>
+                            <span className={`syncBadge ${batch.riskBand === "green" ? "synced" : "pending"}`}>
+                              {batch.riskBand === "green" ? "✅" : "⚠️"} {getBatchRiskLabel(batch.riskBand)}
+                            </span>
+                          </td>
+                          <td style={{ display: "flex", gap: "8px", justifyContent: "center", padding: "18px 14px" }}>
+                            {batch.identity && (
+                              <Link
+                                href={`/verify/${batch.identity.gtin}/${batch.identity.lot}/${batch.identity.serial}`}
+                                className="button secondary"
+                                style={{ padding: "6px 12px", fontSize: "11px", fontWeight: 700 }}
+                              >
+                                Tra cứu
+                              </Link>
+                            )}
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
 
         {tab === "plots" && (
           <div className="adminWorkspace">

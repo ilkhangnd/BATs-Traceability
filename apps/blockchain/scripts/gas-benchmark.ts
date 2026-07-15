@@ -14,19 +14,23 @@ function median(values: bigint[]): bigint {
 }
 
 async function main() {
+  const [signer] = await ethers.getSigners();
   const anchor = await ethers.deployContract("BATSAnchor");
   const direct = await ethers.deployContract("DirectEventLogBaseline");
   const token = await ethers.deployContract("MinimalBatchTokenBaseline");
-  await Promise.all([anchor.waitForDeployment(), direct.waitForDeployment(), token.waitForDeployment()]);
+  const fullErc721 = await ethers.deployContract("FullERC721TraceabilityBaseline");
+  await Promise.all([anchor.waitForDeployment(), direct.waitForDeployment(), token.waitForDeployment(), fullErc721.waitForDeployment()]);
 
   const samples = Number(process.env.GAS_SAMPLES ?? "30");
   const anchorGas: bigint[] = [];
   const directGas: bigint[] = [];
   const tokenGas: bigint[] = [];
+  const fullErc721Gas: bigint[] = [];
 
   for (let index = 0; index < samples; index += 1) {
     const root = ethers.sha256(ethers.toUtf8Bytes(`root-${index}`));
     const eventHash = ethers.sha256(ethers.toUtf8Bytes(`event-${index}`));
+    const uri = `ipfs://QmBATSMetadataHashForTraceabilityEventIndexNumber${index}`;
     anchorGas.push(
       await gasUsed(
         anchor.getFunction("anchorDailyRoot")(
@@ -38,17 +42,26 @@ async function main() {
     );
     directGas.push(await gasUsed(direct.getFunction("logEvent")(eventHash)));
     tokenGas.push(await gasUsed(token.getFunction("mintBatch")()));
+    fullErc721Gas.push(await gasUsed(fullErc721.getFunction("logTraceabilityEvent")(signer.address, uri)));
   }
 
   const medians = {
     anchor: median(anchorGas),
     direct: median(directGas),
-    token: median(tokenGas)
+    token: median(tokenGas),
+    full_erc721: median(fullErc721Gas)
   };
   const volumes = [1_000, 10_000, 100_000, 1_000_000];
   const rows = volumes.flatMap((events) => {
     const anchorTotal = medians.anchor;
     return [
+      {
+        approach: "full_erc721_traceability_baseline",
+        events,
+        gas: medians.full_erc721 * BigInt(events),
+        savingVsBaselinePercent:
+          100 * (1 - Number(anchorTotal) / Number(medians.full_erc721 * BigInt(events)))
+      },
       {
         approach: "minimal_batch_token_baseline",
         events,
@@ -92,7 +105,7 @@ async function main() {
           Object.entries(medians).map(([key, value]) => [key, value.toString()])
         ),
         methodology:
-          "Measured median transaction gas on the local Hardhat EVM, then projected per-event baselines linearly. Token baseline is not a full ERC-721 implementation.",
+          "Measured median transaction gas on the local Hardhat EVM (Cancun target), including both minimal baselines and full OpenZeppelin ERC721URIStorage traceability baseline, then projected per-event baselines linearly.",
         rows: rows.map((row) => ({ ...row, gas: row.gas.toString() }))
       },
       null,

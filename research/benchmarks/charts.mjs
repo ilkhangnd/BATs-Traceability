@@ -80,16 +80,17 @@ function gasChart() {
   const data = JSON.parse(readFileSync(resolve(resultsDir, "gas-benchmark.json"), "utf8"));
   const rows = data.rows.filter((row) => row.events === 1000);
   const labels = {
+    full_erc721_traceability_baseline: "Full ERC-721",
     minimal_batch_token_baseline: "Minimal token",
     direct_event_log_baseline: "Direct event log",
     bats_daily_merkle_anchor: "BATS daily root"
   };
-  const colors = ["#b66b39", "#657b70", "#17683f"];
-  const left = 130;
+  const colors = ["#8a3f2d", "#b66b39", "#657b70", "#17683f"];
+  const left = 110;
   const top = 140;
   const height = 460;
-  const barWidth = 210;
-  const gap = 110;
+  const barWidth = 170;
+  const gap = 60;
   const maxLog = Math.max(...rows.map((row) => Math.log10(Number(row.gas))));
   const bars = rows
     .map((row, index) => {
@@ -98,13 +99,13 @@ function gasChart() {
       const x = left + index * (barWidth + gap);
       const y = top + height - barHeight;
       return `<rect x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" rx="10" fill="${
-        colors[index]
+        colors[index] || "#2f8056"
       }"/>
       <text x="${x + barWidth / 2}" y="${y - 16}" text-anchor="middle" class="value">${value.toLocaleString(
         "en-US"
       )} gas</text>
       <text x="${x + barWidth / 2}" y="${top + height + 34}" text-anchor="middle" class="label">${
-        labels[row.approach]
+        labels[row.approach] || row.approach
       }</text>`;
     })
     .join("");
@@ -116,7 +117,7 @@ function gasChart() {
     <text x="34" y="${top + height / 2}" transform="rotate(-90 34 ${
       top + height / 2
     })" text-anchor="middle" class="label">Gas used (log scale)</text>
-    <text x="600" y="680" text-anchor="middle" class="subtitle">Baselines are minimal research contracts; token baseline is not full ERC-721.</text>`
+    <text x="600" y="680" text-anchor="middle" class="subtitle">Baselines include minimal research contracts and OpenZeppelin Full ERC-721.</text>`
   );
 }
 

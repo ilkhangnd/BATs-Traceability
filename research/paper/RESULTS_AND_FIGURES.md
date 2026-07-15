@@ -46,21 +46,21 @@ Local Hardhat EVM median transaction gas from 30 samples:
 
 | Method | Median gas per transaction | Scope |
 | --- | ---: | --- |
-| BATS daily Merkle root | 94,666 | One root per day |
-| Direct event baseline | 44,168 | One event per transaction |
-| Minimal batch-token baseline | 48,564 | One minimal token transaction per event |
+| BATS daily Merkle root | 94,755 | One root per day |
+| Full ERC-721 traceability baseline (`FullERC721TraceabilityBaseline`) | 126,554 | One OpenZeppelin ERC-721 token per event |
+| Direct event baseline (`DirectEventLogBaseline`) | 44,164 | One event log per transaction |
+| Minimal batch-token baseline (`MinimalBatchTokenBaseline`) | 48,559 | One minimal token transaction per event |
 
 Projected gas at 1,000 events:
 
 | Method | Projected gas | Saving of BATS vs baseline |
 | --- | ---: | ---: |
-| Minimal batch-token baseline | 48,564,000 | 99.805% |
-| Direct event log baseline | 44,168,000 | 99.786% |
-| BATS daily Merkle anchor | 94,666 | Reference |
+| Full ERC-721 traceability baseline | 126,554,000 | 99.925% |
+| Minimal batch-token baseline | 48,559,000 | 99.805% |
+| Direct event log baseline | 44,164,000 | 99.785% |
+| BATS daily Merkle anchor | 94,755 | Reference |
 
-Interpretation: the result supports the asymptotic claim that anchor-first
-commitment avoids per-event on-chain cost. It does **not** yet support a claim
-against a production ERC-721 implementation or a public network cost model.
+Interpretation: the result empirically supports the asymptotic claim that anchor-first commitment avoids per-event on-chain cost against both minimal baselines and standard OpenZeppelin ERC-721 implementations. It does **not** yet support a public mainnet cost model.
 
 Recommended figure: `figures/gas-comparison.svg`, titled as "local EVM
 baselines" rather than "mainnet cost".

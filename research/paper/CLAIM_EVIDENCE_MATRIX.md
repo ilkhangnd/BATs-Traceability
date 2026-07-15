@@ -1,6 +1,6 @@
 # Claim–evidence matrix
 
-Status: updated 2026-07-11. This matrix defines which manuscript claims are
+Status: updated 2026-07-15. This matrix defines which manuscript claims are
 currently defensible and which claims must remain future work.
 
 ## Claim status scale
@@ -21,8 +21,8 @@ currently defensible and which claims must remain future work.
 | Client proof verification is lightweight | Merkle verify median 0.0156 ms at 1,000,000 events | A | Yes | Include runtime/environment caveat |
 | PostGIS geofence lookup is feasible at province-scale synthetic polygon counts | `postgis-summary.json`, 100,000 polygons | A | Yes | "single-client indexed spatial microbenchmark" |
 | Rule engine detects injected noisy fraud cases | `fraud-metrics.json`, 2,150 samples | A | Yes | "seeded synthetic dataset" |
-| BATS saves gas relative to direct/minimal-token local baselines | `gas-benchmark.json`, 30 samples | B | Maybe | Say "local EVM baselines", not ERC-721/mainnet |
-| BATS outperforms a full ERC-721 traceability implementation | No full ERC-721 implementation | D | No | Future work |
+| BATS saves gas relative to direct/minimal-token and full ERC-721 local EVM baselines | `gas-benchmark.json`, 30 samples (`FullERC721TraceabilityBaseline.sol` vs BATS `anchorDailyRoot`) | A | Yes | Say "local EVM baselines" (BATS 94,755 daily vs ERC-721 126,554/event) |
+| BATS public mainnet transaction cost savings | No public network cost regime conversion | D | No | Future work |
 | BATS is EPCIS 2.0 certified/compliant | EPCIS-aligned JSON-LD, no conformance test | B | No | Say "EPCIS 2.0-aligned" |
 | BATS supports GS1 Digital Link style verification URLs | Backend route and GS1 Digital Link standard | B | Maybe | Say "GS1 Digital Link-style/compatible URI pattern" unless conformance tested |
 | BATS handles high API concurrency at 100–5,000 VUs | k6 results show high error/timeout | C | No | Report as diagnostic limitation |
@@ -41,12 +41,12 @@ The following numbers are safe to use in the abstract if the caveats are kept:
 3. Indexed PostGIS lookup at 100,000 synthetic polygons: median 0.050 ms,
    p95 0.056 ms.
 4. Synthetic fraud evaluation: precision 0.9589, recall 0.9722, F1 0.9655.
-5. Daily anchor local EVM gas: median 94,666 gas, only as a local baseline.
+5. Daily anchor local EVM gas: median 94,755 gas for one daily root versus 126,554 gas per event for a full OpenZeppelin ERC-721 traceability baseline and 48,559 gas per event for minimal token baseline.
 
 ## Claims to keep out of Abstract
 
 1. k6 scalability at 100–5,000 VUs.
-2. Full ERC-721 cost savings.
+2. Public mainnet fiat cost/gas regime conversion across multiple chains.
 3. Field usability, SUS/TAM, task completion time.
 4. EPCIS conformance certification.
 5. Production-grade Zalo Mini App adoption.

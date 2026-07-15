@@ -86,17 +86,17 @@ export default function BatchesPage() {
   return (
     <main className="shell">
       <div className="pageHeading">
-        <div><div className="eyebrow">QUẢN LÝ LÔ HÀNG NÔNG SẢN · TRUY XUẤT NGUỒN GỐC</div><h1>Lô hàng Nông sản & Trái cây</h1></div>
-        <button className="button primary" onClick={() => void load(page)}>🌿 Làm mới dữ liệu</button>
+        <div><div className="eyebrow">Truy xuất nguồn gốc</div><h1>Lô hàng</h1></div>
+        <button className="button primary" onClick={() => void load(page)}>Làm mới</button>
       </div>
       <div className="summaryGrid">
-        <div className="metric"><span>Tổng số lô</span><strong>{total}</strong><small>Khớp bộ lọc</small></div>
-        <div className="metric"><span>Cần xác minh</span><strong>{batches.filter((b) => b.riskBand !== "green").length}</strong><small>Điểm rủi ro &gt; 30</small></div>
-        <div className="metric"><span>Khối lượng</span><strong>{batches.reduce((s, b) => s + b.quantityKg, 0).toLocaleString("vi-VN")} kg</strong><small>Đã ghi nhận</small></div>
+        <div className="metric"><span>Tổng lô</span><strong>{total}</strong></div>
+        <div className="metric"><span>Cần kiểm tra</span><strong>{batches.filter((b) => b.riskBand !== "green").length}</strong></div>
+        <div className="metric"><span>Khối lượng</span><strong>{batches.reduce((s, b) => s + b.quantityKg, 0).toLocaleString("vi-VN")} kg</strong></div>
       </div>
-      {error && <div className="notice">{error} Hãy kiểm tra kết nối hệ thống.</div>}
+      {error && <div className="notice">{error}</div>}
       <section className="panel">
-        <div className="panelTitle"><h2>Danh sách lô hàng</h2><span>Cập nhật tự động theo nhật ký thực tế</span></div>
+        <div className="panelTitle"><h2>Danh sách lô</h2></div>
         <div className="filterBar">
           <input
             aria-label="Tìm lô"
@@ -118,7 +118,7 @@ export default function BatchesPage() {
         </div>
         <div className="tableWrap">
           <table>
-            <thead><tr><th>Mã lô / Sản phẩm</th><th>Giống / Loại</th><th>Khối lượng</th><th>Trạng thái</th><th>Rủi ro</th><th></th></tr></thead>
+            <thead><tr><th>Mã lô</th><th>Giống</th><th>Khối lượng</th><th>Trạng thái</th><th>Rủi ro</th><th></th></tr></thead>
             <tbody>
               {batches.map((batch) => (
                 <tr key={batch.id}>

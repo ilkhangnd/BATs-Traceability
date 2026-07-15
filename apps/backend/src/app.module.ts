@@ -21,6 +21,8 @@ import { MetricsService } from "./metrics.service.js";
 import { ObservabilityInterceptor } from "./observability.interceptor.js";
 import { RateLimitInterceptor } from "./rate-limit.guard.js";
 import { AnchorSchedulerService } from "./anchor-scheduler.service.js";
+import { PilotResearchController } from "./research/pilot.controller.js";
+import { PilotResearchService } from "./research/pilot.service.js";
 
 @Module({
   imports: [DatabaseModule],
@@ -29,7 +31,8 @@ import { AnchorSchedulerService } from "./anchor-scheduler.service.js";
     AuthController,
     AdminController,
     EvidenceController,
-    AnchorController
+    AnchorController,
+    PilotResearchController
   ],
   providers: [
     BatsService,
@@ -45,6 +48,7 @@ import { AnchorSchedulerService } from "./anchor-scheduler.service.js";
     AnchorSchedulerService,
     DossierService,
     MetricsService,
+    PilotResearchService,
     {
       provide: APP_INTERCEPTOR,
       useClass: ObservabilityInterceptor

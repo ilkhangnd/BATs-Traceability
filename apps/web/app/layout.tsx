@@ -11,8 +11,8 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "BATS - Nền tảng Truy xuất Nông sản & Trái cây Việt Nam",
-  description: "Hệ thống Truy xuất nguồn gốc Nông sản & Trái cây chuẩn quốc tế GS1 EPCIS với bằng chứng blockchain bất biến."
+  title: "BATS Traceability",
+  description: "Nền tảng truy xuất nguồn gốc nông sản, quản lý vùng trồng, lô hàng và QR xác thực."
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -27,17 +27,17 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               style={{ width: "42px", height: "42px", objectFit: "contain" }}
             />
             <span className="brandText">
-              <strong>BATS</strong> <span className="brandSub">Traceability</span>
+              <strong>BATS</strong> <span className="brandSub">Blockchain Agriculture Traceability System</span>
             </span>
           </Link>
           <nav>
-            <Link href="/architecture">Kiến trúc</Link>
-            <Link href="/admin">Quản trị</Link>
-            <Link href="/dashboard/batches">Lô hàng</Link>
-            <Link href="/dashboard/plots">Vùng trồng</Link>
-            <Link className="navPrimary" href="/verify/8930000000019/SR-20260704-000001/0001">
-              Tra cứu QR mẫu
-            </Link>
+            <Link href="/benefits">Giải pháp</Link>
+            <Link href="/architecture">Cách hoạt động</Link>
+            <Link href="/zalo-mini-app">Đối tượng sử dụng</Link>
+            <Link href="/verify/8930000000019/SR-20260704-000001/0001">Tra cứu nguồn gốc</Link>
+            <Link href="/about">Tài liệu</Link>
+            <Link href="/portal">Cổng Nông hộ</Link>
+            <Link className="navPrimary solid" href="/login">Đăng nhập</Link>
           </nav>
         </header>
         {children}
@@ -54,16 +54,20 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               </span>
             </Link>
             <p>
-              Truy xuất nguồn gốc nông sản & trái cây (Sầu riêng, Xoài Cát, Cà phê, Thanh long, Bưởi...) chuẩn quốc tế GS1, có kiểm chứng thực địa và neo bằng chứng blockchain bất biến.
+              Quản lý vùng trồng, lô hàng và hồ sơ QR truy xuất nguồn gốc cho chuỗi nông sản Việt Nam.
             </p>
           </div>
           <div className="footerLinks">
-            <Link href="/architecture">Kiến trúc hệ thống</Link>
-            <Link href="/dashboard/batches">Bảng điều hành chuỗi</Link>
-            <Link href="/verify/8930000000019/SR-20260704-000001/0001">Lô mẫu Sầu Riêng</Link>
-            <Link href="/verify/8930000000026/XC-20260705-000002/0001">Lô mẫu Xoài Cát</Link>
+            <Link href="/about">Giới thiệu</Link>
+            <Link href="/benefits">Lợi ích</Link>
+            <Link href="/zalo-mini-app">Zalo Mini App</Link>
+            <Link href="/admin">Quản trị</Link>
+            <Link href="/dashboard/batches">Lô hàng</Link>
+            <Link href="/dashboard/plots">Vùng trồng</Link>
+            <Link href="/architecture">Kiến trúc</Link>
+            <Link href="/verify/8930000000019/SR-20260704-000001/0001">QR mẫu</Link>
           </div>
-          <span className="footerMeta">MVP Nông sản & Trái cây Việt Nam · Đắk Lắk & ĐBSCL · 2026</span>
+          <span className="footerMeta">BATS Traceability · 2026</span>
         </footer>
       </body>
     </html>

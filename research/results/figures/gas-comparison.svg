@@ -8,14 +8,16 @@
   </style>
   <text x="75" y="58" class="title">Projected EVM gas at 1,000 events per day</text>
   <text x="75" y="86" class="subtitle">Median of 30 local Hardhat samples · logarithmic y-axis</text>
-  <line x1="100" y1="600" x2="1110" y2="600" class="axis"/>
-    <rect x="130" y="140" width="210" height="460" rx="10" fill="#b66b39"/>
-      <text x="235" y="124" text-anchor="middle" class="value">48,564,000 gas</text>
-      <text x="235" y="634" text-anchor="middle" class="label">Minimal token</text><rect x="450" y="142.46608301332083" width="210" height="457.5339169866792" rx="10" fill="#657b70"/>
-      <text x="555" y="126.46608301332083" text-anchor="middle" class="value">44,168,000 gas</text>
-      <text x="555" y="634" text-anchor="middle" class="label">Direct event log</text><rect x="770" y="302.19156825604557" width="210" height="297.80843174395443" rx="10" fill="#17683f"/>
-      <text x="875" y="286.19156825604557" text-anchor="middle" class="value">94,666 gas</text>
-      <text x="875" y="634" text-anchor="middle" class="label">BATS daily root</text>
+  <line x1="80" y1="600" x2="1110" y2="600" class="axis"/>
+    <rect x="110" y="140" width="170" height="460" rx="10" fill="#8a3f2d"/>
+      <text x="195" y="124" text-anchor="middle" class="value">126,554,000 gas</text>
+      <text x="195" y="634" text-anchor="middle" class="label">Full ERC-721</text><rect x="340" y="163.6184040414429" width="170" height="436.3815959585571" rx="10" fill="#b66b39"/>
+      <text x="425" y="147.6184040414429" text-anchor="middle" class="value">48,559,000 gas</text>
+      <text x="425" y="634" text-anchor="middle" class="label">Minimal token</text><rect x="570" y="165.9575756038074" width="170" height="434.0424243961926" rx="10" fill="#657b70"/>
+      <text x="655" y="149.9575756038074" text-anchor="middle" class="value">44,164,000 gas</text>
+      <text x="655" y="634" text-anchor="middle" class="label">Direct event log</text><rect x="800" y="317.4575369395331" width="170" height="282.5424630604669" rx="10" fill="#17683f"/>
+      <text x="885" y="301.4575369395331" text-anchor="middle" class="value">94,755 gas</text>
+      <text x="885" y="634" text-anchor="middle" class="label">BATS daily root</text>
     <text x="34" y="370" transform="rotate(-90 34 370)" text-anchor="middle" class="label">Gas used (log scale)</text>
-    <text x="600" y="680" text-anchor="middle" class="subtitle">Baselines are minimal research contracts; token baseline is not full ERC-721.</text>
+    <text x="600" y="680" text-anchor="middle" class="subtitle">Baselines include minimal research contracts and OpenZeppelin Full ERC-721.</text>
 </svg>

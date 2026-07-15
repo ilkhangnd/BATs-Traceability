@@ -24,8 +24,9 @@ required a median of 580.173 ms, while proof verification required 0.0156 ms
 with a 640-byte proof. Indexed spatial lookup over 100,000 synthetic polygons
 achieved a median of 0.050 ms in a single-client PostGIS benchmark. A seeded
 noisy synthetic validation dataset yielded precision 0.9589, recall 0.9722 and
-F1 0.9655. A local EVM benchmark measured 94,666 median gas for one daily root,
-supporting the asymptotic advantage of anchor-first commitment over per-event
+F1 0.9655. A local EVM benchmark measured 94,755 median gas for one daily root
+versus 126,554 gas per event for a full OpenZeppelin ERC-721 traceability baseline,
+supporting the empirical cost advantage of anchor-first commitment over per-event
 transactions under the stated baselines. Current k6 staging results reveal
 high error rates under heavy concurrency, and field usability data are not yet
 available. The results therefore support the computational feasibility of
@@ -240,12 +241,7 @@ rule-based validation but does not establish field accuracy.
 
 ### 5.4 Gas benchmark
 
-The local EVM benchmark measured a median of 94,666 gas for a BATS daily root.
-At 1,000 projected events, the daily-anchor approach uses 94,666 gas compared
-with 44,168,000 gas for direct event logging and 48,564,000 gas for the minimal
-batch-token baseline. This supports the expected cost advantage of committing
-one root per day. However, the token baseline is not a full ERC-721
-implementation, and public network cost conversion remains future work.
+The local EVM benchmark measured a median of 94,755 gas for a BATS daily root (`anchorDailyRoot`), compared with 126,554 gas per event for a full OpenZeppelin ERC-721 traceability baseline (`FullERC721TraceabilityBaseline`), 48,559 gas per event for a minimal batch-token baseline (`MinimalBatchTokenBaseline`), and 44,164 gas per event for direct event logging (`DirectEventLogBaseline`). At 1,000 projected events, the daily-anchor approach uses 94,755 gas total compared with 126,554,000 gas for the full ERC-721 approach (99.9251% gas savings). This confirms the empirical cost advantage of committing one root per day over per-event NFT minting. Public network cost conversion across mainnet gas regimes remains future work.
 
 ### 5.5 API load diagnostics
 

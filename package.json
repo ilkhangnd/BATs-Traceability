@@ -26,6 +26,7 @@
     "research:metadata": "node research/benchmarks/capture-environment.mjs",
     "research:postgis:summary": "node research/benchmarks/summarize-postgis.mjs",
     "research:merkle:summary": "node research/benchmarks/summarize-merkle.mjs",
+    "research:pilot": "node research/benchmarks/summarize-pilot.mjs",
     "research:all": "pnpm research:merkle && pnpm research:fraud && pnpm research:gas && pnpm research:charts",
     "test": "turbo test",
     "typecheck": "turbo typecheck"

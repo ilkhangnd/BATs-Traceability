@@ -99,4 +99,4 @@ Sau khi thu thập xong số liệu từ 5 người tham gia:
    - Điểm **SUS trung bình (`Mean SUS Score`)** và độ lệch chuẩn ($\sigma$).
    - Thời gian hoàn thành tác vụ trung vị **$T_{\text{task}}$ (Giây)** cho $T_1$ và $T_2$.
    - Tỷ lệ lỗi lần đầu **$E_{\text{rate}}$ (%)**.
-4. Khẳng định trong phần **Section 6 (Discussion & Conclusion)**: *BATS đạt điểm SUS trung bình $[X]/100$, chứng minh rằng việc tích hợp trên nền tảng Zalo Mini App với kiến trúc offline-first đã loại bỏ thành công rào cản kỹ thuật Web3 đối với người nông dân canh tác sầu riêng tại địa phương.*
+4. Khẳng định thận trọng và khách quan trong phần **Section 6 (Discussion & Conclusion)**: *BATS đạt điểm SUS trung bình $[X]/100$, cung cấp bằng chứng ban đầu về khả năng giảm rào cản kỹ thuật Web3 và nâng cao tính khả thi khi áp dụng thực địa cho nông hộ quy mô nhỏ thông qua nền tảng Zalo Mini App offline-first.*

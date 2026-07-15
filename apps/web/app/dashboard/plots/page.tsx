@@ -31,7 +31,7 @@ export default function PlotsPage() {
   return (
     <main className="shell">
       <div className="pageHeading">
-        <div><div className="eyebrow">BẢN ĐỒ VÙNG TRỒNG · TOẠ ĐỘ GPS HỢP LỆ</div><h1>Bản đồ Vùng trồng Nông sản</h1></div>
+        <div><div className="eyebrow">Bản đồ canh tác</div><h1>Vùng trồng</h1></div>
       </div>
       {error && <div className="notice">{error}</div>}
       <GoogleMap plots={plots} />

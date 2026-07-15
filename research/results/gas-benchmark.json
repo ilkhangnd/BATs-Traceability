@@ -1,84 +1,109 @@
 {
-  "generatedAt": "2026-07-05T05:39:27.432Z",
+  "generatedAt": "2026-07-15T06:08:05.411Z",
   "network": "hardhat",
   "samples": 30,
   "medianGas": {
-    "anchor": "94666",
-    "direct": "44168",
-    "token": "48564"
+    "anchor": "94755",
+    "direct": "44164",
+    "token": "48559",
+    "full_erc721": "126554"
   },
-  "methodology": "Measured median transaction gas on the local Hardhat EVM, then projected per-event baselines linearly. Token baseline is not a full ERC-721 implementation.",
+  "methodology": "Measured median transaction gas on the local Hardhat EVM (Cancun target), including both minimal baselines and full OpenZeppelin ERC721URIStorage traceability baseline, then projected per-event baselines linearly.",
   "rows": [
     {
+      "approach": "full_erc721_traceability_baseline",
+      "events": 1000,
+      "gas": "126554000",
+      "savingVsBaselinePercent": 99.92512682333233
+    },
+    {
       "approach": "minimal_batch_token_baseline",
       "events": 1000,
-      "gas": "48564000",
-      "savingVsBaselinePercent": 99.80506959887983
+      "gas": "48559000",
+      "savingVsBaselinePercent": 99.80486624518626
     },
     {
       "approach": "direct_event_log_baseline",
       "events": 1000,
-      "gas": "44168000",
-      "savingVsBaselinePercent": 99.78566835718166
+      "gas": "44164000",
+      "savingVsBaselinePercent": 99.78544742324064
     },
     {
       "approach": "bats_daily_merkle_anchor",
       "events": 1000,
-      "gas": "94666",
+      "gas": "94755",
       "savingVsBaselinePercent": 0
+    },
+    {
+      "approach": "full_erc721_traceability_baseline",
+      "events": 10000,
+      "gas": "1265540000",
+      "savingVsBaselinePercent": 99.99251268233323
     },
     {
       "approach": "minimal_batch_token_baseline",
       "events": 10000,
-      "gas": "485640000",
-      "savingVsBaselinePercent": 99.98050695988798
+      "gas": "485590000",
+      "savingVsBaselinePercent": 99.98048662451863
     },
     {
       "approach": "direct_event_log_baseline",
       "events": 10000,
-      "gas": "441680000",
-      "savingVsBaselinePercent": 99.97856683571817
+      "gas": "441640000",
+      "savingVsBaselinePercent": 99.97854474232406
     },
     {
       "approach": "bats_daily_merkle_anchor",
       "events": 10000,
-      "gas": "94666",
+      "gas": "94755",
       "savingVsBaselinePercent": 0
+    },
+    {
+      "approach": "full_erc721_traceability_baseline",
+      "events": 100000,
+      "gas": "12655400000",
+      "savingVsBaselinePercent": 99.99925126823332
     },
     {
       "approach": "minimal_batch_token_baseline",
       "events": 100000,
-      "gas": "4856400000",
-      "savingVsBaselinePercent": 99.9980506959888
+      "gas": "4855900000",
+      "savingVsBaselinePercent": 99.99804866245186
     },
     {
       "approach": "direct_event_log_baseline",
       "events": 100000,
-      "gas": "4416800000",
-      "savingVsBaselinePercent": 99.99785668357181
+      "gas": "4416400000",
+      "savingVsBaselinePercent": 99.99785447423241
     },
     {
       "approach": "bats_daily_merkle_anchor",
       "events": 100000,
-      "gas": "94666",
+      "gas": "94755",
       "savingVsBaselinePercent": 0
+    },
+    {
+      "approach": "full_erc721_traceability_baseline",
+      "events": 1000000,
+      "gas": "126554000000",
+      "savingVsBaselinePercent": 99.99992512682333
     },
     {
       "approach": "minimal_batch_token_baseline",
       "events": 1000000,
-      "gas": "48564000000",
-      "savingVsBaselinePercent": 99.99980506959888
+      "gas": "48559000000",
+      "savingVsBaselinePercent": 99.99980486624519
     },
     {
       "approach": "direct_event_log_baseline",
       "events": 1000000,
-      "gas": "44168000000",
-      "savingVsBaselinePercent": 99.99978566835718
+      "gas": "44164000000",
+      "savingVsBaselinePercent": 99.99978544742324
     },
     {
       "approach": "bats_daily_merkle_anchor",
       "events": 1000000,
-      "gas": "94666",
+      "gas": "94755",
       "savingVsBaselinePercent": 0
     }
   ]
