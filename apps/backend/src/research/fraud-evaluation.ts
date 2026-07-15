@@ -203,6 +203,42 @@ function main(): void {
   const service = new ValidationService();
   const samples = scenarios.map((scenario, index) => evaluate(service, scenario, index));
   const overall = confusion(samples);
+
+  // Compute Ablation Study across cumulative rule subsets
+  const ablationLayers = [
+    { name: "Geofence only (G)", rules: ["G"] },
+    { name: "Geofence + Yield (G, Y)", rules: ["G", "Y"] },
+    { name: "G + Y + Duplicate (G, Y, D)", rules: ["G", "Y", "D"] },
+    { name: "G + Y + D + Temporal/Role/Weight (6-rule)", rules: ["G", "Y", "D", "T", "R", "W"] },
+    { name: "Full 7-rule engine (+ Device/Attestation A)", rules: ["G", "Y", "D", "T", "R", "W", "A"] }
+  ];
+
+  const ablation = ablationLayers.map((layer) => {
+    const layerRuleSet = new Set(layer.rules);
+    const predictedLayerFraud = (sample: Sample) => {
+      const triggered = sample.detectedRules.split("|").filter(Boolean);
+      return triggered.some((r) => layerRuleSet.has(r));
+    };
+    const tp = samples.filter((s) => s.expectedFraud && predictedLayerFraud(s)).length;
+    const fp = samples.filter((s) => !s.expectedFraud && predictedLayerFraud(s)).length;
+    const tn = samples.filter((s) => !s.expectedFraud && !predictedLayerFraud(s)).length;
+    const fn = samples.filter((s) => s.expectedFraud && !predictedLayerFraud(s)).length;
+    const precision = safeDivide(tp, tp + fp);
+    const recall = safeDivide(tp, tp + fn);
+    const f1 = safeDivide(2 * precision * recall, precision + recall);
+    return {
+      configuration: layer.name,
+      rulesIncluded: layer.rules.join(", "),
+      tp,
+      fp,
+      tn,
+      fn,
+      precision,
+      recall,
+      f1
+    };
+  });
+
   const metrics = {
     generatedAt: new Date().toISOString(),
     seed: "0x5eed1234",
@@ -222,6 +258,7 @@ function main(): void {
     falsePositiveRate: overall.falsePositiveRate,
     falseNegativeRate: overall.falseNegativeRate,
     perRule: Object.fromEntries(RULES.map((rule) => [rule, confusion(samples, rule)])),
+    ablation,
     noiseCases: {
       degradedGpsOperationallyValid: 30,
       spoofedGpsInsidePolygon: 20
@@ -261,6 +298,15 @@ function main(): void {
     resolve(outputDir, "fraud-metrics.json"),
     `${JSON.stringify(metrics, null, 2)}\n`
   );
+  writeFileSync(
+    resolve(outputDir, "fraud-ablation.json"),
+    `${JSON.stringify(ablation, null, 2)}\n`
+  );
+  const ablationHeader = "configuration,rules_included,tp,fp,tn,fn,precision,recall,f1";
+  const ablationRows = ablation.map((a) =>
+    `"${a.configuration}","${a.rulesIncluded}",${a.tp},${a.fp},${a.tn},${a.fn},${a.precision.toFixed(4)},${a.recall.toFixed(4)},${a.f1.toFixed(4)}`
+  );
+  writeFileSync(resolve(outputDir, "fraud-ablation.csv"), `${ablationHeader}\n${ablationRows.join("\n")}\n`);
   console.log(JSON.stringify(metrics, null, 2));
 }
 

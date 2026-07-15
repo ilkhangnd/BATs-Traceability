@@ -7,24 +7,24 @@
     .label{font-size:14px}.value{font-size:13px;font-weight:600}
   </style>
   <text x="75" y="58" class="title">Merkle root generation scalability</text>
-  <text x="75" y="86" class="subtitle">Median of 10 runs · v24.14.0 · darwin-arm64</text>
+  <text x="75" y="86" class="subtitle">Median of 3 runs · v25.2.1 · darwin-arm64</text>
   <line x1="100" y1="610" x2="1120" y2="610" class="grid"/>
       <text x="86" y="615" text-anchor="end" class="label">0</text><line x1="100" y1="514" x2="1120" y2="514" class="grid"/>
-      <text x="86" y="519" text-anchor="end" class="label">128</text><line x1="100" y1="418" x2="1120" y2="418" class="grid"/>
-      <text x="86" y="423" text-anchor="end" class="label">256</text><line x1="100" y1="321.99999999999994" x2="1120" y2="321.99999999999994" class="grid"/>
-      <text x="86" y="326.99999999999994" text-anchor="end" class="label">383</text><line x1="100" y1="226" x2="1120" y2="226" class="grid"/>
-      <text x="86" y="231" text-anchor="end" class="label">511</text><line x1="100" y1="130" x2="1120" y2="130" class="grid"/>
-      <text x="86" y="135" text-anchor="end" class="label">639</text><line x1="100" y1="130" x2="100" y2="610" class="axis"/>
+      <text x="86" y="519" text-anchor="end" class="label">285</text><line x1="100" y1="418" x2="1120" y2="418" class="grid"/>
+      <text x="86" y="423" text-anchor="end" class="label">571</text><line x1="100" y1="321.99999999999994" x2="1120" y2="321.99999999999994" class="grid"/>
+      <text x="86" y="326.99999999999994" text-anchor="end" class="label">856</text><line x1="100" y1="226.00000000000006" x2="1120" y2="226.00000000000006" class="grid"/>
+      <text x="86" y="231.00000000000006" text-anchor="end" class="label">1142</text><line x1="100" y1="130" x2="1120" y2="130" class="grid"/>
+      <text x="86" y="135" text-anchor="end" class="label">1427</text><line x1="100" y1="130" x2="100" y2="610" class="axis"/>
     <line x1="100" y1="610" x2="1120" y2="610" class="axis"/>
-    <polyline points="100,609.4677216356173 440,605.8197031828678 780,568.3620041334557 1120,173.63636363636363" fill="none" stroke="#17683f" stroke-width="4"/>
-    <circle cx="100" cy="609.4677216356173" r="7" fill="#17683f"/>
-      <text x="100" y="593.4677216356173" text-anchor="middle" class="value">0.71 ms</text>
-      <text x="100" y="644" text-anchor="middle" class="label">1,000</text><circle cx="440" cy="605.8197031828678" r="7" fill="#17683f"/>
-      <text x="440" y="589.8197031828678" text-anchor="middle" class="value">5.56 ms</text>
-      <text x="440" y="644" text-anchor="middle" class="label">10,000</text><circle cx="780" cy="568.3620041334557" r="7" fill="#17683f"/>
-      <text x="780" y="552.3620041334557" text-anchor="middle" class="value">55.41 ms</text>
-      <text x="780" y="644" text-anchor="middle" class="label">100,000</text><circle cx="1120" cy="173.63636363636363" r="7" fill="#17683f"/>
-      <text x="1120" y="157.63636363636363" text-anchor="middle" class="value">580.69 ms</text>
+    <polyline points="100,609.4287013650176 440,606.1763081143038 780,570.1818596885073 1120,173.63636363636368" fill="none" stroke="#17683f" stroke-width="4"/>
+    <circle cx="100" cy="609.4287013650176" r="7" fill="#17683f"/>
+      <text x="100" y="593.4287013650176" text-anchor="middle" class="value">1.70 ms</text>
+      <text x="100" y="644" text-anchor="middle" class="label">1,000</text><circle cx="440" cy="606.1763081143038" r="7" fill="#17683f"/>
+      <text x="440" y="590.1763081143038" text-anchor="middle" class="value">11.37 ms</text>
+      <text x="440" y="644" text-anchor="middle" class="label">10,000</text><circle cx="780" cy="570.1818596885073" r="7" fill="#17683f"/>
+      <text x="780" y="554.1818596885073" text-anchor="middle" class="value">118.41 ms</text>
+      <text x="780" y="644" text-anchor="middle" class="label">100,000</text><circle cx="1120" cy="173.63636363636368" r="7" fill="#17683f"/>
+      <text x="1120" y="157.63636363636368" text-anchor="middle" class="value">1297.62 ms</text>
       <text x="1120" y="644" text-anchor="middle" class="label">1,000,000</text>
     <text x="30" y="370" transform="rotate(-90 30 370)" text-anchor="middle" class="label">Root generation time (ms)</text>
     <text x="610" y="690" text-anchor="middle" class="label">Daily EPCIS events (N)</text>

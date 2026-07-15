@@ -1,0 +1,29 @@
+{
+  "generatedAt": "2026-07-15T08:59:26.855Z",
+  "benchmarkType": "Offline-First Idempotency & Replay Verification",
+  "totalAttemptsSimulated": 20,
+  "totalCreatedBatches": 7,
+  "results": [
+    {
+      "scenario": "Same idempotency key",
+      "attempts": 10,
+      "createdEvents": 1,
+      "duplicatePrevented": "Yes",
+      "description": "Repeated network retries or double-taps on submit button with identical x-idempotency-key header."
+    },
+    {
+      "scenario": "Offline queue replay",
+      "attempts": 5,
+      "createdEvents": 1,
+      "duplicatePrevented": "Yes",
+      "description": "Local SQLite/localStorage queue re-transmitting pending harvests upon connection recovery."
+    },
+    {
+      "scenario": "Different payload same actor",
+      "attempts": 5,
+      "createdEvents": 5,
+      "duplicatePrevented": "Expected (distinct batches)",
+      "description": "Legitimate sequential harvest submissions from the same smallholder farmer."
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+scenario,attempts,created_events,duplicate_prevented,description
+"Same idempotency key",10,1,"Yes","Repeated network retries or double-taps on submit button with identical x-idempotency-key header."
+"Offline queue replay",5,1,"Yes","Local SQLite/localStorage queue re-transmitting pending harvests upon connection recovery."
+"Different payload same actor",5,5,"Expected (distinct batches)","Legitimate sequential harvest submissions from the same smallholder farmer."

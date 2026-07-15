@@ -1,0 +1,6 @@
+configuration,rules_included,tp,fp,tn,fn,precision,recall,f1
+"Geofence only (G)","G",100,0,1430,620,1.0000,0.1389,0.2439
+"Geofence + Yield (G, Y)","G, Y",200,0,1430,520,1.0000,0.2778,0.4348
+"G + Y + Duplicate (G, Y, D)","G, Y, D",300,0,1430,420,1.0000,0.4167,0.5882
+"G + Y + D + Temporal/Role/Weight (6-rule)","G, Y, D, T, R, W",600,0,1430,120,1.0000,0.8333,0.9091
+"Full 7-rule engine (+ Device/Attestation A)","G, Y, D, T, R, W, A",700,30,1400,20,0.9589,0.9722,0.9655
