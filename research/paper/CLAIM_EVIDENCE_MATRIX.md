@@ -26,7 +26,7 @@ currently defensible and which claims must remain future work.
 | BATS is EPCIS 2.0 certified/compliant | EPCIS-aligned JSON-LD, no conformance test | B | No | Say "EPCIS 2.0-aligned" |
 | BATS supports GS1 Digital Link style verification URLs | Backend route and GS1 Digital Link standard | B | Maybe | Say "GS1 Digital Link-style/compatible URI pattern" unless conformance tested |
 | BATS handles high API concurrency at 100–5,000 VUs | k6 results show high error/timeout | C | No | "The current k6 campaign revealed timeout-driven bottlenecks under high concurrency; treated as an engineering limitation rather than a positive claim." |
-| BATS rule engine ablation proves multi-layered validation contribution (`Geofence` $\rightarrow$ `+Yield` $\rightarrow$ `+Duplicate` $\rightarrow$ `Full 7-Rule`) | `fraud-ablation.json`, F1 progression up to 0.9655 | A | Yes | "multi-layered rule engine evaluation on synthetic dataset" |
+| BATS rule engine ablation proves multi-layered validation contribution (`Geofence` $\rightarrow$ `+Yield` $\rightarrow$ `+Duplicate` $\rightarrow$ `Full 7-Rule`) | `fraud-ablation.json`, F1 progression up to 0.9333 | A | Yes | "multi-layered rule engine evaluation on synthetic dataset" |
 | BATS offline-first idempotency replay prevents duplicate batch creation exactly-once | `idempotency-simulation.json`, simulated replay | A | Yes | "simulated network replay and idempotency verification" |
 | Zalo Mini App provides deployment readiness and offline-first architectural feasibility | Technical scaffold & offline queue verification | A | Yes | Say "deployment demonstration & architectural feasibility", not empirical user study |
 | BATS is usable by smallholder farmers in under 60 seconds | No empirical field study | D | No | Future work / hypothesis |
@@ -42,7 +42,7 @@ The following numbers are safe to use in the abstract if the caveats are kept:
    proof size 640 B.
 3. Indexed PostGIS lookup at 100,000 synthetic polygons: median 0.050 ms,
    p95 0.056 ms.
-4. Synthetic fraud evaluation: precision 0.9589, recall 0.9722, F1 0.9655 across 7 validation rules.
+4. Synthetic fraud evaluation: precision 0.8974, recall 0.9722, F1 0.9333 across 7 validation rules.
 5. Daily anchor local EVM gas: median 94,755 gas for one daily root versus 126,554 gas per event for a full OpenZeppelin ERC-721 traceability baseline and 48,559 gas per event for minimal token baseline.
 6. Idempotence under simulated network replay: 100% duplicate prevention across repeated submissions and offline queue replays (`idempotency-simulation.json`).
 

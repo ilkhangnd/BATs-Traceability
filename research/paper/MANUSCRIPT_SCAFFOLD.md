@@ -29,7 +29,7 @@ In local experiments, Merkle-root generation for one million leaves required a
 median of 580.2 ms, whereas proof verification required 0.0156 ms and a
 640-byte proof. Indexed spatial queries remained at a median of 0.050 ms for
 100,000 synthetic polygons in a single-client microbenchmark. A seeded noisy
-synthetic dataset yielded precision 0.959, recall 0.972 and F1 0.966; these
+synthetic dataset yielded precision 0.897, recall 0.972 and F1 0.933; these
 values characterize injected cases rather than field accuracy. The daily anchor
 used a median of 94,666 gas in a local EVM benchmark, but comparison with a
 production ERC-721 implementation and a public network remains pending.

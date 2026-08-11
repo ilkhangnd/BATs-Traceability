@@ -1,0 +1,859 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{fontspec}
+\setmainfont{Tinos}
+\setsansfont{DejaVu Sans}
+\setmonofont{DejaVu Sans Mono}
+\usepackage{polyglossia}
+\setmainlanguage{vietnamese}
+
+\usepackage[a4paper,margin=2.35cm]{geometry}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{tcolorbox}
+\usepackage{pifont}
+\usepackage{listings}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  urlcolor=blue!60!black,
+  citecolor=blue!60!black
+}
+
+\setstretch{1.15}
+\setlength{\headheight}{15pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{BATS MVP \& Production Guidance}
+\rhead{Nông nghiệp Việt Nam}
+\cfoot{\thepage}
+
+\titleformat{\section}{\Large\bfseries}{\thesection.}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection.}{0.6em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection.}{0.6em}{}
+
+\newcommand{\good}{\textcolor{green!45!black}{\ding{51}}}
+\newcommand{\bad}{\textcolor{red!70!black}{\ding{55}}}
+\newcommand{\warn}{\textcolor{orange!80!black}{\ding{115}}}
+\newcommand{\must}{\textbf{Bắt buộc: }}
+\newcommand{\should}{\textbf{Nên: }}
+\newcommand{\avoid}{\textbf{Tránh: }}
+
+\title{\textbf{Định hướng điều chỉnh ý tưởng, kế hoạch MVP và lộ trình hướng production cho BATS}\\
+\large Blockchain-assisted Agricultural Traceability System cho nông nghiệp Việt Nam}
+\author{Khang Nguyen}
+\date{Cập nhật: \today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Tài liệu này đề xuất cách điều chỉnh ý tưởng BATS từ một đề cương ``hệ thống truy xuất nguồn gốc nông sản quốc gia'' theo hướng quá rộng thành một dự án có khả năng triển khai thực nghiệm, đo được hiệu quả, có đường đi rõ ràng từ MVP đến production. Trọng tâm là nông nghiệp Việt Nam, ưu tiên các cây trồng chủ lực có giá trị xuất khẩu và yêu cầu truy xuất cao như cà phê, sầu riêng, cây ăn trái. Quan điểm cốt lõi là: BATS không nên là một dự án ``blockchain để trình diễn'', mà phải là một nền tảng dữ liệu truy xuất nguồn gốc theo chuẩn, có cơ chế giảm gian lận dữ liệu đầu vào, dùng blockchain như lớp bằng chứng bất biến.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Tóm tắt định hướng điều chỉnh}
+
+\subsection{Nhận xét tổng quan về đề cương BATS hiện tại}
+
+Đề cương BATS có ý tưởng đáng phát triển vì chọn đúng ba vấn đề thực tế của nông nghiệp Việt Nam: gian lận dữ liệu truy xuất, mạo danh mã vùng trồng, và rào cản công nghệ đối với hộ nông dân nhỏ lẻ. Hướng dùng Zalo Mini App để giảm ma sát sử dụng cũng phù hợp với bối cảnh thực địa tại Việt Nam, nơi nông dân thường quen dùng điện thoại phổ thông hoặc smartphone cũ, nhưng không quen thao tác ví blockchain, seed phrase, gas fee hoặc trình duyệt Web3.
+
+Tuy nhiên, đề cương hiện tại cần được chỉnh ở ba điểm lớn:
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{Không nên bắt đầu bằng phạm vi quốc gia.} Phạm vi quốc gia đòi hỏi pháp lý, governance, vận hành liên bộ, chuẩn dữ liệu, ngân sách, an toàn thông tin, và phối hợp doanh nghiệp ở mức rất cao. Với dự án sinh viên, phạm vi này chỉ nên là tầm nhìn dài hạn, không phải MVP.
+    \item \textbf{Không nên tuyên bố ``xác thực 100\%''.} Blockchain chỉ giúp chống sửa đổi sau khi ghi; nó không tự đảm bảo dữ liệu đầu vào đúng. Cần đổi claim thành: ``tăng tính toàn vẹn, khả năng kiểm toán và giảm xác suất gian lận dữ liệu đầu vào''.
+    \item \textbf{Không trộn lẫn Hyperledger Fabric và ERC-4337 nếu chưa chọn kiến trúc.} ERC-4337 là mô hình account abstraction trong hệ sinh thái EVM; Hyperledger Fabric lại có mô hình identity, MSP, channel, chaincode riêng. Dự án cần chọn một đường kiến trúc chính.
+\end{enumerate}
+
+\subsection{Định vị mới nên dùng}
+
+Thay vì định vị là:
+
+\begin{quote}
+``Hệ thống blockchain truy xuất nguồn gốc nông sản quốc gia dùng ERC-4337, NFT và Zalo Mini App.''
+\end{quote}
+
+nên sửa thành:
+
+\begin{quote}
+\textbf{BATS là nền tảng truy xuất nguồn gốc nông sản chuẩn GS1/EPCIS, dùng Zalo Mini App để thu thập dữ liệu tại thực địa, dùng rule-based validation và risk scoring để phát hiện bất thường, và dùng blockchain làm lớp neo bằng chứng kiểm toán không thể sửa đổi.}
+\end{quote}
+
+Cách định vị này có bốn lợi ích:
+
+\begin{itemize}[leftmargin=2em]
+    \item Dễ giải thích với nông dân, hợp tác xã, doanh nghiệp xuất khẩu và cơ quan quản lý.
+    \item Không phụ thuộc quá sớm vào token/NFT/account abstraction.
+    \item Dễ làm MVP trong 3--6 tháng.
+    \item Có đường mở rộng sang nhiều cây trồng và thị trường xuất khẩu.
+\end{itemize}
+
+\section{Phạm vi nông nghiệp Việt Nam và cây trồng ưu tiên}
+
+\subsection{Nguyên tắc chọn cây trồng cho MVP}
+
+Không nên chọn cây trồng chỉ vì phổ biến. Nên chọn theo bốn tiêu chí:
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{Giá trị kinh tế cao:} có động cơ gian lận vì chênh lệch giá lớn.
+    \item \textbf{Yêu cầu truy xuất rõ:} thị trường xuất khẩu yêu cầu mã vùng trồng, mã cơ sở đóng gói, chứng nhận hoặc hồ sơ tuân thủ.
+    \item \textbf{Chuỗi cung ứng có nhiều điểm bàn giao:} nông dân, tổ hợp tác/hợp tác xã, thương lái, nhà đóng gói, doanh nghiệp xuất khẩu.
+    \item \textbf{Có thể lấy dữ liệu thực địa:} có vùng trồng, diện tích, sản lượng, ảnh, GPS, phiếu cân, chứng nhận.
+\end{enumerate}
+
+\subsection{Thứ tự ưu tiên đề xuất}
+
+\begin{longtable}{p{3.2cm}p{4.5cm}p{4.5cm}p{3cm}}
+\toprule
+\textbf{Cây trồng} & \textbf{Lý do ưu tiên} & \textbf{Rủi ro cần xử lý} & \textbf{MVP phù hợp} \\
+\midrule
+\endhead
+Sầu riêng & Giá trị xuất khẩu cao, nhạy cảm với mã vùng trồng và mã cơ sở đóng gói; có nhiều điểm gom hàng qua thương lái. & Mạo danh mã vùng trồng, khai khống sản lượng, gom hàng ngoài vùng, sai mã cơ sở đóng gói, trộn lô. & Tốt nhất cho MVP đầu tiên vì pain point rõ và dễ trình diễn. \\
+\addlinespace
+Cà phê & Việt Nam là quốc gia sản xuất/xuất khẩu cà phê lớn; cà phê liên quan đến yêu cầu truy xuất và chống phá rừng khi xuất sang EU. & Trộn nguồn gốc, sai vùng, sai chất lượng, khó chứng minh tọa độ nông hộ, thiếu hồ sơ canh tác. & Phù hợp cho MVP thứ hai, nhất là vùng Tây Nguyên. \\
+\addlinespace
+Xoài, thanh long, chuối, vải, nhãn & Có nhu cầu xuất khẩu, có đóng gói và truy xuất theo lô; có thể dùng QR cho người mua. & Sai mã vùng trồng, sai ngày thu hoạch, sai quy trình xử lý sau thu hoạch, trộn lô. & Phù hợp sau khi hệ thống ổn định với sầu riêng. \\
+\addlinespace
+Hồ tiêu, điều & Chuỗi thu mua phân tán, có rủi ro trộn nguồn; có thể cần chứng nhận bền vững. & Thiếu định danh lô, thiếu chứng nhận, khó xác minh nguồn gốc hộ nhỏ. & Nên để giai đoạn 2--3. \\
+\bottomrule
+\end{longtable}
+
+\subsection{MVP nên chọn crop nào?}
+
+Khuyến nghị chọn \textbf{sầu riêng} cho MVP đầu tiên. Lý do:
+
+\begin{itemize}[leftmargin=2em]
+    \item Có giá trị cao nên động cơ gian lận rõ.
+    \item Có bài toán mạo danh mã vùng trồng rất dễ giải thích.
+    \item Quy trình harvest--collector--packing house--exporter đủ phức tạp để chứng minh giá trị của BATS.
+    \item Có thể demo bằng dữ liệu thực địa tại một xã/huyện, không cần phạm vi quốc gia.
+\end{itemize}
+
+Cà phê nên là hướng mở rộng quan trọng vì EU Deforestation Regulation yêu cầu operator/trader chứng minh sản phẩm thuộc các nhóm hàng như coffee, cattle, wood, cocoa, soy, palm oil và rubber không góp phần vào phá rừng hoặc suy thoái rừng; thời điểm áp dụng được EU công bố theo nhóm doanh nghiệp lớn/vừa và nhóm nhỏ/micro \cite{eu_eudr}. Vì vậy, BATS cho cà phê cần thêm dữ liệu polygon lô đất, tọa độ nông hộ, lịch sử canh tác, và liên kết với hồ sơ due diligence.
+
+\section{Kiến trúc sản phẩm đề xuất}
+
+\subsection{Nguyên tắc kiến trúc}
+
+\begin{tcolorbox}[colback=blue!3!white,colframe=blue!40!black,title=Nguyên tắc thiết kế]
+BATS phải là hệ thống \textbf{data-first, compliance-first, blockchain-assisted}. Dữ liệu truy xuất phải có chuẩn, có ngữ cảnh nghiệp vụ, có bằng chứng thực địa, có kiểm tra bất thường. Blockchain chỉ lưu bằng chứng bất biến, không thay thế database nghiệp vụ.
+\end{tcolorbox}
+
+\subsection{Kiến trúc mức cao}
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{Client Layer:} Zalo Mini App cho nông dân/thương lái; Web Dashboard cho hợp tác xã, cơ sở đóng gói, exporter và admin.
+    \item \textbf{API Layer:} REST/GraphQL API, authentication, role-based access control, rate limit, audit log.
+    \item \textbf{Traceability Core:} event store theo chuẩn EPCIS/CBV; PostgreSQL + PostGIS để xử lý geofence, polygon vùng trồng, tọa độ lô.
+    \item \textbf{Validation Engine:} rule-based validation, risk scoring, anomaly detection phiên bản đơn giản.
+    \item \textbf{Evidence Store:} object storage mã hóa để lưu ảnh, phiếu cân, giấy chứng nhận, COA, VietGAP/GlobalG.A.P., HACCP nếu có.
+    \item \textbf{Blockchain Anchor Layer:} ghi hash/Merkle root của event batch, document hash, timestamp, schema version và chữ ký hệ thống.
+    \item \textbf{Public Verification Layer:} QR/GS1 Digital Link dẫn tới trang kiểm tra nguồn gốc cho người mua, nhà nhập khẩu hoặc auditor.
+\end{enumerate}
+
+\subsection{Chuẩn dữ liệu bắt buộc}
+
+\subsubsection{GS1 EPCIS/CBV}
+
+GS1 EPCIS 2.0 là chuẩn tạo và chia sẻ visibility event data trong và giữa các doanh nghiệp \cite{gs1_epcis}. EPCIS 2.0 bổ sung JSON/JSON-LD, REST binding, AssociationEvent, chiều ``How'', sensor data và certificationInfo \cite{gs1_epcis}. BATS nên dùng EPCIS làm lõi dữ liệu thay vì tự nghĩ schema đóng.
+
+BATS nên biểu diễn chuỗi nông sản bằng các event sau:
+
+\begin{longtable}{p{4cm}p{5cm}p{5cm}}
+\toprule
+\textbf{EPCIS event} & \textbf{Áp dụng trong BATS} & \textbf{Ví dụ} \\
+\midrule
+\endhead
+ObjectEvent & Ghi nhận trạng thái của một lô nông sản tại một điểm/thời điểm. & Tạo lô sầu riêng 2 tấn tại vùng trồng A. \\
+\addlinespace
+AggregationEvent & Gộp nhiều đơn vị/lô nhỏ thành một lô lớn hoặc container. & Gom 20 lô từ các hộ trong hợp tác xã thành một batch xuất khẩu. \\
+\addlinespace
+TransformationEvent & Biến đổi đầu vào thành đầu ra. & Cà phê quả tươi chuyển thành cà phê nhân; sầu riêng sơ chế/đóng gói. \\
+\addlinespace
+TransactionEvent / AssociationEvent & Liên kết event với hợp đồng, đơn hàng, chứng nhận, container, shipment. & Gắn lô với packing list, invoice, COA, tờ khai xuất khẩu. \\
+\bottomrule
+\end{longtable}
+
+\subsubsection{GS1 Digital Link}
+
+GS1 Digital Link cho phép mã hóa các định danh GS1 thành URL web-addressable, có thể nhúng trong QR code và dẫn người dùng/hệ thống đến tài nguyên số liên quan \cite{gs1_digital_link}. BATS nên dùng Digital Link thay vì QR tùy biến không chuẩn.
+
+Ví dụ URL khuyến nghị:
+
+\begin{lstlisting}[basicstyle=\ttfamily\small,breaklines=true]
+https://id.bats.vn/01/{GTIN}/10/{LOT}/21/{SERIAL}?lang=vi
+\end{lstlisting}
+
+Trong đó:
+\begin{itemize}[leftmargin=2em]
+    \item \texttt{01}: GTIN/SKU nếu sản phẩm đóng gói có định danh.
+    \item \texttt{10}: batch/lot number.
+    \item \texttt{21}: serial hoặc định danh đơn vị nếu cần.
+    \item Trang đích có thể hiển thị khác nhau theo vai trò: consumer, exporter, auditor, regulator.
+\end{itemize}
+
+\section{Lựa chọn blockchain: chọn một đường, không trộn lẫn}
+
+\subsection{Vấn đề của đề cương hiện tại}
+
+Đề cương đang nêu Hyperledger Fabric hoặc Enterprise Ethereum/Quorum, đồng thời dùng ERC-4337, EntryPoint, Bundler, Paymaster và ERC-721. Đây là điểm cần chỉnh vì ERC-4337 là cơ chế account abstraction của hệ sinh thái EVM: người dùng gửi \texttt{UserOperation}, Bundler kiểm tra và gom operation, EntryPoint xử lý, Paymaster có thể tài trợ phí gas \cite{eip4337}. Hyperledger Fabric lại là permissioned blockchain với MSP, channel, chaincode và identity riêng; Fabric không dùng ERC-4337 theo nghĩa native.
+
+\subsection{Khuyến nghị kiến trúc cho MVP}
+
+\begin{tcolorbox}[colback=green!3!white,colframe=green!35!black,title=Khuyến nghị cho sinh viên]
+Đối với MVP, \textbf{không cần blockchain phức tạp}. Hãy làm hệ thống truy xuất và validation chạy tốt trước. Blockchain anchor chỉ cần là một module độc lập có thể bật/tắt.
+\end{tcolorbox}
+
+MVP nên dùng một trong hai hướng:
+
+\begin{longtable}{p{3cm}p{5.4cm}p{5.4cm}}
+\toprule
+\textbf{Hướng} & \textbf{Khi nào chọn} & \textbf{Ghi chú triển khai} \\
+\midrule
+\endhead
+Fabric-first & Hướng B2G/B2B production, cơ quan quản lý và doanh nghiệp cùng vận hành node; yêu cầu quyền riêng tư và permission rõ. & Dùng MSP, channel, chaincode. Không dùng ERC-4337/NFT. Fabric là nền tảng permissioned, private, có MSP và channel để kiểm soát thành viên/quyền truy cập \cite{fabric_intro,fabric_msp}. \\
+\addlinespace
+EVM-first & Dự án demo Web3/account abstraction, muốn dùng smart account, Paymaster, ERC-721/1155. & Dùng Hyperledger Besu/Quorum hoặc một EVM testnet/private network. Khi dùng ERC-4337 phải có Bundler/Paymaster/EntryPoint đúng chuẩn. \\
+\addlinespace
+Anchor-first & Khuyến nghị cho MVP: backend lưu dữ liệu chuẩn, blockchain chỉ ghi Merkle root/hash. & Dễ làm, ít rủi ro, phù hợp dự án sinh viên. Có thể đổi Fabric/EVM về sau mà không phá dữ liệu lõi. \\
+\bottomrule
+\end{longtable}
+
+\subsection{Không nên NFT hóa mọi lô hàng trong MVP}
+
+Đề cương đề xuất mint ERC-721 cho từng lô nông sản. Cách này có giá trị demo nhưng dễ sai bản chất nghiệp vụ:
+
+\begin{itemize}[leftmargin=2em]
+    \item NFT ownership không đồng nghĩa quyền sở hữu vật lý.
+    \item Nông sản thường bị chia nhỏ, trộn, sơ chế, đóng gói lại; một NFT đơn lẻ không biểu diễn tốt transformation/aggregation.
+    \item Hệ thống truy xuất cần event model trước, token model sau.
+\end{itemize}
+
+Khuyến nghị: dùng \textbf{Batch ID + EPCIS event + Merkle proof}. Nếu cần token hóa ở giai đoạn sau, nên cân nhắc ERC-1155 hoặc SBT/batch certificate, không phải mặc định ERC-721 cho mọi lô.
+
+\section{MVP đề xuất: BATS-Sầu riêng}
+
+\subsection{Mục tiêu MVP}
+
+MVP không nhằm chứng minh ``hệ thống quốc gia''. MVP phải chứng minh một chuỗi hẹp nhưng thật:
+
+\begin{quote}
+\textbf{Một vùng trồng sầu riêng được cấp mã, một nhóm hộ nông dân, một thương lái hoặc hợp tác xã, một cơ sở đóng gói, một doanh nghiệp xuất khẩu, một lô hàng có QR truy xuất và bằng chứng hash bất biến.}
+\end{quote}
+
+\subsection{Chỉ tiêu thành công}
+
+\begin{longtable}{p{5cm}p{8.5cm}}
+\toprule
+\textbf{Nhóm chỉ tiêu} & \textbf{Định nghĩa đo lường} \\
+\midrule
+\endhead
+Adoption & Nông dân tạo được lô thu hoạch trong dưới 60 giây sau khi đã onboard. \\
+\addlinespace
+Data completeness & Ít nhất 95\% lô có đủ: hộ, mã vùng, GPS, thời gian, crop, giống, sản lượng, ảnh, người xác nhận. \\
+\addlinespace
+Validation & Hệ thống phát hiện và cảnh báo các case: GPS ngoài vùng, sản lượng vượt ngưỡng, trùng batch, chuyển giao sai trình tự. \\
+\addlinespace
+Traceability & Từ QR có thể xem toàn bộ hành trình: thu hoạch, bàn giao, cân, đóng gói, kiểm định, xuất kho. \\
+\addlinespace
+Auditability & Mỗi event có event hash; mỗi ngày có Merkle root hoặc batch hash được anchor. \\
+\addlinespace
+Performance & Trang QR public tải dưới 2 giây với dữ liệu cache/CDN; không query blockchain trực tiếp cho mỗi lượt quét. \\
+\addlinespace
+Production readiness & Có phân quyền, audit log, backup, monitoring, export dữ liệu, tài liệu vận hành. \\
+\bottomrule
+\end{longtable}
+
+\subsection{Luồng nghiệp vụ MVP}
+
+\subsubsection{Luồng 1: Đăng ký hộ và vùng trồng}
+
+\begin{enumerate}[leftmargin=2em]
+    \item Admin tạo vùng trồng: mã vùng, polygon GPS, diện tích, cây trồng, xã/huyện/tỉnh, giấy tờ liên quan.
+    \item Hợp tác xã thêm hộ nông dân vào vùng: tên, số điện thoại, mã hộ, diện tích, sản lượng dự kiến theo mùa.
+    \item Hệ thống sinh Farmer ID và gán quyền dùng Mini App.
+    \item Nông dân đăng nhập qua Zalo/OTP; xác nhận đồng ý xử lý dữ liệu cá nhân.
+\end{enumerate}
+
+\subsubsection{Luồng 2: Tạo lô thu hoạch}
+
+\begin{enumerate}[leftmargin=2em]
+    \item Nông dân mở Zalo Mini App, chọn \textbf{Thu hoạch mới}.
+    \item App lấy GPS hiện tại và kiểm tra có nằm trong polygon vùng trồng hay không.
+    \item Nông dân nhập khối lượng, giống, số lượng trái/thùng, ngày thu hoạch.
+    \item App yêu cầu chụp ảnh thực địa hoặc ảnh phiếu cân tạm.
+    \item Backend chạy validation: geofence, sản lượng/diện tích, thời gian, trùng lô.
+    \item Nếu hợp lệ, hệ thống tạo Batch ID và EPCIS ObjectEvent trạng thái \texttt{harvested}.
+\end{enumerate}
+
+\subsubsection{Luồng 3: Bàn giao cho thương lái/hợp tác xã}
+
+\begin{enumerate}[leftmargin=2em]
+    \item Thương lái quét QR động của lô.
+    \item Hệ thống kiểm tra vai trò người nhận, vị trí, thời gian, và batch status.
+    \item Cân thực tế được nhập vào; nếu lệch quá ngưỡng, hệ thống chuyển sang trạng thái \textbf{cần xác minh}.
+    \item Nông dân xác nhận bàn giao bằng OTP/passkey/biometric nếu môi trường Zalo hỗ trợ ổn định.
+    \item Hệ thống tạo EPCIS event chuyển giao.
+\end{enumerate}
+
+\subsubsection{Luồng 4: Cơ sở đóng gói}
+
+\begin{enumerate}[leftmargin=2em]
+    \item Packing house nhận nhiều batch từ thương lái/hợp tác xã.
+    \item Kiểm tra chất lượng, phân loại, loại bỏ hàng không đạt.
+    \item Gộp batch thành pallet/container bằng AggregationEvent.
+    \item Upload chứng từ: phiếu kiểm tra, chứng nhận, hình ảnh, packing list.
+    \item Xuất QR traceability cho lô xuất khẩu.
+\end{enumerate}
+
+\subsubsection{Luồng 5: Xuất khẩu và verification}
+
+\begin{enumerate}[leftmargin=2em]
+    \item Exporter tạo export dossier cho shipment.
+    \item Dossier gồm: thông tin vùng trồng, danh sách batch, packing house, chứng từ, event timeline, hash proof.
+    \item QR public dùng GS1 Digital Link hoặc URL chuẩn.
+    \item Auditor/importer có chế độ xem nâng cao: tải PDF/CSV/JSON, kiểm chứng hash.
+\end{enumerate}
+
+\section{Data model tối thiểu}
+
+\subsection{Các bảng dữ liệu chính}
+
+\begin{longtable}{p{4cm}p{9.5cm}}
+\toprule
+\textbf{Bảng} & \textbf{Trường chính} \\
+\midrule
+\endhead
+\texttt{farmers} & \texttt{id, name, phone, zalo\_id, cooperative\_id, status, consent\_version} \\
+\addlinespace
+\texttt{farm\_plots} & \texttt{id, farmer\_id, crop, variety, area\_ha, polygon, planting\_area\_code, province, district, commune} \\
+\addlinespace
+\texttt{actors} & \texttt{id, type, organization\_id, role, identity\_level, status} \\
+\addlinespace
+\texttt{batches} & \texttt{id, crop, variety, quantity\_kg, unit, status, current\_owner\_id, farm\_plot\_id, created\_at} \\
+\addlinespace
+\texttt{epcis\_events} & \texttt{id, event\_type, event\_time, action, biz\_step, disposition, read\_point, biz\_location, payload\_json, event\_hash} \\
+\addlinespace
+\texttt{evidence\_files} & \texttt{id, batch\_id, event\_id, file\_type, storage\_url, sha256, metadata, created\_by} \\
+\addlinespace
+\texttt{validation\_results} & \texttt{id, event\_id, rule\_code, severity, result, message, risk\_score} \\
+\addlinespace
+\texttt{anchors} & \texttt{id, anchor\_date, merkle\_root, chain\_tx\_id, chain\_type, schema\_version} \\
+\addlinespace
+\texttt{audit\_logs} & \texttt{id, actor\_id, action, target\_type, target\_id, ip, device, created\_at} \\
+\bottomrule
+\end{longtable}
+
+\subsection{Event JSON ví dụ}
+
+\begin{lstlisting}[basicstyle=\ttfamily\small,breaklines=true]
+{
+  "eventType": "ObjectEvent",
+  "eventTime": "2026-07-01T08:30:00+07:00",
+  "action": "ADD",
+  "bizStep": "harvesting",
+  "disposition": "active",
+  "readPoint": {
+    "id": "geo:12.6789,108.1234"
+  },
+  "bizLocation": {
+    "id": "urn:bats:plot:DLK-BH-SR-0001"
+  },
+  "objects": [
+    "urn:bats:batch:SR-20260701-000001"
+  ],
+  "ilmd": {
+    "crop": "durian",
+    "variety": "Ri6",
+    "quantityKg": 1250,
+    "plantingAreaCode": "VN-DLK-PA-0001",
+    "farmerId": "FARMER-0001"
+  },
+  "evidence": [
+    {
+      "type": "photo",
+      "sha256": "...",
+      "storageRef": "s3://bats-evidence/..."
+    }
+  ]
+}
+\end{lstlisting}
+
+\section{Validation Engine v1}
+
+\subsection{Không dùng AI sớm}
+
+Ở MVP, chưa cần GNN, LLM, fuzzy fraud detector hoặc token slashing. Sinh viên nên làm rule engine rõ ràng, giải thích được, kiểm thử được. AI chỉ nên xuất hiện khi có dữ liệu thực địa đủ lớn và có ground truth.
+
+\subsection{Bộ rule tối thiểu}
+
+\begin{longtable}{p{3.5cm}p{5.5cm}p{4.5cm}}
+\toprule
+\textbf{Rule} & \textbf{Logic} & \textbf{Kết quả} \\
+\midrule
+\endhead
+Geofence & GPS thu hoạch phải nằm trong polygon vùng trồng đã đăng ký. & Ngoài vùng: chặn hoặc yêu cầu xác minh. \\
+\addlinespace
+Yield threshold & Sản lượng khai báo không vượt ngưỡng kg/ha/mùa theo crop và lịch sử. & Vượt ngưỡng: gắn risk cao. \\
+\addlinespace
+Duplicate batch & Batch ID, ảnh, phiếu cân, thời gian không được trùng bất thường. & Trùng: chặn tạo lô. \\
+\addlinespace
+Time plausibility & Không thể tạo quá nhiều lô trong thời gian quá ngắn. & Cảnh báo spam/gian lận. \\
+\addlinespace
+Role separation & Người tạo, người xác nhận và người duyệt không nên là cùng một actor trong các bước nhạy cảm. & Nếu cùng actor: cần supervisor approval. \\
+\addlinespace
+Transfer sequence & Batch phải đi đúng trạng thái: harvested $\rightarrow$ collected $\rightarrow$ packed $\rightarrow$ shipped. & Sai trình tự: chặn. \\
+\addlinespace
+Weight discrepancy & Khối lượng bàn giao và khối lượng cân thực tế không lệch quá ngưỡng. & Lệch lớn: chuyển trạng thái cần xác minh. \\
+\addlinespace
+Device anomaly & Một thiết bị không nên thao tác cho quá nhiều hộ ở vị trí xa nhau. & Cảnh báo tài khoản/thương lái bất thường. \\
+\bottomrule
+\end{longtable}
+
+\subsection{Risk score v1}
+
+Công thức đơn giản:
+
+\[
+RiskScore = w_1G + w_2Y + w_3D + w_4T + w_5R + w_6W + w_7A
+\]
+
+Trong đó:
+\begin{itemize}[leftmargin=2em]
+    \item $G$: geofence violation;
+    \item $Y$: yield anomaly;
+    \item $D$: duplicate evidence/batch;
+    \item $T$: abnormal time pattern;
+    \item $R$: role conflict;
+    \item $W$: weight discrepancy;
+    \item $A$: actor/device anomaly.
+\end{itemize}
+
+Phân loại:
+\begin{itemize}[leftmargin=2em]
+    \item 0--30: xanh, tự động ghi nhận.
+    \item 31--70: vàng, yêu cầu xác minh thêm.
+    \item 71--100: đỏ, chặn hoặc chuyển supervisor/auditor.
+\end{itemize}
+
+\section{UX cho Zalo Mini App}
+
+\subsection{Nguyên tắc UX}
+
+\begin{itemize}[leftmargin=2em]
+    \item Một màn hình chỉ làm một việc.
+    \item Không dùng thuật ngữ blockchain, ví, gas, NFT với nông dân.
+    \item Nút chính phải lớn, ít chữ, dễ bấm ngoài vườn.
+    \item Hỗ trợ offline-first: mất mạng vẫn lưu nháp và sync sau.
+    \item Có icon và giọng địa phương nếu triển khai sâu.
+    \item Có chế độ nhập nhanh cho hợp tác xã/thương lái khi làm thay nông dân, nhưng phải ghi rõ actor nào nhập thay.
+\end{itemize}
+
+\subsection{Màn hình MVP}
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{Trang chủ:} Thu hoạch mới, Lô của tôi, Chờ xác nhận, Hỗ trợ.
+    \item \textbf{Thu hoạch mới:} cây trồng, giống, khối lượng, ảnh, vị trí.
+    \item \textbf{Chi tiết lô:} trạng thái, QR, timeline, cảnh báo.
+    \item \textbf{Xác nhận bàn giao:} thông tin người nhận, khối lượng, nút đồng ý.
+    \item \textbf{Lỗi/cảnh báo:} giải thích bằng ngôn ngữ đơn giản: ``Bạn đang ngoài vùng trồng đã đăng ký'' thay vì ``geofence violation''.
+\end{enumerate}
+
+\subsection{Lưu ý bảo mật Mini App}
+
+Mini app có lợi thế không cần cài đặt nhưng cũng có rủi ro bảo mật riêng. Các nghiên cứu về hệ sinh thái mini-app/super-app chỉ ra các vấn đề như lộ developer secret, permission/API ẩn, và không nhất quán giữa thực hành thu thập dữ liệu với privacy policy \cite{miniapp_secret,miniapp_privacy}. Vì vậy:
+
+\begin{itemize}[leftmargin=2em]
+    \item Không hard-code secret trong frontend Mini App.
+    \item Mọi hành động quan trọng phải xác thực ở server.
+    \item Không tin GPS client tuyệt đối; cần cross-check device, ảnh, thời gian và lịch sử.
+    \item Tối thiểu hóa dữ liệu cá nhân.
+    \item Có chính sách quyền riêng tư và consent rõ ràng.
+\end{itemize}
+
+\section{Kế hoạch thực hiện MVP chi tiết}
+
+\subsection{Pha 0: Chốt phạm vi và yêu cầu thực địa (tuần 1--2)}
+
+\textbf{Mục tiêu:} hiểu quy trình thật, không thiết kế từ phòng lab.
+
+\begin{enumerate}[leftmargin=2em]
+    \item Chọn một crop: sầu riêng.
+    \item Chọn một địa bàn thử nghiệm: một hợp tác xã hoặc nhóm 10--30 hộ.
+    \item Phỏng vấn ít nhất 5 nhóm actor: nông dân, thương lái, hợp tác xã, cơ sở đóng gói, exporter.
+    \item Thu thập mẫu chứng từ: mã vùng trồng, phiếu cân, phiếu giao nhận, chứng nhận, packing list.
+    \item Vẽ quy trình AS-IS và TO-BE.
+    \item Chốt danh sách event tối thiểu.
+\end{enumerate}
+
+\textbf{Deliverables:}
+\begin{itemize}[leftmargin=2em]
+    \item Business process map.
+    \item Data dictionary v0.1.
+    \item Risk register v0.1.
+    \item Danh sách use case MVP.
+\end{itemize}
+
+\subsection{Pha 1: Thiết kế dữ liệu và prototype UX (tuần 3--4)}
+
+\begin{enumerate}[leftmargin=2em]
+    \item Thiết kế schema PostgreSQL/PostGIS.
+    \item Thiết kế EPCIS event mapping.
+    \item Thiết kế wireframe Zalo Mini App.
+    \item Thiết kế Web Dashboard.
+    \item Thiết kế QR verification page.
+    \item Test UX với 3--5 người dùng thật.
+\end{enumerate}
+
+\textbf{Deliverables:}
+\begin{itemize}[leftmargin=2em]
+    \item Figma/wireframe.
+    \item ERD.
+    \item API contract v0.1.
+    \item EPCIS JSON examples.
+\end{itemize}
+
+\subsection{Pha 2: Xây dựng core backend và database (tuần 5--8)}
+
+\begin{enumerate}[leftmargin=2em]
+    \item Thiết lập backend: Node.js/NestJS hoặc Django/FastAPI.
+    \item Thiết lập PostgreSQL + PostGIS.
+    \item Tạo module actor/organization/role.
+    \item Tạo module farm plot/polygon.
+    \item Tạo module batch và event store.
+    \item Tạo evidence upload và SHA-256 hashing.
+    \item Tạo audit log cho mọi hành động quan trọng.
+\end{enumerate}
+
+\textbf{Deliverables:}
+\begin{itemize}[leftmargin=2em]
+    \item API chạy được với test data.
+    \item Database migration.
+    \item Unit test cho rule cơ bản.
+    \item Swagger/OpenAPI spec.
+\end{itemize}
+
+\subsection{Pha 3: Mini App và Dashboard (tuần 9--12)}
+
+\begin{enumerate}[leftmargin=2em]
+    \item Zalo Mini App: đăng nhập, tạo thu hoạch, xem lô, QR, xác nhận bàn giao.
+    \item Dashboard: quản lý vùng trồng, nông dân, lô hàng, cảnh báo, chứng từ.
+    \item Public QR page: timeline lô, nguồn gốc, chứng nhận, trạng thái xác minh.
+    \item Export dossier PDF/CSV/JSON.
+\end{enumerate}
+
+\textbf{Deliverables:}
+\begin{itemize}[leftmargin=2em]
+    \item MVP UI hoàn chỉnh.
+    \item Demo end-to-end.
+    \item Tài liệu hướng dẫn sử dụng cho nông dân và admin.
+\end{itemize}
+
+\subsection{Pha 4: Validation Engine và Blockchain Anchor (tuần 13--16)}
+
+\begin{enumerate}[leftmargin=2em]
+    \item Cài rule engine v1.
+    \item Tạo risk score và trạng thái xanh/vàng/đỏ.
+    \item Tạo Merkle tree cho các event trong ngày.
+    \item Anchor Merkle root lên blockchain testnet/private chain hoặc lưu vào append-only audit ledger nếu chưa triển khai chain.
+    \item Tạo trang verify hash.
+\end{enumerate}
+
+\textbf{Deliverables:}
+\begin{itemize}[leftmargin=2em]
+    \item Rule engine test suite.
+    \item Blockchain anchor module.
+    \item Verify proof API.
+    \item Demo sửa dữ liệu bị phát hiện hash mismatch.
+\end{itemize}
+
+\subsection{Pha 5: Pilot thực địa và đánh giá (tuần 17--22)}
+
+\begin{enumerate}[leftmargin=2em]
+    \item Onboard 10--30 hộ.
+    \item Ghi nhận ít nhất 50--100 lô thu hoạch giả lập hoặc thật.
+    \item Theo dõi thời gian tạo lô, lỗi nhập liệu, tỷ lệ thiếu dữ liệu.
+    \item Tạo một shipment mẫu end-to-end.
+    \item Thu feedback từ nông dân, hợp tác xã và doanh nghiệp.
+\end{enumerate}
+
+\textbf{Deliverables:}
+\begin{itemize}[leftmargin=2em]
+    \item Pilot report.
+    \item Metrics dashboard.
+    \item Danh sách lỗi production blocking.
+    \item Kế hoạch v1.0 production.
+\end{itemize}
+
+\section{Checklist hướng production}
+
+\subsection{Bảo mật và quyền riêng tư}
+
+Hệ thống xử lý thông tin hộ nông dân, số điện thoại, vị trí, ảnh và chứng từ. Ở Việt Nam, Nghị định 13/2023/NĐ-CP về bảo vệ dữ liệu cá nhân có hiệu lực từ ngày 01/07/2023 \cite{vn_decree_13}. BATS cần coi privacy là một yêu cầu production, không phải phần phụ.
+
+\begin{longtable}{p{5cm}p{8.5cm}}
+\toprule
+\textbf{Hạng mục} & \textbf{Yêu cầu production} \\
+\midrule
+\endhead
+Authentication & OTP/Zalo login chỉ là bước đầu; các hành động quan trọng cần xác nhận bổ sung. \\
+\addlinespace
+Authorization & RBAC/ABAC theo actor: farmer, collector, cooperative, packing house, exporter, inspector, admin. \\
+\addlinespace
+Audit log & Mọi thao tác tạo/sửa/chuyển giao/xóa mềm phải có actor, timestamp, IP/device, reason. \\
+\addlinespace
+Data minimization & Không thu dữ liệu cá nhân nếu không cần cho truy xuất. \\
+\addlinespace
+Consent & Có phiên bản điều khoản và privacy notice; lưu consent version, thời điểm đồng ý. \\
+\addlinespace
+Evidence security & Ảnh/chứng từ lưu object storage mã hóa; không public trực tiếp. \\
+\addlinespace
+Secret management & Không đặt API key, Zalo secret, blockchain key trong frontend hoặc repo. \\
+\addlinespace
+Backup & Backup database hằng ngày; test restore định kỳ. \\
+\bottomrule
+\end{longtable}
+
+\subsection{Hiệu năng và khả năng mở rộng}
+
+Tuyên bố ``85 triệu lượt quét/ngày'' không nên là mục tiêu MVP. Production nên thiết kế để mỗi lượt quét QR không gọi blockchain trực tiếp. Kiến trúc đúng:
+
+\begin{enumerate}[leftmargin=2em]
+    \item QR public page dùng CDN/cache.
+    \item Dữ liệu public được build thành read model riêng.
+    \item Blockchain proof chỉ kiểm tra khi auditor yêu cầu.
+    \item Event ingestion dùng queue để tránh nghẽn khi nhiều hộ upload cùng lúc.
+    \item Media upload dùng pre-signed URL.
+\end{enumerate}
+
+\subsection{Quan sát hệ thống}
+
+\begin{itemize}[leftmargin=2em]
+    \item Log tập trung: API log, audit log, error log.
+    \item Metrics: request latency, error rate, upload failure, validation rejection rate.
+    \item Alerts: database down, queue backlog, QR page latency, blockchain anchor failure.
+    \item Dashboard vận hành: số lô/ngày, số cảnh báo, số event chưa anchor, số proof fail.
+\end{itemize}
+
+\section{Lộ trình phát triển sau MVP}
+
+\subsection{Giai đoạn 1: MVP sầu riêng địa phương}
+
+\begin{itemize}[leftmargin=2em]
+    \item Một huyện/xã.
+    \item Một hợp tác xã hoặc nhóm hộ.
+    \item Một cơ sở đóng gói.
+    \item Rule engine cơ bản.
+    \item Blockchain anchor đơn giản.
+\end{itemize}
+
+\subsection{Giai đoạn 2: Multi-crop và compliance pack}
+
+\begin{itemize}[leftmargin=2em]
+    \item Thêm cà phê, xoài/thanh long/chuối.
+    \item Thêm module polygon và due diligence cho cà phê/EUDR.
+    \item Thêm export dossier theo từng thị trường: Trung Quốc, EU, Hàn Quốc, Mỹ.
+    \item Thêm API tích hợp ERP/packing house.
+\end{itemize}
+
+\subsection{Giai đoạn 3: Permissioned consortium network}
+
+\begin{itemize}[leftmargin=2em]
+    \item Nếu có đối tác nhà nước/doanh nghiệp: chuyển anchor layer sang Fabric hoặc Besu consortium.
+    \item Node có thể do sở/ngành, hiệp hội, doanh nghiệp xuất khẩu, tổ chức kiểm định vận hành.
+    \item Thiết lập governance: ai cấp quyền, ai revoke, ai audit, ai trả phí vận hành.
+\end{itemize}
+
+\subsection{Giai đoạn 4: Advanced analytics}
+
+\begin{itemize}[leftmargin=2em]
+    \item Graph analytics phát hiện nhóm thông đồng.
+    \item ML anomaly detection khi có dữ liệu ground truth.
+    \item Satellite/remote sensing cho cà phê hoặc cây trồng có yêu cầu deforestation-free.
+    \item Risk-based inspection cho cơ quan quản lý.
+\end{itemize}
+
+\section{Phân công nhóm sinh viên}
+
+\begin{longtable}{p{4cm}p{5cm}p{4.5cm}}
+\toprule
+\textbf{Vai trò} & \textbf{Nhiệm vụ} & \textbf{Output} \\
+\midrule
+\endhead
+Product/BA Lead & Khảo sát nghiệp vụ, viết use case, quản lý backlog. & PRD, process map, test scenarios. \\
+\addlinespace
+Backend Lead & API, DB, event store, validation engine. & API, migrations, tests, docs. \\
+\addlinespace
+Frontend/Mini App Lead & Zalo Mini App, dashboard, QR page. & UI, UX flow, frontend tests. \\
+\addlinespace
+Blockchain/Infra Lead & Anchor module, Merkle proof, deployment, CI/CD. & Smart contract/chaincode hoặc anchor service, deployment scripts. \\
+\addlinespace
+Security/QA Lead & Threat model, test plan, privacy checklist, audit log review. & Security checklist, bug report, test report. \\
+\bottomrule
+\end{longtable}
+
+\section{Backlog MVP đề xuất}
+
+\subsection{Must-have}
+
+\begin{itemize}[leftmargin=2em]
+    \item Đăng nhập và phân quyền actor.
+    \item Quản lý vùng trồng bằng polygon.
+    \item Quản lý hộ nông dân.
+    \item Tạo lô thu hoạch.
+    \item Bàn giao lô.
+    \item Cơ sở đóng gói nhận và gộp lô.
+    \item QR traceability page.
+    \item Upload evidence và hash file.
+    \item Rule engine v1.
+    \item Audit log.
+    \item Export dossier PDF/CSV/JSON.
+    \item Blockchain anchor hoặc append-only hash ledger.
+\end{itemize}
+
+\subsection{Should-have}
+
+\begin{itemize}[leftmargin=2em]
+    \item Offline queue cho Mini App.
+    \item Dashboard cảnh báo rủi ro.
+    \item Multi-language cho QR page: Việt/Anh/Trung.
+    \item Data import từ Excel cho danh sách hộ/vùng.
+    \item API tích hợp cân điện tử hoặc ERP.
+\end{itemize}
+
+\subsection{Could-have}
+
+\begin{itemize}[leftmargin=2em]
+    \item Passkey/WebAuthn nếu Zalo runtime hỗ trợ ổn định. WebAuthn là chuẩn xác thực public-key cho web app, nhưng cần kiểm chứng kỹ trên WebView/Mini App vì credential bị ràng buộc theo origin/relying party \cite{webauthn}.
+    \item ERC-4337 Paymaster demo.
+    \item NFT certificate.
+    \item Graph analytics phát hiện thông đồng.
+    \item AI hỗ trợ OCR chứng từ.
+\end{itemize}
+
+\subsection{Won't-have trong MVP}
+
+\begin{itemize}[leftmargin=2em]
+    \item Hệ thống quốc gia thật.
+    \item Token/slashing kinh tế.
+    \item GNN/LLM security pipeline.
+    \item 85 triệu scan/ngày.
+    \item Multi-chain production.
+    \item Tích hợp toàn bộ cơ quan quản lý.
+\end{itemize}
+
+\section{Rủi ro và cách giảm thiểu}
+
+\begin{longtable}{p{4cm}p{5cm}p{4.5cm}}
+\toprule
+\textbf{Rủi ro} & \textbf{Tác động} & \textbf{Giảm thiểu} \\
+\midrule
+\endhead
+Dữ liệu đầu vào vẫn sai & Blockchain ghi đúng hash của dữ liệu sai. & Rule engine, maker-checker, evidence, audit ngẫu nhiên. \\
+\addlinespace
+Nông dân không dùng app & MVP thất bại adoption. & UX 3 bước, hỗ trợ nhập thay có kiểm soát, training dưới 10 phút. \\
+\addlinespace
+GPS bị giả mạo & Mạo danh vùng trồng. & Cross-check thiết bị, ảnh, thời gian, pattern, supervisor approval. \\
+\addlinespace
+Dữ liệu riêng tư bị lộ & Mất niềm tin và rủi ro pháp lý. & Mã hóa, phân quyền, không public chứng từ nhạy cảm. \\
+\addlinespace
+Trộn lô không khai báo & Traceability đứt đoạn. & AggregationEvent bắt buộc ở packing house, kiểm tra cân và batch input/output. \\
+\addlinespace
+Blockchain quá phức tạp & Chậm tiến độ. & Anchor-first, blockchain module tách rời. \\
+\addlinespace
+Không có đối tác thực địa & Dự án chỉ là demo giả lập. & Chốt pilot với hợp tác xã/doanh nghiệp từ tuần 1. \\
+\bottomrule
+\end{longtable}
+
+\section{Tiêu chí đánh giá cuối kỳ}
+
+\begin{longtable}{p{4cm}p{7cm}p{2.5cm}}
+\toprule
+\textbf{Tiêu chí} & \textbf{Mô tả} & \textbf{Trọng số} \\
+\midrule
+\endhead
+Problem fit & Chứng minh hiểu đúng chuỗi cung ứng và pain point nông nghiệp Việt Nam. & 15\% \\
+\addlinespace
+Data standard & Có mapping EPCIS/GS1 rõ ràng, không schema tùy tiện. & 15\% \\
+\addlinespace
+MVP completeness & Luồng end-to-end chạy được từ thu hoạch đến QR verification. & 25\% \\
+\addlinespace
+Validation quality & Rule engine phát hiện được case gian lận/sai lệch mô phỏng. & 15\% \\
+\addlinespace
+Production readiness & Có phân quyền, audit log, backup, monitoring, security checklist. & 15\% \\
+\addlinespace
+Pilot evidence & Có test với người dùng hoặc dữ liệu thực địa. & 10\% \\
+\addlinespace
+Presentation & Pitch rõ, không lạm dụng buzzword, demo ổn định. & 5\% \\
+\bottomrule
+\end{longtable}
+
+\section{Kết luận hướng dẫn}
+
+BATS là một ý tưởng có tiềm năng nếu được chỉnh từ hướng ``blockchain quốc gia'' sang hướng ``nền tảng truy xuất nguồn gốc nông sản theo chuẩn, có xác thực dữ liệu đầu vào và có bằng chứng bất biến''. Với dự án sinh viên, mục tiêu không phải xây dựng hệ thống toàn quốc ngay, mà là chứng minh một MVP nhỏ nhưng đúng nghiệp vụ, có dữ liệu thật, có validation, có QR verification và có lộ trình production.
+
+Khuyến nghị cuối cùng:
+
+\begin{enumerate}[leftmargin=2em]
+    \item MVP đầu tiên: sầu riêng, một vùng trồng, một packing house, một exporter.
+    \item Kiến trúc: data-first, EPCIS-first, anchor-first.
+    \item Blockchain: module bằng chứng, không phải trung tâm nghiệp vụ.
+    \item UX: Zalo Mini App đơn giản, không để nông dân chạm vào Web3.
+    \item Production: bảo mật, quyền riêng tư, audit log và compliance phải có từ đầu.
+    \item Sau MVP: mở rộng sang cà phê với EUDR/geolocation và các cây ăn trái xuất khẩu.
+\end{enumerate}
+
+\newpage
+\begin{thebibliography}{99}
+
+\bibitem{gs1_epcis}
+GS1. \textit{EPCIS Standard Release 2.0}. Ratified June 2022. Available: \url{https://ref.gs1.org/standards/epcis/}
+
+\bibitem{gs1_cbv}
+GS1. \textit{Core Business Vocabulary Standard Release 2.0}. Available: \url{https://ref.gs1.org/standards/cbv/}
+
+\bibitem{gs1_digital_link}
+GS1. \textit{GS1 Digital Link Standard}. Available: \url{https://ref.gs1.org/standards/digital-link/}
+
+\bibitem{eip4337}
+Ethereum Improvement Proposals. \textit{ERC-4337: Account Abstraction Using Alt Mempool}. Available: \url{https://eips.ethereum.org/EIPS/eip-4337}
+
+\bibitem{fabric_intro}
+Hyperledger Fabric Documentation. \textit{Introduction}. Available: \url{https://hyperledger-fabric.readthedocs.io/en/latest/blockchain.html}
+
+\bibitem{fabric_msp}
+Hyperledger Fabric Documentation. \textit{Membership Service Provider}. Available: \url{https://hyperledger-fabric.readthedocs.io/en/latest/membership/membership.html}
+
+\bibitem{ipfs}
+IPFS Documentation. \textit{What is IPFS?}. Available: \url{https://docs.ipfs.tech/concepts/what-is-ipfs/}
+
+\bibitem{eu_eudr}
+European Commission. \textit{Regulation on Deforestation-free Products}. Available: \url{https://environment.ec.europa.eu/topics/forests/deforestation/regulation-deforestation-free-products_en}
+
+\bibitem{webauthn}
+W3C. \textit{Web Authentication: An API for accessing Public Key Credentials}. Available: \url{https://www.w3.org/TR/webauthn-3/}
+
+\bibitem{vn_decree_13}
+Chính phủ Việt Nam. \textit{Nghị định số 13/2023/NĐ-CP: Bảo vệ dữ liệu cá nhân}. Available: \url{https://vanban.chinhphu.vn/?docid=207759&pageid=27160}
+
+\bibitem{miniapp_secret}
+Baskaran, S., Zhao, L., Mannan, M., and Youssef, A. \textit{Measuring the Leakage and Exploitability of Authentication Secrets in Super-apps: The WeChat Case}. arXiv:2307.09317, 2023.
+
+\bibitem{miniapp_privacy}
+Wang, Y. et al. \textit{Do as You Say: Consistency Detection of Data Practice in Program Code and Privacy Policy in Mini-App}. arXiv:2302.13860, 2023.
+
+\end{thebibliography}
+
+\end{document}

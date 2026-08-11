@@ -23,14 +23,17 @@ contract. In local experiments, Merkle-root generation for one million leaves
 required a median of 580.173 ms, while proof verification required 0.0156 ms
 with a 640-byte proof. Indexed spatial lookup over 100,000 synthetic polygons
 achieved a median of 0.050 ms in a single-client PostGIS benchmark. A seeded
-noisy synthetic validation dataset yielded precision 0.9589, recall 0.9722 and
-F1 0.9655. A local EVM benchmark measured 94,755 median gas for one daily root
+noisy synthetic validation dataset yielded precision 0.8974, recall 0.9722 and
+F1 0.9333, with a multi-layered ablation study confirming that combined spatial,
+agronomic, and duplicate rules systematically improve detection (F1 from 0.2415 to 0.9333).
+A local EVM benchmark measured 94,755 median gas for one daily root
 versus 126,554 gas per event for a full OpenZeppelin ERC-721 traceability baseline,
 supporting the empirical cost advantage of anchor-first commitment over per-event
-transactions under the stated baselines. Current k6 staging results reveal
-high error rates under heavy concurrency, and field usability data are not yet
-available. The results therefore support the computational feasibility of
-BATS, while leaving production load hardening, public-chain deployment and
+transactions under the stated baselines. Finally, simulated offline-first idempotency replays
+demonstrate 100% duplicate prevention across client network retry bursts.
+Current k6 staging results reveal high error rates under heavy concurrency, and field usability
+data are not yet available. The results therefore support the architectural and computational
+feasibility of BATS, while leaving production load hardening, public-chain deployment and
 smallholder usability as open evaluation steps.
 
 ## 1. Introduction
@@ -257,19 +260,19 @@ separate load tests.
 ### 5.3 Synthetic fraud evaluation and rule ablation study
 
 The seeded synthetic dataset contains 2,150 cases: 1,430 operationally valid
-cases and 720 injected fraud cases across all validation rules (`RULES = ["G", "Y", "D", "T", "R", "W", "A"]`). Across the entire dataset, the full 7-rule engine achieved precision 0.9589, recall 0.9722 and F1 0.9655 (`research/results/fraud-metrics.json`). The 20 false negatives model GPS spoofing that reports an in-geofence coordinate (`spoofedGpsInsidePolygon`), while the 30 false positives model legitimate degraded GPS conditions (`degradedGpsOperationallyValid`).
+cases and 720 injected fraud cases across all validation rules (`RULES = ["G", "Y", "D", "T", "R", "W", "A"]`). Across the entire dataset, the full 7-rule engine achieved precision 0.8974, recall 0.9722 and F1 0.9333 (`research/results/fraud-metrics.json`). The 20 false negatives model GPS spoofing that reports an in-geofence coordinate (`spoofedGpsInsidePolygon`), while the 80 false positives model legitimate operational noise across boundary GPS drift, edge-case yield entries, reused documents, bulk entry sessions, proxy actor submissions, moisture-loss weighing differences, and degraded GPS conditions.
 
 To evaluate the cumulative contribution and defensive depth of each validation layer, Table 3 presents an ablation study measuring classification performance as rule families are progressively enabled (`research/results/fraud-ablation.csv`).
 
 | Validation Configuration / Rules | True Positives (TP) | False Positives (FP) | Precision | Recall | F1 Score |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **1. Geofence only (`G`)** | 100 | 0 | 1.0000 | 0.1389 | 0.2439 |
-| **2. Geofence + Yield (`G, Y`)** | 200 | 0 | 1.0000 | 0.2778 | 0.4348 |
-| **3. G + Y + Duplicate (`G, Y, D`)** | 300 | 0 | 1.0000 | 0.4167 | 0.5882 |
-| **4. G + Y + D + Temporal / Role / Weight (`6-Rule`)** | 600 | 0 | 1.0000 | 0.8333 | 0.9091 |
-| **5. Full 7-Rule Engine (`+ Device Attestation A`)** | **700** | **30** | **0.9589** | **0.9722** | **0.9655** |
+| **1. Geofence only (`G`)** | 100 | 8 | 0.9259 | 0.1389 | 0.2415 |
+| **2. Geofence + Yield (`G, Y`)** | 200 | 18 | 0.9174 | 0.2778 | 0.4264 |
+| **3. G + Y + Duplicate (`G, Y, D`)** | 300 | 25 | 0.9231 | 0.4167 | 0.5742 |
+| **4. G + Y + D + Temporal / Role / Weight (`6-Rule`)** | 600 | 50 | 0.9231 | 0.8333 | 0.8759 |
+| **5. Full 7-Rule Engine (`+ Device Attestation A`)** | **700** | **80** | **0.8974** | **0.9722** | **0.9333** |
 
-The ablation progression demonstrates that spatial geofencing (`G`) alone captures exactly the spatial anomalies (`recall = 0.1389`) but misses temporal, identity, and duplicate evidence violations. Adding agronomic yield bounds (`Y`) and cryptographic evidence deduplication (`D`) systematically increases recall to `0.4167` without introducing false positives (`precision = 1.0000`). Enabling device attestation and accuracy warning rules (`A`) achieves near-complete recall (`0.9722`) while accepting an explicit operational false-positive tradeoff (`precision = 0.9589`) caused by legitimate poor GPS signals under orchard canopy.
+The ablation progression demonstrates that spatial geofencing (`G`) alone captures the injected spatial anomalies (`recall = 0.1389`) but also raises a small number of false positives from operational boundary GPS drift (`precision = 0.9259`). Adding agronomic yield bounds (`Y`) and cryptographic evidence deduplication (`D`) systematically increases recall to `0.4167` while preserving a realistic false-positive tradeoff. Enabling the full 7-rule engine achieves near-complete recall (`0.9722`) while lowering precision to `0.8974`, reflecting legitimate field conditions that rule-based validation should flag for review rather than treat as definitive fraud.
 
 ### 5.4 Gas benchmark
 
@@ -336,4 +339,3 @@ blockchain-assisted agricultural traceability (`RQ1–RQ3`). The current prototy
 EPCIS-aligned event modelling, server-side PostGIS spatial geofencing, multi-layered validation rule ablation, offline-first idempotency replay guarantees, evidence hashing and daily Merkle anchoring. Local benchmarks and simulations confirm the computational feasibility of Merkle verification (`O(log N)`), sub-millisecond geofence lookup across 100,000 plots, constant-size daily anchoring (`94,755 gas` saving `99.9%` vs ERC-721 per-event baselines), and 100% duplicate prevention under network retry bursts. The immediate next steps are large-scale longitudinal human field pilots (`SUS/TAM`), production k6 staging hardening, and public mainnet cost regime evaluations across multi-chain environments.
 to fix heavy-load k6 failures, deploy a public-chain anchor, complete Zalo
 device testing and run a field pilot with task-time and SUS measurements.
-

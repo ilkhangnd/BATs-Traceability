@@ -1,0 +1,63 @@
+\xpg@aux {}{vietnamese}
+\contentsline {section}{\numberline {1}Tóm tắt định hướng điều chỉnh}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Nhận xét tổng quan về đề cương BATS hiện tại}{3}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Định vị mới nên dùng}{3}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Phạm vi nông nghiệp Việt Nam và cây trồng ưu tiên}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Nguyên tắc chọn cây trồng cho MVP}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Thứ tự ưu tiên đề xuất}{4}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}MVP nên chọn crop nào?}{4}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Kiến trúc sản phẩm đề xuất}{4}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Nguyên tắc kiến trúc}{4}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Kiến trúc mức cao}{4}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Chuẩn dữ liệu bắt buộc}{5}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}GS1 EPCIS/CBV}{5}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}GS1 Digital Link}{5}{subsubsection.3.3.2}%
+\contentsline {section}{\numberline {4}Lựa chọn blockchain: chọn một đường, không trộn lẫn}{6}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Vấn đề của đề cương hiện tại}{6}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Khuyến nghị kiến trúc cho MVP}{6}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Không nên NFT hóa mọi lô hàng trong MVP}{6}{subsection.4.3}%
+\contentsline {section}{\numberline {5}MVP đề xuất: BATS-Sầu riêng}{6}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Mục tiêu MVP}{6}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Chỉ tiêu thành công}{6}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Luồng nghiệp vụ MVP}{7}{subsection.5.3}%
+\contentsline {subsubsection}{\numberline {5.3.1}Luồng 1: Đăng ký hộ và vùng trồng}{7}{subsubsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.2}Luồng 2: Tạo lô thu hoạch}{7}{subsubsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.3}Luồng 3: Bàn giao cho thương lái/hợp tác xã}{7}{subsubsection.5.3.3}%
+\contentsline {subsubsection}{\numberline {5.3.4}Luồng 4: Cơ sở đóng gói}{8}{subsubsection.5.3.4}%
+\contentsline {subsubsection}{\numberline {5.3.5}Luồng 5: Xuất khẩu và verification}{8}{subsubsection.5.3.5}%
+\contentsline {section}{\numberline {6}Data model tối thiểu}{8}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Các bảng dữ liệu chính}{8}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Event JSON ví dụ}{9}{subsection.6.2}%
+\contentsline {section}{\numberline {7}Validation Engine v1}{9}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Không dùng AI sớm}{9}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Bộ rule tối thiểu}{9}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Risk score v1}{10}{subsection.7.3}%
+\contentsline {section}{\numberline {8}UX cho Zalo Mini App}{10}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Nguyên tắc UX}{10}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Màn hình MVP}{11}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Lưu ý bảo mật Mini App}{11}{subsection.8.3}%
+\contentsline {section}{\numberline {9}Kế hoạch thực hiện MVP chi tiết}{11}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Pha 0: Chốt phạm vi và yêu cầu thực địa (tuần 1--2)}{11}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}Pha 1: Thiết kế dữ liệu và prototype UX (tuần 3--4)}{12}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}Pha 2: Xây dựng core backend và database (tuần 5--8)}{12}{subsection.9.3}%
+\contentsline {subsection}{\numberline {9.4}Pha 3: Mini App và Dashboard (tuần 9--12)}{13}{subsection.9.4}%
+\contentsline {subsection}{\numberline {9.5}Pha 4: Validation Engine và Blockchain Anchor (tuần 13--16)}{13}{subsection.9.5}%
+\contentsline {subsection}{\numberline {9.6}Pha 5: Pilot thực địa và đánh giá (tuần 17--22)}{13}{subsection.9.6}%
+\contentsline {section}{\numberline {10}Checklist hướng production}{14}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Bảo mật và quyền riêng tư}{14}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}Hiệu năng và khả năng mở rộng}{14}{subsection.10.2}%
+\contentsline {subsection}{\numberline {10.3}Quan sát hệ thống}{14}{subsection.10.3}%
+\contentsline {section}{\numberline {11}Lộ trình phát triển sau MVP}{14}{section.11}%
+\contentsline {subsection}{\numberline {11.1}Giai đoạn 1: MVP sầu riêng địa phương}{14}{subsection.11.1}%
+\contentsline {subsection}{\numberline {11.2}Giai đoạn 2: Multi-crop và compliance pack}{15}{subsection.11.2}%
+\contentsline {subsection}{\numberline {11.3}Giai đoạn 3: Permissioned consortium network}{15}{subsection.11.3}%
+\contentsline {subsection}{\numberline {11.4}Giai đoạn 4: Advanced analytics}{15}{subsection.11.4}%
+\contentsline {section}{\numberline {12}Phân công nhóm sinh viên}{15}{section.12}%
+\contentsline {section}{\numberline {13}Backlog MVP đề xuất}{15}{section.13}%
+\contentsline {subsection}{\numberline {13.1}Must-have}{15}{subsection.13.1}%
+\contentsline {subsection}{\numberline {13.2}Should-have}{16}{subsection.13.2}%
+\contentsline {subsection}{\numberline {13.3}Could-have}{16}{subsection.13.3}%
+\contentsline {subsection}{\numberline {13.4}Won't-have trong MVP}{16}{subsection.13.4}%
+\contentsline {section}{\numberline {14}Rủi ro và cách giảm thiểu}{16}{section.14}%
+\contentsline {section}{\numberline {15}Tiêu chí đánh giá cuối kỳ}{17}{section.15}%
+\contentsline {section}{\numberline {16}Kết luận hướng dẫn}{17}{section.16}%

@@ -1,5 +1,7 @@
 # BATS - Blockchain-assisted Agricultural Traceability System
 
+# BATs-Traceability
+
 Roadmap thống nhất cho cả sản phẩm và bài báo:
 [`ROADMAP_PROJECT_PAPER.md`](ROADMAP_PROJECT_PAPER.md).
 Tiến độ cập nhật theo ba luồng Mini App, Website/backend và Paper/NCKH:

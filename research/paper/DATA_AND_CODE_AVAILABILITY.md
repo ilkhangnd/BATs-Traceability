@@ -25,8 +25,9 @@ To guarantee 100% computational reproducibility without requiring external propr
 ### Summary of Archived Evaluation Datasets:
 1. **Merkle Scalability Benchmark (`merkle-benchmark.csv`)**: Raw latency measurements (median, p95) across 10 repeated runs for daily event volumes \(N \in \{10^3, 10^4, 10^5, 10^6\}\).
 2. **PostGIS Spatial Geofence Benchmark (`postgis-benchmark.csv`)**: Raw query latency and intersection match verification across \(M \in \{10^2, 10^3, 10^4, 10^5\}\) candidate polygons using GiST R-tree indexing.
-3. **Synthetic Fraud Evaluation Dataset (`fraud-dataset.csv`)**: 2,150 labeled synthetic agricultural event submissions (1,430 operationally valid cases and 720 injected boundary anomaly/fraud cases) establishing precision 0.9589, recall 0.9722, and F1 0.9655.
-4. **Local EVM Gas Comparison (`gas-benchmark.csv`)**: 30 Hardhat/Anvil local transaction gas measurements comparing BATS daily Merkle root commitments against direct per-event baseline logging and minimal batch-token baselines.
+3. **Synthetic Fraud Evaluation & Ablation (`fraud-dataset.csv`, `fraud-ablation.csv`)**: 2,150 labeled synthetic agricultural event submissions (1,430 operationally valid cases and 720 injected boundary anomaly/fraud cases) establishing precision 0.8974, recall 0.9722, and F1 0.9333 for the full 7-rule engine, plus an ablation study isolating the cumulative contribution of each rule family.
+4. **Idempotency Replay Simulation (`idempotency-simulation.csv`)**: Offline-first queue simulation measuring duplicate prevention guarantees (100% prevented) under network retry bursts and cross-session replays.
+5. **Local EVM Gas Comparison (`gas-benchmark.csv`)**: 30 Hardhat/Anvil local transaction gas measurements comparing BATS daily Merkle root commitments against a full OpenZeppelin ERC-721 per-event baseline logging (saving 99.9%) and minimal batch-token baselines.
 
 ---
 
@@ -36,14 +37,16 @@ All primary quantitative evaluation artifacts stored in `research/results/` are 
 
 | Artifact Path | SHA-256 Hash | Description |
 | --- | --- | --- |
-| `research/results/merkle-benchmark.csv` | `e35a755ba17b2e61abc5be42f9ef61996e6e99a924c54fc3caafe6c026a841b7` | Raw Merkle construction & verification latency runs |
-| `research/results/merkle-benchmark.json` | `bd718e7423e2596496e7bd73733720e70929d3b53b222567da5af641e20db9bc` | Structured Merkle benchmark summary |
+| `research/results/merkle-benchmark.csv` | `871e984a84b6f8a6cd73e3d57367487fc81e43c1b0dff763885b63f91648653c` | Raw Merkle construction & verification latency runs |
+| `research/results/merkle-benchmark.json` | `d9343e20f9734010d8c355f8f25b083feebd95b536498c62d46c13c7fbc47dbc` | Structured Merkle benchmark summary |
 | `research/results/postgis-benchmark.csv` | `ab8a004ed1dcbc48e184e82a599c21dc39d7ce4d559b48c86158f773a17690ff` | Raw PostGIS R-tree spatial lookup latencies |
 | `research/results/postgis-benchmark.txt` | `a043e61c9842e9ca4e89e6ce1ef5e56d873eaca22ab1c6cab1a413d9d5dcb4f1` | PostGIS SQL `EXPLAIN ANALYZE` execution logs |
-| `research/results/fraud-dataset.csv` | `7d4d2355218c519933956fca2463fa5e7cadb45df070d41e896ef8d879cffe57` | 2,150 labeled synthetic fraud evaluation samples |
-| `research/results/fraud-metrics.json` | `d6db62c573a8753869102b11946430e7a5ba8867297ca78ee4acd8ba55644754` | Precision, recall, F1, and confusion matrix JSON |
-| `research/results/gas-benchmark.csv` | `acb47a0342923be4a4df935133470d38ecf323e154fda6c24e8732ab47c0e908` | Local Hardhat EVM transaction gas measurements |
-| `research/results/gas-benchmark.json` | `5ed5ac427c0b499024544acf99c548d69564537e1def3ebd88c23da9bfd9a13c` | EVM gas summary & asymptotic projection calculations |
+| `research/results/fraud-dataset.csv` | `53247ab34a4c1ff26fffb554b46ba82063e5bb802e732bd21b6bcf5257e6b5ee` | 2,150 labeled synthetic fraud evaluation samples |
+| `research/results/fraud-metrics.json` | `5f9bf2ea29b9448b8f4ff4d03c0cb8c8f2a6d6967a692e1798d5036e3c22be99` | Precision, recall, F1, and confusion matrix JSON |
+| `research/results/fraud-ablation.csv` | `bf2073934ab66167281eea08a69122f904c39a03780d775730d4c366d488ea82` | Rule engine multi-layered ablation study metrics |
+| `research/results/idempotency-simulation.csv` | `2738977cc16cacd82c2f3ccec22607f9904206cbd7d89ffc2d2b996e21e9af5b` | Offline-first queue replay and deduplication simulation |
+| `research/results/gas-benchmark.csv` | `5fb023ccf5db9090d389600db98d6eb0858e7ceb8799be93b5d822d55c07c17a` | Local Hardhat EVM transaction gas measurements |
+| `research/results/gas-benchmark.json` | `d021d41edb417d76186855b0c4e9d977ad724e189c03dacf94f4287c30049fdb` | EVM gas summary & asymptotic projection calculations |
 | `research/results/environment.json` | `3d3b5eee1096b16422da2c5715c6b3a2c20794d7fc64dec4e806c204c1d6bc30` | Hardware, OS, Node.js, and Docker configuration state |
 
 ---

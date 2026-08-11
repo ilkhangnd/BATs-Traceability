@@ -1,0 +1,222 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="1250" viewBox="0 0 2400 1250">
+  <defs>
+    <style>
+      .title { font: 700 34px Arial, Helvetica, sans-serif; fill: #0b0f19; }
+      .layer-title { font: 700 30px Arial, Helvetica, sans-serif; fill: #0b0f19; }
+      .label { font: 700 20px Arial, Helvetica, sans-serif; fill: #0b0f19; }
+      .small { font: 700 16px Arial, Helvetica, sans-serif; fill: #666; }
+      .tiny { font: 600 14px Arial, Helvetica, sans-serif; fill: #666; }
+      .blue { stroke: #075aa8; fill: none; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+      .blue-fill { fill: #075aa8; stroke: #075aa8; stroke-width: 3; }
+      .pale { fill: #f6f9fc; }
+      .green-pale { fill: #f6fbf7; }
+      .dash { fill: none; stroke: #111; stroke-width: 2; stroke-dasharray: 5 5; }
+      .arrow { stroke: #111; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+      .blue-arrow { stroke: #075aa8; stroke-width: 3; fill: none; marker-end: url(#arrow-blue); }
+      .thin { stroke-width: 4; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111"/>
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#075aa8"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="2400" height="1250" fill="#fff"/>
+
+  <!-- Layer headings -->
+  <text class="layer-title" x="610" y="55">Field Data Capture Layer</text>
+  <text class="layer-title" x="1435" y="55">Backend Processing Layer</text>
+  <text class="layer-title" x="445" y="690">Storage &amp; Anchoring Layer</text>
+  <text class="layer-title" x="1450" y="690">Verification &amp; Governance Layer</text>
+
+  <!-- Layer boxes -->
+  <rect class="dash" x="330" y="85" width="860" height="330" rx="18"/>
+  <rect class="dash" x="1255" y="85" width="790" height="330" rx="18"/>
+  <rect class="dash" x="210" y="725" width="980" height="360" rx="18"/>
+  <rect class="dash" x="1255" y="725" width="900" height="360" rx="18"/>
+
+  <!-- Input Actors -->
+  <g transform="translate(60,150)">
+    <rect class="blue thin" x="20" y="22" width="86" height="150" rx="12"/>
+    <rect class="blue thin" x="36" y="6" width="86" height="150" rx="12"/>
+    <line class="blue thin" x1="52" y1="50" x2="104" y2="50"/>
+    <line class="blue thin" x1="52" y1="76" x2="104" y2="76"/>
+    <line class="blue thin" x1="52" y1="102" x2="104" y2="102"/>
+    <circle class="blue-fill" cx="79" cy="134" r="12"/>
+    <text class="label" x="0" y="220">Farmer / Collector</text>
+    <text class="label" x="12" y="247">Zalo Mini App</text>
+  </g>
+
+  <!-- Capture components -->
+  <g transform="translate(390,135)">
+    <rect class="blue" x="35" y="0" width="90" height="175" rx="18"/>
+    <circle class="blue" cx="80" cy="143" r="10"/>
+    <path class="blue" d="M68 42 l22 -22 m-8 0 h8 v8"/>
+    <path class="blue" d="M54 76 h52 M54 102 h52"/>
+    <text class="label" x="-8" y="235">Role Login</text>
+    <text class="label" x="-32" y="262">Farmer / Collector</text>
+  </g>
+
+  <g transform="translate(610,128)">
+    <path class="blue" d="M55 146 C15 108 18 52 62 24 C110 -7 174 18 188 73 C199 118 172 159 132 174"/>
+    <path class="blue" d="M78 62 h76 M78 94 h76 M78 126 h45"/>
+    <path class="blue" d="M42 165 l-30 38"/>
+    <circle class="blue-fill" cx="70" cy="132" r="10"/>
+    <text class="label" x="1" y="242">GPS + Evidence</text>
+    <text class="label" x="12" y="269">Photos / Weight</text>
+  </g>
+
+  <g transform="translate(865,120)">
+    <rect class="pale" x="-25" y="-8" width="255" height="210"/>
+    <rect class="blue" x="22" y="30" width="54" height="54"/>
+    <rect class="blue" x="122" y="30" width="54" height="54"/>
+    <rect class="blue" x="22" y="130" width="54" height="54"/>
+    <rect class="blue" x="122" y="130" width="54" height="54"/>
+    <path class="blue" d="M96 55 h26 M49 104 v26 M149 104 v26 M96 155 h26"/>
+    <text class="label" x="8" y="258">Offline Queue</text>
+    <text class="label" x="-16" y="285">Idempotent Events</text>
+  </g>
+
+  <!-- Backend processing components -->
+  <g transform="translate(1325,130)">
+    <path class="blue" d="M20 95 h160 M50 55 h100 M50 135 h100"/>
+    <rect class="blue" x="18" y="28" width="164" height="134" rx="22"/>
+    <circle class="blue-fill" cx="62" cy="95" r="11"/>
+    <circle class="blue-fill" cx="118" cy="95" r="11"/>
+    <text class="label" x="28" y="240">API Gateway</text>
+    <text class="label" x="8" y="267">NestJS / RBAC</text>
+  </g>
+
+  <g transform="translate(1570,125)">
+    <path class="blue" d="M88 8 l58 24 v62 c0 52 -29 87 -58 104 c-29 -17 -58 -52 -58 -104 V32 z"/>
+    <path class="blue" d="M58 101 l22 22 l46 -54"/>
+    <text class="label" x="8" y="248">Validation Engine</text>
+    <text class="label" x="1" y="275">GPS / Yield / Role</text>
+  </g>
+
+  <g transform="translate(1815,126)">
+    <circle class="blue" cx="88" cy="80" r="53"/>
+    <path class="blue" d="M88 27 v-22 M88 155 v-22 M35 80 H13 M163 80 h-22"/>
+    <path class="blue" d="M58 80 h60 M88 50 v60"/>
+    <path class="blue" d="M139 131 l35 35"/>
+    <text class="label" x="8" y="248">Evidence Hashing</text>
+    <text class="label" x="20" y="275">EPCIS Builder</text>
+  </g>
+
+  <!-- Execution / output on the right -->
+  <g transform="translate(2180,155)">
+    <path class="blue" d="M30 20 h112 v150 H30 z"/>
+    <path class="blue" d="M54 62 h64 M54 94 h64 M54 126 h44"/>
+    <path class="blue" d="M32 170 l38 34 h74"/>
+    <text class="label" x="-16" y="245">GS1 Digital Link</text>
+    <text class="label" x="2" y="272">QR / Public URL</text>
+  </g>
+
+  <!-- Storage layer -->
+  <g transform="translate(260,780)">
+    <ellipse class="blue" cx="95" cy="35" rx="78" ry="28"/>
+    <path class="blue" d="M17 35 v115 c0 15 35 28 78 28 s78 -13 78 -28 V35"/>
+    <path class="blue" d="M17 91 c0 15 35 28 78 28 s78 -13 78 -28"/>
+    <path class="blue" d="M17 145 c0 15 35 28 78 28 s78 -13 78 -28"/>
+    <text class="label" x="3" y="250">PostgreSQL</text>
+    <text class="label" x="-8" y="277">PostGIS + Plots</text>
+  </g>
+
+  <g transform="translate(535,785)">
+    <rect class="blue" x="30" y="20" width="130" height="160" rx="10"/>
+    <path class="blue" d="M58 60 h76 M58 91 h76 M58 122 h76 M58 153 h46"/>
+    <circle class="blue-fill" cx="44" cy="60" r="8"/>
+    <circle class="blue-fill" cx="44" cy="91" r="8"/>
+    <circle class="blue-fill" cx="44" cy="122" r="8"/>
+    <text class="label" x="15" y="245">EPCIS 2.0</text>
+    <text class="label" x="-15" y="272">Trace Event Store</text>
+  </g>
+
+  <g transform="translate(800,765)">
+    <circle class="blue-fill" cx="100" cy="30" r="15"/>
+    <circle class="blue-fill" cx="42" cy="105" r="15"/>
+    <circle class="blue-fill" cx="158" cy="105" r="15"/>
+    <circle class="blue-fill" cx="20" cy="185" r="15"/>
+    <circle class="blue-fill" cx="75" cy="185" r="15"/>
+    <circle class="blue-fill" cx="125" cy="185" r="15"/>
+    <circle class="blue-fill" cx="180" cy="185" r="15"/>
+    <path class="blue thin" d="M100 45 L42 90 M100 45 L158 90 M42 120 L20 170 M42 120 L75 170 M158 120 L125 170 M158 120 L180 170"/>
+    <text class="label" x="3" y="270">Daily Merkle Tree</text>
+    <text class="label" x="1" y="297">Batch Commitment</text>
+  </g>
+
+  <g transform="translate(1045,775)">
+    <rect class="blue" x="38" y="30" width="125" height="155" rx="8"/>
+    <path class="blue" d="M62 78 h78 M62 112 h78 M62 146 h48"/>
+    <path class="blue" d="M37 30 l28 -28 h98"/>
+    <text class="label" x="-1" y="258">BATSAnchor.sol</text>
+    <text class="label" x="15" y="285">Merkle Root</text>
+  </g>
+
+  <!-- Verification layer -->
+  <g transform="translate(1325,780)">
+    <rect class="blue" x="25" y="32" width="142" height="154" rx="16"/>
+    <path class="blue" d="M61 74 h70 M61 108 h70 M61 142 h42"/>
+    <path class="blue" d="M30 185 l-20 45 h174 l-20 -45"/>
+    <text class="label" x="-10" y="258">Verification API</text>
+    <text class="label" x="-18" y="285">Proof + Traceability</text>
+  </g>
+
+  <g transform="translate(1585,790)">
+    <circle class="blue" cx="96" cy="88" r="70"/>
+    <path class="blue" d="M61 90 l27 28 l49 -63"/>
+    <path class="blue" d="M96 18 v-18 M96 176 v-18 M26 88 H8 M184 88 h-18"/>
+    <text class="label" x="2" y="250">GS1 Resolver</text>
+    <text class="label" x="-20" y="277">Consumer Verify Page</text>
+  </g>
+
+  <g transform="translate(1865,780)">
+    <rect class="blue" x="20" y="28" width="170" height="125" rx="18"/>
+    <path class="blue" d="M48 128 l30 -32 l28 20 l42 -58"/>
+    <path class="blue" d="M20 176 h170"/>
+    <path class="blue" d="M72 176 l-20 36 M138 176 l20 36"/>
+    <text class="label" x="-5" y="265">Web Dashboard</text>
+    <text class="label" x="0" y="292">Admin / Research</text>
+  </g>
+
+  <!-- Main flow arrows -->
+  <path class="arrow" d="M220 255 H330"/>
+  <path class="arrow" d="M515 255 H610"/>
+  <path class="arrow" d="M785 255 H850"/>
+  <path class="arrow" d="M1085 255 H1255"/>
+  <path class="arrow" d="M1488 255 H1565"/>
+  <path class="arrow" d="M1740 255 H1810"/>
+  <path class="arrow" d="M2000 255 H2175"/>
+  <text class="small" x="2035" y="235">Signed EPCIS Event</text>
+
+  <path class="arrow" d="M1415 415 V725"/>
+  <text class="small" x="1430" y="565">Persist / Index</text>
+  <path class="arrow" d="M460 905 H535"/>
+  <path class="arrow" d="M710 905 H800"/>
+  <path class="arrow" d="M1000 905 H1040"/>
+  <path class="arrow" d="M1170 905 H1255"/>
+  <path class="arrow" d="M1485 905 H1580"/>
+  <path class="arrow" d="M1765 905 H1860"/>
+
+  <!-- Feedback and sync loops -->
+  <path class="blue-arrow" d="M1040 985 C760 1130 360 1125 160 950 L160 370"/>
+  <text class="small" x="385" y="1145">Offline Sync Status / Retry Queue</text>
+
+  <path class="blue-arrow" d="M2000 815 C2230 740 2255 455 2260 335"/>
+  <text class="small" x="2110" y="690" transform="rotate(-90 2110 690)">QR Scan / Verification Feedback</text>
+
+  <path class="arrow" d="M1760 795 C1700 635 1680 520 1675 415"/>
+  <text class="small" x="1715" y="595" transform="rotate(-90 1715 595)">Validation Issues</text>
+
+  <!-- Cross-layer captions -->
+  <text class="small" x="1165" y="455">Secure API Calls</text>
+  <path class="arrow" d="M865 415 C890 540 1040 625 1325 725"/>
+
+  <text class="small" x="1195" y="1125">Merkle Proof + EPCIS JSON / PDF / CSV</text>
+  <path class="arrow" d="M1425 1085 C1510 1175 1835 1175 1945 1088"/>
+
+  <!-- Footer note -->
+  <text class="tiny" x="62" y="1210">BATS Overall Architecture: Zalo Mini App capture → validated EPCIS event → PostgreSQL/PostGIS storage → daily Merkle anchoring → GS1 Digital Link verification.</text>
+</svg>

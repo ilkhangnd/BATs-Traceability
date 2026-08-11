@@ -9,18 +9,18 @@
   <text x="75" y="58" class="title">Synthetic fraud detection by rule</text>
   <text x="75" y="86" class="subtitle">Per-rule F1 on deterministic noisy scenarios · not a field-accuracy claim</text>
   <line x1="75" y1="580" x2="1120" y2="580" class="axis"/>
-    <rect x="100" y="189.09090909090912" width="90" height="390.9090909090909" rx="9" fill="#17683f"/>
-      <text x="145" y="175.09090909090912" text-anchor="middle" class="value">0.909</text>
-      <text x="145" y="612" text-anchor="middle" class="label">G</text><rect x="245" y="150" width="90" height="430" rx="9" fill="#17683f"/>
-      <text x="290" y="136" text-anchor="middle" class="value">1.000</text>
-      <text x="290" y="612" text-anchor="middle" class="label">Y</text><rect x="390" y="150" width="90" height="430" rx="9" fill="#17683f"/>
-      <text x="435" y="136" text-anchor="middle" class="value">1.000</text>
-      <text x="435" y="612" text-anchor="middle" class="label">D</text><rect x="535" y="150" width="90" height="430" rx="9" fill="#17683f"/>
-      <text x="580" y="136" text-anchor="middle" class="value">1.000</text>
-      <text x="580" y="612" text-anchor="middle" class="label">T</text><rect x="680" y="150" width="90" height="430" rx="9" fill="#17683f"/>
-      <text x="725" y="136" text-anchor="middle" class="value">1.000</text>
-      <text x="725" y="612" text-anchor="middle" class="label">R</text><rect x="825" y="150" width="90" height="430" rx="9" fill="#17683f"/>
-      <text x="870" y="136" text-anchor="middle" class="value">1.000</text>
+    <rect x="100" y="202.80701754385967" width="90" height="377.1929824561403" rx="9" fill="#17683f"/>
+      <text x="145" y="188.80701754385967" text-anchor="middle" class="value">0.877</text>
+      <text x="145" y="612" text-anchor="middle" class="label">G</text><rect x="245" y="170.47619047619048" width="90" height="409.5238095238095" rx="9" fill="#17683f"/>
+      <text x="290" y="156.47619047619048" text-anchor="middle" class="value">0.952</text>
+      <text x="290" y="612" text-anchor="middle" class="label">Y</text><rect x="390" y="164.5410628019324" width="90" height="415.4589371980676" rx="9" fill="#17683f"/>
+      <text x="435" y="150.5410628019324" text-anchor="middle" class="value">0.966</text>
+      <text x="435" y="612" text-anchor="middle" class="label">D</text><rect x="535" y="170.47619047619048" width="90" height="409.5238095238095" rx="9" fill="#17683f"/>
+      <text x="580" y="156.47619047619048" text-anchor="middle" class="value">0.952</text>
+      <text x="580" y="612" text-anchor="middle" class="label">T</text><rect x="680" y="160.4878048780488" width="90" height="419.5121951219512" rx="9" fill="#17683f"/>
+      <text x="725" y="146.4878048780488" text-anchor="middle" class="value">0.976</text>
+      <text x="725" y="612" text-anchor="middle" class="label">R</text><rect x="825" y="170.47619047619048" width="90" height="409.5238095238095" rx="9" fill="#17683f"/>
+      <text x="870" y="156.47619047619048" text-anchor="middle" class="value">0.952</text>
       <text x="870" y="612" text-anchor="middle" class="label">W</text><rect x="970" y="206.08695652173907" width="90" height="373.91304347826093" rx="9" fill="#17683f"/>
       <text x="1015" y="192.08695652173907" text-anchor="middle" class="value">0.870</text>
       <text x="1015" y="612" text-anchor="middle" class="label">A</text>

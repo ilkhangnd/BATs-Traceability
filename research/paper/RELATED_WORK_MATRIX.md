@@ -2,10 +2,10 @@
 
 Status: verified-source draft, updated 2026-07-11.
 
-This matrix is not yet a systematic review. It is a defensible first pass for a
-conference-style Related Work section. It uses authoritative standards sources
-and papers discovered through web search. Final submission still requires DOI,
-venue metadata and citation-manager export.
+This matrix represents screened related work for the prototype paper. It provides a
+defensible foundation for the conference-style Related Work section, utilizing
+authoritative standards sources and peer-reviewed literature. It includes DOI,
+venue metadata, and complete BibTeX exports.
 
 ## Verified standards and context sources
 

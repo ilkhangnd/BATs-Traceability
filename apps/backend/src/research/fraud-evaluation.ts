@@ -5,6 +5,12 @@ import { ValidationService } from "../validation.service.js";
 
 type Scenario =
   | "valid"
+  | "geofence_boundary_valid"
+  | "yield_edge_valid"
+  | "duplicate_document_valid"
+  | "temporal_bulk_entry_valid"
+  | "role_proxy_valid"
+  | "weight_moisture_loss_valid"
   | "degraded_gps_valid"
   | "geofence"
   | "gps_spoof"
@@ -67,14 +73,25 @@ function input(index: number, scenario: Scenario): CreateHarvestInput {
     latitude: 12.671 + random() * 0.008,
     longitude: 108.121 + random() * 0.008
   };
+  const location =
+    scenario === "geofence" || scenario === "geofence_boundary_valid"
+      ? { latitude: 10.77, longitude: 106.69 }
+      : inside;
   return {
     farmPlotId: plot.id,
     actorId: plot.farmerId,
     variety: "Ri6",
-    quantityKg: scenario === "yield" ? 20_001 : 300 + Math.round(random() * 400),
+    quantityKg:
+      scenario === "yield" || scenario === "yield_edge_valid"
+        ? 20_001
+        : 300 + Math.round(random() * 400),
     eventTime: `2026-07-04T08:${String(index % 60).padStart(2, "0")}:00+07:00`,
-    location: scenario === "geofence" ? { latitude: 10.77, longitude: 106.69 } : inside,
-    evidenceHashes: [scenario === "duplicate" ? "known-evidence" : evidence],
+    location,
+    evidenceHashes: [
+      scenario === "duplicate" || scenario === "duplicate_document_valid"
+        ? "known-evidence"
+        : evidence
+    ],
     device:
       scenario === "device"
         ? { integrity: "compromised", gpsAccuracyM: 5 }
@@ -135,6 +152,12 @@ function evaluate(service: ValidationService, scenario: Scenario, index: number)
   const harvestInput = input(index, scenario);
   const expectedRule: Record<Scenario, string> = {
     valid: "",
+    geofence_boundary_valid: "",
+    yield_edge_valid: "",
+    duplicate_document_valid: "",
+    temporal_bulk_entry_valid: "",
+    role_proxy_valid: "",
+    weight_moisture_loss_valid: "",
     degraded_gps_valid: "",
     geofence: "G",
     gps_spoof: "G",
@@ -145,18 +168,27 @@ function evaluate(service: ValidationService, scenario: Scenario, index: number)
     device: "A",
     weight: "W"
   };
-  const expectedFraud = !["valid", "degraded_gps_valid"].includes(scenario);
+  const expectedFraud = ![
+    "valid",
+    "geofence_boundary_valid",
+    "yield_edge_valid",
+    "duplicate_document_valid",
+    "temporal_bulk_entry_valid",
+    "role_proxy_valid",
+    "weight_moisture_loss_valid",
+    "degraded_gps_valid"
+  ].includes(scenario);
   let result;
-  if (scenario === "weight") {
+  if (scenario === "weight" || scenario === "weight_moisture_loss_valid") {
     result = service.validateTransfer(batch(`weight-${index}`, harvestInput.eventTime, 1000), {
       actorId: "collector",
       status: "collected",
       eventTime: harvestInput.eventTime,
-      actualWeightKg: 800
+      actualWeightKg: scenario === "weight_moisture_loss_valid" ? 880 : 800
     });
   } else {
     const recent =
-      scenario === "temporal"
+      scenario === "temporal" || scenario === "temporal_bulk_entry_valid"
         ? [0, 1, 2].map((offset) =>
             batch(`recent-${index}-${offset}`, harvestInput.eventTime)
           )
@@ -164,10 +196,14 @@ function evaluate(service: ValidationService, scenario: Scenario, index: number)
     result = service.validateHarvest(
       harvestInput,
       plot,
-      scenario === "duplicate" ? new Set(["known-evidence"]) : new Set(),
+      scenario === "duplicate" || scenario === "duplicate_document_valid"
+        ? new Set(["known-evidence"])
+        : new Set(),
       recent,
       undefined,
-      scenario === "role" ? { ...farmer, id: "other-farmer" } : farmer
+      scenario === "role" || scenario === "role_proxy_valid"
+        ? { ...farmer, id: "other-farmer" }
+        : farmer
     );
   }
   const detected = result.issues.map((issue) => issue.code);
@@ -189,7 +225,13 @@ function main(): void {
     outputFlag >= 0 ? (process.argv[outputFlag + 1] ?? "research/results") : "research/results"
   );
   const scenarios: Scenario[] = [
-    ...Array<Scenario>(1400).fill("valid"),
+    ...Array<Scenario>(1350).fill("valid"),
+    ...Array<Scenario>(8).fill("geofence_boundary_valid"),
+    ...Array<Scenario>(10).fill("yield_edge_valid"),
+    ...Array<Scenario>(7).fill("duplicate_document_valid"),
+    ...Array<Scenario>(10).fill("temporal_bulk_entry_valid"),
+    ...Array<Scenario>(5).fill("role_proxy_valid"),
+    ...Array<Scenario>(10).fill("weight_moisture_loss_valid"),
     ...Array<Scenario>(30).fill("degraded_gps_valid"),
     ...Array<Scenario>(100).fill("geofence"),
     ...Array<Scenario>(20).fill("gps_spoof"),
@@ -260,6 +302,12 @@ function main(): void {
     perRule: Object.fromEntries(RULES.map((rule) => [rule, confusion(samples, rule)])),
     ablation,
     noiseCases: {
+      geofenceBoundaryOperationallyValid: 8,
+      yieldEdgeOperationallyValid: 10,
+      duplicateDocumentOperationallyValid: 7,
+      temporalBulkEntryOperationallyValid: 10,
+      roleProxyOperationallyValid: 5,
+      weightMoistureLossOperationallyValid: 10,
       degradedGpsOperationallyValid: 30,
       spoofedGpsInsidePolygon: 20
     },

@@ -119,10 +119,10 @@ Seeded noisy synthetic dataset:
 | Samples | 2,150 |
 | Operationally valid cases | 1,430 |
 | Injected fraud cases | 720 |
-| Precision | 0.9589 |
+| Precision | 0.8974 |
 | Recall | 0.9722 |
-| F1 | 0.9655 |
-| False positive rate | 0.0210 |
+| F1 | 0.9333 |
+| False positive rate | 0.0559 |
 | False negative rate | 0.0278 |
 
 Confusion matrix:
@@ -130,7 +130,7 @@ Confusion matrix:
 | | Predicted fraud | Predicted valid |
 | --- | ---: | ---: |
 | Actual fraud | 700 | 20 |
-| Actual valid | 30 | 1,400 |
+| Actual valid | 80 | 1,350 |
 
 Interpretation: the rule engine detects most injected anomalies while preserving
 explicitly modelled false positives and false negatives. The 20 false negatives
@@ -186,4 +186,3 @@ Current status: The Zalo Mini App dual-role onboarding (`FARMER` / `COLLECTOR`),
 | Fraud confusion matrix | `research/results/figures/fraud-confusion-matrix.svg` | RQ2 accuracy | Ready |
 | Fraud per-rule metrics | `research/results/figures/fraud-per-rule.svg` | RQ2 rule behavior | Ready |
 | k6 diagnostic table | `research/results/k6-benchmark-staging-suite.md` | Limitation / next work | Diagnostic only |
-

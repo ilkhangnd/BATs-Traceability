@@ -67,13 +67,15 @@ The current seeded dataset contains 2,150 cases:
 
 | Metric | Value |
 | --- | ---: |
-| Precision | 0.9589 |
+| Precision | 0.8974 |
 | Recall | 0.9722 |
-| F1 | 0.9655 |
-| FPR | 0.0210 |
+| F1 | 0.9333 |
+| FPR | 0.0559 |
 | FNR | 0.0278 |
 
 The 20 false negatives model GPS spoofing that still reports an in-geofence
-coordinate. The 30 false positives model legitimate devices with degraded GPS
-accuracy. This is deliberately less flattering—and more useful—than the
-previous boundary-derived F1=1.0 result.
+coordinate. The 80 false positives model legitimate operational noise: boundary
+GPS drift, edge-case yield entries, reused documents, bulk entry sessions, proxy
+actor submissions, weighing differences from moisture loss and degraded GPS
+accuracy. This is deliberately less flattering—and more useful—than the previous
+boundary-derived F1=1.0 result.
