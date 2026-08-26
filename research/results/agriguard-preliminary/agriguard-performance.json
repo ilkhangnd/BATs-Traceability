@@ -1,0 +1,29 @@
+{
+  "benchmark": "local in-memory/single-process rule-engine microbenchmark",
+  "scopeExclusions": [
+    "HTTP/API",
+    "PostGIS",
+    "persistence",
+    "EPCIS",
+    "Merkle",
+    "blockchain"
+  ],
+  "warmupRuns": 5,
+  "measuredRepetitions": 50,
+  "eventsPerRepetition": 27,
+  "totalEvents": 1350,
+  "p50PerEventMs": 0.005619555555555556,
+  "p95PerEventMs": 0.020172333333333334,
+  "p99PerEventMs": 0.0228012962962963,
+  "throughputEventsPerSecond": 134923.8489796359,
+  "clock": "process.hrtime.bigint",
+  "environment": {
+    "nodeVersion": "v24.19.0",
+    "os": "Linux 6.18.33.2-microsoft-standard-WSL2 x64",
+    "cpu": {
+      "model": "AMD Ryzen AI 7 H 450 w/ Radeon 860M",
+      "logicalCores": 16
+    },
+    "ramBytes": 16323870720
+  }
+}

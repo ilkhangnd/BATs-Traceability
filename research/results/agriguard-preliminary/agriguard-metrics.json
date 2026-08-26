@@ -1,0 +1,734 @@
+{
+  "evaluationView": "full-scope synthetic scenario coverage",
+  "caveat": "These results are synthetic scenario/rule-coverage measurements from an incomplete preliminary prototype and are not estimates of real-world fraud-detection accuracy.",
+  "seed": "0x51a7c0de",
+  "datasetSize": 24,
+  "eventCount": 27,
+  "groundTruthCounts": {
+    "legitimate": 12,
+    "adversarial": 12
+  },
+  "limitations": [
+    "Perfect PCIE coverage is expected on hand-authored rule fixtures and does not demonstrate generalization.",
+    "Synthetic scenario labels do not establish real-world fraud-detection accuracy.",
+    "Registry and policy data are immutable research fixtures rather than production persistence models.",
+    "BATS v1 unsupported scenarios remain in this full-scope view for coverage transparency; unsupported capability is not a detector defect."
+  ],
+  "engines": {
+    "pciePreliminary": {
+      "overall": {
+        "tp": 12,
+        "fp": 0,
+        "tn": 12,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "falsePositiveRate": 0,
+        "falseNegativeRate": 0
+      },
+      "supportCounts": {
+        "supported": 24,
+        "partial": 0,
+        "unsupported": 0
+      },
+      "perRule": {
+        "G": {
+          "tp": 2,
+          "fp": 0,
+          "tn": 22,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "I": {
+          "tp": 3,
+          "fp": 0,
+          "tn": 21,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "S": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 23,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "Y": {
+          "tp": 2,
+          "fp": 0,
+          "tn": 22,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "M": {
+          "tp": 4,
+          "fp": 0,
+          "tn": 20,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "C": {
+          "tp": 3,
+          "fp": 0,
+          "tn": 21,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        }
+      },
+      "perScenarioClass": {
+        "normal_harvest": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "gps_inside": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "gps_boundary": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "authorized_actor": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "historically_valid_authorization": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "plantation_valid_at_event_time": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "yield_below_threshold": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "yield_exact_threshold": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "multiple_legitimate_harvests": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "packing_normal_loss": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "valid_mass_balance": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "valid_custody_sequence": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "outside_plantation": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "unauthorized_actor": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "expired_authorization": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "inactive_plantation": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "seasonal_yield_overrun": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "mass_over_output": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "wrong_provenance_substitution": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "cross_plantation_compensation": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "invalid_custody_transition": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "invalid_custody_location": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "combined_harvest_anomalies": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "combined_mass_custody_anomalies": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        }
+      }
+    },
+    "batsV1Frozen": {
+      "overall": {
+        "tp": 5,
+        "fp": 0,
+        "tn": 12,
+        "fn": 7,
+        "precision": 1,
+        "recall": 0.4166666666666667,
+        "f1": 0.5882352941176471,
+        "falsePositiveRate": 0,
+        "falseNegativeRate": 0.5833333333333334
+      },
+      "supportCounts": {
+        "supported": 7,
+        "partial": 8,
+        "unsupported": 9
+      },
+      "perRule": {
+        "G": {
+          "tp": 2,
+          "fp": 0,
+          "tn": 22,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "Y": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 22,
+          "fn": 2,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 1
+        },
+        "D": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 24,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "T": {
+          "tp": 2,
+          "fp": 0,
+          "tn": 22,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "R": {
+          "tp": 2,
+          "fp": 0,
+          "tn": 22,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "W": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 24,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "A": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 24,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        }
+      },
+      "perScenarioClass": {
+        "normal_harvest": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "gps_inside": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "gps_boundary": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "authorized_actor": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "historically_valid_authorization": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "plantation_valid_at_event_time": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "yield_below_threshold": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "yield_exact_threshold": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "multiple_legitimate_harvests": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "packing_normal_loss": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "valid_mass_balance": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "valid_custody_sequence": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 1,
+          "fn": 0,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "outside_plantation": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "unauthorized_actor": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "expired_authorization": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 1,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 1
+        },
+        "inactive_plantation": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 1,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 1
+        },
+        "seasonal_yield_overrun": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 1,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 1
+        },
+        "mass_over_output": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 1,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 1
+        },
+        "wrong_provenance_substitution": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 1,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 1
+        },
+        "cross_plantation_compensation": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 1,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 1
+        },
+        "invalid_custody_transition": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "invalid_custody_location": {
+          "tp": 0,
+          "fp": 0,
+          "tn": 0,
+          "fn": 1,
+          "precision": 0,
+          "recall": 0,
+          "f1": 0,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 1
+        },
+        "combined_harvest_anomalies": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        },
+        "combined_mass_custody_anomalies": {
+          "tp": 1,
+          "fp": 0,
+          "tn": 0,
+          "fn": 0,
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "falsePositiveRate": 0,
+          "falseNegativeRate": 0
+        }
+      }
+    }
+  }
+}

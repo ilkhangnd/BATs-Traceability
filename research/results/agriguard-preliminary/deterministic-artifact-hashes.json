@@ -1,0 +1,22 @@
+{
+  "algorithm": "SHA-256",
+  "note": "Timing outputs are intentionally excluded because they are not deterministic artifacts.",
+  "artifacts": [
+    {
+      "path": "research/scenarios/agriguard/preliminary-scenarios.json",
+      "sha256": "094d68e3f5591dc907d38ce86453d1e324e6453da7bd0696bc9f443e33e52207"
+    },
+    {
+      "path": "research/results/agriguard-preliminary/agriguard-dataset.csv",
+      "sha256": "1e8f7f60d2d6bbc93fc6fddb349918c13b25c6ec94cce9ff38948d3a86a72746"
+    },
+    {
+      "path": "research/results/agriguard-preliminary/agriguard-metrics.json",
+      "sha256": "355dce4b71889298179e7028305d981de18fdf7299fa6c16da22e34e62975bf9"
+    },
+    {
+      "path": "research/results/agriguard-preliminary/agriguard-common-support-metrics.json",
+      "sha256": "7a40aa9dcea6a5da6f4b90f698b68c4be790836504b29fd3a61f41ad3863d35c"
+    }
+  ]
+}

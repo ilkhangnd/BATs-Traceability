@@ -1,0 +1,149 @@
+{
+  "evaluationView": "common-support apples-to-apples comparison",
+  "caveat": "These results are synthetic scenario/rule-coverage measurements from an incomplete preliminary prototype and are not estimates of real-world fraud-detection accuracy.",
+  "seed": "0x51a7c0de",
+  "inclusionPolicy": {
+    "id": "bats-v1-supported-only-v1",
+    "inclusionRule": "Include a scenario only when the frozen BATS v1 adapter classifies its semantic support as supported.",
+    "exclusionRule": "Exclude partial and unsupported scenarios regardless of either engine's detection outcome."
+  },
+  "datasetSize": 7,
+  "groundTruthCounts": {
+    "legitimate": 5,
+    "adversarial": 2
+  },
+  "includedScenarioIds": [
+    "LEG-001",
+    "LEG-002",
+    "LEG-007",
+    "LEG-008",
+    "LEG-009",
+    "ADV-001",
+    "ADV-005"
+  ],
+  "excludedScenarios": [
+    {
+      "scenarioId": "LEG-003",
+      "supportClassification": "partial",
+      "reason": "BATS v1 does not declare boundary-inclusive ST_Covers-equivalent geometry semantics."
+    },
+    {
+      "scenarioId": "LEG-004",
+      "supportClassification": "partial",
+      "reason": "BATS v1 actor ownership is not equivalent to time-bounded plantation authorization."
+    },
+    {
+      "scenarioId": "LEG-005",
+      "supportClassification": "unsupported",
+      "reason": "BATS v1 cannot resolve plantation authorization history at eventTime."
+    },
+    {
+      "scenarioId": "LEG-006",
+      "supportClassification": "unsupported",
+      "reason": "BATS v1 cannot resolve versioned plantation status at eventTime."
+    },
+    {
+      "scenarioId": "LEG-010",
+      "supportClassification": "unsupported",
+      "reason": "BATS v1 has no provenance-scoped mass-balance model."
+    },
+    {
+      "scenarioId": "LEG-011",
+      "supportClassification": "unsupported",
+      "reason": "BATS v1 has no provenance-scoped mass-balance model."
+    },
+    {
+      "scenarioId": "LEG-012",
+      "supportClassification": "partial",
+      "reason": "BATS v1 only partially projects the custody vocabulary and does not validate custody locations."
+    },
+    {
+      "scenarioId": "ADV-002",
+      "supportClassification": "partial",
+      "reason": "BATS v1 actor ownership is not equivalent to time-bounded plantation authorization."
+    },
+    {
+      "scenarioId": "ADV-003",
+      "supportClassification": "unsupported",
+      "reason": "BATS v1 cannot resolve plantation authorization history at eventTime."
+    },
+    {
+      "scenarioId": "ADV-004",
+      "supportClassification": "unsupported",
+      "reason": "BATS v1 cannot resolve versioned plantation status at eventTime."
+    },
+    {
+      "scenarioId": "ADV-006",
+      "supportClassification": "unsupported",
+      "reason": "BATS v1 has no provenance-scoped mass-balance model."
+    },
+    {
+      "scenarioId": "ADV-007",
+      "supportClassification": "unsupported",
+      "reason": "BATS v1 has no provenance-scoped mass-balance model."
+    },
+    {
+      "scenarioId": "ADV-008",
+      "supportClassification": "unsupported",
+      "reason": "BATS v1 has no provenance-scoped mass-balance model."
+    },
+    {
+      "scenarioId": "ADV-009",
+      "supportClassification": "partial",
+      "reason": "BATS v1 only partially projects the custody vocabulary and does not validate custody locations."
+    },
+    {
+      "scenarioId": "ADV-010",
+      "supportClassification": "partial",
+      "reason": "BATS v1 does not validate custody source or destination locations."
+    },
+    {
+      "scenarioId": "ADV-011",
+      "supportClassification": "partial",
+      "reason": "The authorization component is not semantically equivalent in BATS v1."
+    },
+    {
+      "scenarioId": "ADV-012",
+      "supportClassification": "partial",
+      "reason": "BATS v1 lacks provenance mass balance and only partially projects custody transitions."
+    }
+  ],
+  "engines": {
+    "pciePreliminary": {
+      "overall": {
+        "tp": 2,
+        "fp": 0,
+        "tn": 5,
+        "fn": 0,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "falsePositiveRate": 0,
+        "falseNegativeRate": 0
+      },
+      "supportCounts": {
+        "supported": 7,
+        "partial": 0,
+        "unsupported": 0
+      }
+    },
+    "batsV1Frozen": {
+      "overall": {
+        "tp": 1,
+        "fp": 0,
+        "tn": 5,
+        "fn": 1,
+        "precision": 1,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "falsePositiveRate": 0,
+        "falseNegativeRate": 0.5
+      },
+      "supportCounts": {
+        "supported": 7,
+        "partial": 0,
+        "unsupported": 0
+      }
+    }
+  }
+}

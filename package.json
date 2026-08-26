@@ -19,6 +19,8 @@
     "staging:token": "node scripts/benchmark-token.mjs",
     "research:merkle": "node research/benchmarks/merkle.mjs",
     "research:fraud": "pnpm --filter @bats/backend build && node apps/backend/dist/research/fraud-evaluation.js --output research/results",
+    "research:agriguard": "pnpm --filter @bats/backend build && node apps/backend/dist/research/agriguard/run-preliminary.js",
+    "research:agriguard:postgis": "node --env-file-if-exists=.env research/benchmarks/run-agriguard-postgis.mjs",
     "research:gas": "pnpm --filter @bats/blockchain research:gas",
     "research:api:node": "node research/benchmarks/api-load-node.mjs",
     "research:api:k6": "node research/benchmarks/run-k6-suite.mjs",

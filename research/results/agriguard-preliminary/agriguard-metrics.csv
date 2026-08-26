@@ -1,0 +1,3 @@
+engine,evaluation_view,scenario_count,supported,partial,unsupported,tp,fp,tn,fn,precision,recall,f1,false_positive_rate,false_negative_rate
+pcie-preliminary,full-scope synthetic scenario coverage,24,24,0,0,12,0,12,0,1,1,1,0,0
+bats-v1-frozen,full-scope synthetic scenario coverage,24,7,8,9,5,0,12,7,1,0.4166666666666667,0.5882352941176471,0,0.5833333333333334

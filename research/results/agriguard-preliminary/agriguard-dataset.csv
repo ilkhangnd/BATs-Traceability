@@ -1,0 +1,25 @@
+id,scenario_class,expected_fraud,expected_rules,pcie_predicted_fraud,pcie_rules,pcie_accepted,pcie_risk_score,bats_v1_predicted_fraud,bats_v1_rules,bats_v1_support,bats_v1_support_reason
+LEG-001,normal_harvest,false,,false,,true,0,false,,supported,Scenario is representable by the frozen BATS v1 harvest/transfer model.
+LEG-002,gps_inside,false,,false,,true,0,false,,supported,Scenario is representable by the frozen BATS v1 harvest/transfer model.
+LEG-003,gps_boundary,false,,false,,true,0,false,,partial,"Only BATS v1 actor ownership or transition ordering is representable; RECEIVED is explicitly mapped to v1 collected, while time validity, provenance, and locations are unsupported."
+LEG-004,authorized_actor,false,,false,,true,0,false,,partial,"Only BATS v1 actor ownership or transition ordering is representable; RECEIVED is explicitly mapped to v1 collected, while time validity, provenance, and locations are unsupported."
+LEG-005,historically_valid_authorization,false,,false,,true,0,false,,unsupported,BATS v1 has no event-time plantation version/authorization or provenance mass model for this class.
+LEG-006,plantation_valid_at_event_time,false,,false,,true,0,false,,unsupported,BATS v1 has no event-time plantation version/authorization or provenance mass model for this class.
+LEG-007,yield_below_threshold,false,,false,,true,0,false,,supported,Scenario is representable by the frozen BATS v1 harvest/transfer model.
+LEG-008,yield_exact_threshold,false,,false,,true,0,false,,supported,Scenario is representable by the frozen BATS v1 harvest/transfer model.
+LEG-009,multiple_legitimate_harvests,false,,false,,true,0,false,,supported,Scenario is representable by the frozen BATS v1 harvest/transfer model.
+LEG-010,packing_normal_loss,false,,false,,true,0,false,,unsupported,BATS v1 has no event-time plantation version/authorization or provenance mass model for this class.
+LEG-011,valid_mass_balance,false,,false,,true,0,false,,unsupported,BATS v1 has no event-time plantation version/authorization or provenance mass model for this class.
+LEG-012,valid_custody_sequence,false,,false,,true,0,false,,partial,"Only BATS v1 actor ownership or transition ordering is representable; RECEIVED is explicitly mapped to v1 collected, while time validity, provenance, and locations are unsupported."
+ADV-001,outside_plantation,true,G,true,G,false,30,true,G,supported,Scenario is representable by the frozen BATS v1 harvest/transfer model.
+ADV-002,unauthorized_actor,true,I,true,I,false,30,true,R,partial,"Only BATS v1 actor ownership or transition ordering is representable; RECEIVED is explicitly mapped to v1 collected, while time validity, provenance, and locations are unsupported."
+ADV-003,expired_authorization,true,I,true,I,false,30,false,,unsupported,BATS v1 has no event-time plantation version/authorization or provenance mass model for this class.
+ADV-004,inactive_plantation,true,S,true,S,false,30,false,,unsupported,BATS v1 has no event-time plantation version/authorization or provenance mass model for this class.
+ADV-005,seasonal_yield_overrun,true,Y,true,Y,false,25,false,,supported,Scenario is representable by the frozen BATS v1 harvest/transfer model.
+ADV-006,mass_over_output,true,M,true,M,false,35,false,,unsupported,BATS v1 has no event-time plantation version/authorization or provenance mass model for this class.
+ADV-007,wrong_provenance_substitution,true,M,true,M,false,35,false,,unsupported,BATS v1 has no event-time plantation version/authorization or provenance mass model for this class.
+ADV-008,cross_plantation_compensation,true,M,true,M,false,35,false,,unsupported,BATS v1 has no event-time plantation version/authorization or provenance mass model for this class.
+ADV-009,invalid_custody_transition,true,C,true,C,false,30,true,T,partial,"Only BATS v1 actor ownership or transition ordering is representable; RECEIVED is explicitly mapped to v1 collected, while time validity, provenance, and locations are unsupported."
+ADV-010,invalid_custody_location,true,C,true,C,false,30,false,,partial,"Only BATS v1 actor ownership or transition ordering is representable; RECEIVED is explicitly mapped to v1 collected, while time validity, provenance, and locations are unsupported."
+ADV-011,combined_harvest_anomalies,true,G|I|Y,true,G|I|Y,false,85,true,G|R,partial,"Only BATS v1 actor ownership or transition ordering is representable; RECEIVED is explicitly mapped to v1 collected, while time validity, provenance, and locations are unsupported."
+ADV-012,combined_mass_custody_anomalies,true,M|C,true,M|C,false,65,true,T,partial,"Only BATS v1 actor ownership or transition ordering is representable; RECEIVED is explicitly mapped to v1 collected, while time validity, provenance, and locations are unsupported."

@@ -1,0 +1,69 @@
+{
+  "timestamp": "2026-08-26T05:03:20.203Z",
+  "git": {
+    "commit": "290f445de0bcaac0526e1962c687cdeb69c8d0fa",
+    "dirty": true,
+    "status": "M .dockerignore\n M .env.example\n M .env.production.example\n M .env.staging.example\n M .github/workflows/ci.yml\n M .gitignore\n M Dockerfile\n M Khang_BATS_Blockchain_Project/.vscode/settings.json\n M Khang_BATS_Blockchain_Project/BATS_MVP_Production_Guidance.tex\n M Khang_BATS_Blockchain_Project/bibliography.bib\n M Khang_BATS_Blockchain_Project/history.txt\n M Khang_BATS_Blockchain_Project/llncs.cls\n M Khang_BATS_Blockchain_Project/main.aux\n M Khang_BATS_Blockchain_Project/main.out\n M Khang_BATS_Blockchain_Project/main.toc\n M Khang_BATS_Blockchain_Project/samplepaper.aux\n M Khang_BATS_Blockchain_Project/samplepaper.out\n M Khang_BATS_Blockchain_Project/samplepaper.tex\n M Khang_BATS_Blockchain_Project/splncs04.bst\n M README.md\n M ROADMAP_PROJECT_PAPER.md\n M apps/backend/nest-cli.json\n M apps/backend/package.json\n M apps/backend/prisma/migrations/0001_postgis/migration.sql\n M apps/backend/prisma/migrations/0002_admin_rbac/migration.sql\n M apps/backend/prisma/migrations/0003_persistent_core/migration.sql\n M apps/backend/prisma/migrations/0004_atomic_idempotency/migration.sql\n M apps/backend/prisma/migrations/0005_valid_demo_gtin/migration.sql\n M apps/backend/prisma/migrations/0006_anchor_retry_state/migration.sql\n M apps/backend/prisma/schema.prisma\n M apps/backend/prisma/seed.mjs\n M apps/backend/src/access.guard.ts\n M apps/backend/src/admin.controller.ts\n M apps/backend/src/admin.guard.spec.ts\n M apps/backend/src/admin.guard.ts\n M apps/backend/src/admin.service.spec.ts\n M apps/backend/src/admin.service.ts\n M apps/backend/src/anchor-scheduler.service.spec.ts\n M apps/backend/src/anchor-scheduler.service.ts\n M apps/backend/src/anchor.controller.ts\n M apps/backend/src/anchor.service.spec.ts\n M apps/backend/src/anchor.service.ts\n M apps/backend/src/app.controller.ts\n M apps/backend/src/app.module.ts\n M apps/backend/src/auth.controller.ts\n M apps/backend/src/auth.service.ts\n M apps/backend/src/bats.service.spec.ts\n M apps/backend/src/bats.service.ts\n M apps/backend/src/database/database.module.ts\n M apps/backend/src/database/prisma.service.ts\n M apps/backend/src/domain.ts\n M apps/backend/src/dossier.service.spec.ts\n M apps/backend/src/dossier.service.ts\n M apps/backend/src/epcis-document.spec.ts\n M apps/backend/src/evidence.controller.ts\n M apps/backend/src/evidence.service.spec.ts\n M apps/backend/src/evidence.service.ts\n M apps/backend/src/main.ts\n M apps/backend/src/merkle.service.spec.ts\n M apps/backend/src/merkle.service.ts\n M apps/backend/src/metrics.service.spec.ts\n M apps/backend/src/metrics.service.ts\n M apps/backend/src/observability.interceptor.spec.ts\n M apps/backend/src/observability.interceptor.ts\n M apps/backend/src/openapi.decorators.ts\n M apps/backend/src/pagination.spec.ts\n M apps/backend/src/pagination.ts\n M apps/backend/src/polygon.spec.ts\n M apps/backend/src/polygon.ts\n M apps/backend/src/rate-limit.guard.spec.ts\n M apps/backend/src/rate-limit.guard.ts\n M apps/backend/src/research/fraud-evaluation.ts\n M apps/backend/src/research/pilot.controller.ts\n M apps/backend/src/research/pilot.service.ts\n M apps/backend/src/store.service.integration.spec.ts\n M apps/backend/src/store.service.ts\n M apps/backend/src/validation.service.spec.ts\n M apps/backend/src/validation.service.ts\n M apps/backend/src/workflow.e2e.spec.ts\n M apps/backend/tsconfig.json\n M apps/blockchain/contracts/BATSAnchor.sol\n M apps/blockchain/contracts/FullERC721TraceabilityBaseline.sol\n M apps/blockchain/contracts/ResearchBaselines.sol\n M apps/blockchain/hardhat.config.ts\n M apps/blockchain/package.json\n M apps/blockchain/scripts/deploy-local.ts\n M apps/blockchain/scripts/gas-benchmark.ts\n M apps/blockchain/test/BATSAnchor.test.ts\n M apps/blockchain/tsconfig.json\n M apps/web/.env.local.example\n M apps/web/app/about/page.tsx\n M apps/web/app/admin/page.tsx\n M apps/web/app/architecture/page.tsx\n M apps/web/app/benefits/page.tsx\n M apps/web/app/components/GoogleMap.tsx\n M apps/web/app/components/Icons.tsx\n M apps/web/app/dashboard/batches/page.tsx\n M apps/web/app/dashboard/plots/page.tsx\n M apps/web/app/globals.css\n M apps/web/app/layout.tsx\n M apps/web/app/login/page.tsx\n M apps/web/app/page.tsx\n M apps/web/app/portal/page.tsx\n M apps/web/app/verify/[gtin]/[lot]/[serial]/page.tsx\n M apps/web/app/zalo-mini-app/page.tsx\n M apps/web/next-env.d.ts\n M apps/web/next.config.ts\n M apps/web/package.json\n M apps/web/tsconfig.json\n M apps/zalo-mini-app/.env.example\n M apps/zalo-mini-app/app-config.json\n M apps/zalo-mini-app/dist-app/zmp-config.json\n M apps/zalo-mini-app/index.html\n M apps/zalo-mini-app/package.json\n M apps/zalo-mini-app/src/App.tsx\n M apps/zalo-mini-app/src/config.ts\n M apps/zalo-mini-app/src/global.css\n M apps/zalo-mini-app/src/harvest-history.ts\n M apps/zalo-mini-app/src/main.tsx\n M apps/zalo-mini-app/src/offline-queue.ts\n M apps/zalo-mini-app/src/pages/CollectorPage.tsx\n M apps/zalo-mini-app/src/pages/HarvestPage.tsx\n M apps/zalo-mini-app/src/pages/HistoryPage.tsx\n M apps/zalo-mini-app/src/pages/HomePage.tsx\n M apps/zalo-mini-app/src/pages/LoginPage.tsx\n M apps/zalo-mini-app/src/pages/ProfilePage.tsx\n M apps/zalo-mini-app/src/pages/QueuePage.tsx\n M apps/zalo-mini-app/src/types.ts\n M apps/zalo-mini-app/src/zalo-session.ts\n M apps/zalo-mini-app/tsconfig.json\n M apps/zalo-mini-app/vite.config.ts\n M apps/zalo-mini-app/www/zmp-config.json\n M apps/zalo-mini-app/zmp-config.json\n M docker-compose.prod.yml\n M docker-compose.yml\n M docs/BATS_ZAUI_UIUX_POLISH_AUDIT.md\n M docs/DEFERRED_INTEGRATIONS.md\n M docs/IMPLEMENTATION_PLAN_CURRENT.md\n M docs/PROJECT_PROGRESS_STATUS_2026-07-14.md\n M docs/figures/bats-overall-architecture.svg\n M package.json\n M packages/shared-types/package.json\n M packages/shared-types/src/canonical-json.ts\n M packages/shared-types/src/epcis-document.ts\n M packages/shared-types/src/gs1-epcis.ts\n M packages/shared-types/src/index.ts\n M packages/shared-types/src/risk-rules.ts\n M packages/shared-types/tsconfig.json\n M pnpm-lock.yaml\n M pnpm-workspace.yaml\n M research/README.md\n M research/benchmarks/api-load-node.mjs\n M research/benchmarks/api-load.k6.js\n M research/benchmarks/capture-environment.mjs\n M research/benchmarks/charts.mjs\n M research/benchmarks/idempotency-simulation.mjs\n M research/benchmarks/merkle.mjs\n M research/benchmarks/postgis-measure.sql\n M research/benchmarks/postgis.sql\n M research/benchmarks/run-k6-suite.mjs\n M research/benchmarks/summarize-merkle.mjs\n M research/benchmarks/summarize-pilot.mjs\n M research/benchmarks/summarize-postgis.mjs\n M research/experiment-protocol.json\n M research/field-study/CONSENT_FORM_VI.md\n M research/field-study/DATA_DICTIONARY.md\n M research/field-study/PILOT_PROTOCOL_VI.md\n M research/field-study/SUS_VI.md\n M research/formal-model.md\n M research/paper/ARTIFACT_CHECKLIST.md\n M research/paper/CLAIM_EVIDENCE_MATRIX.md\n M research/paper/DATA_AND_CODE_AVAILABILITY.md\n M research/paper/EUREKA_PILOT_GUIDE.md\n M research/paper/K6_LOAD_ANALYSIS.md\n M research/paper/MANUSCRIPT_DRAFT.md\n M research/paper/MANUSCRIPT_SCAFFOLD.md\n M research/paper/PAPER_PROGRESS_TRACKER.md\n M research/paper/RELATED_WORK_MATRIX.md\n M research/paper/RELATED_WORK_PROTOCOL.md\n M research/paper/RESULTS_AND_FIGURES.md\n M research/paper/references.bib\n M research/results/README.md\n M research/results/api-load-harvest-100vu.json\n M research/results/api-load-harvest-500vu.json\n M research/results/api-load-mixed-1000vu.json\n M research/results/api-load-mixed-100vu.json\n M research/results/api-load-mixed-10vu.json\n M research/results/api-load-mixed-5000vu.json\n M research/results/api-load-mixed-500vu.json\n M research/results/api-load-node-2026-07-09T08-42-31-418Z.csv\n M research/results/api-load-node-2026-07-09T08-42-31-418Z.json\n M research/results/checksums.sha256\n M research/results/environment.json\n M research/results/figures/fraud-confusion-matrix.svg\n M research/results/figures/fraud-per-rule.svg\n M research/results/figures/gas-comparison.svg\n M research/results/figures/merkle-runtime.svg\n M research/results/figures/postgis-latency.svg\n M research/results/fraud-ablation.csv\n M research/results/fraud-ablation.json\n M research/results/fraud-dataset.csv\n M research/results/fraud-metrics.json\n M research/results/gas-benchmark.csv\n M research/results/gas-benchmark.json\n M research/results/idempotency-simulation.csv\n M research/results/idempotency-simulation.json\n M research/results/k6-benchmark-staging-suite.json\n M research/results/k6-benchmark-staging-suite.md\n M research/results/merkle-benchmark.csv\n M research/results/merkle-benchmark.json\n M research/results/merkle-summary.json\n M research/results/plot.py\n M research/results/postgis-benchmark.csv\n M research/results/postgis-benchmark.txt\n M research/results/postgis-summary.json\n M scripts/audit-zalo-ui.mjs\n M scripts/backend-entrypoint.sh\n M scripts/backup-local.sh\n M scripts/benchmark-token.mjs\n M scripts/diagnose-zalo-runtime.mjs\n M scripts/restore-local.sh\n M scripts/staging-down.sh\n M scripts/staging-up.sh\n M tools/edit_mapr_precise_deck.py\n M tsconfig.base.json\n M turbo.json\n?? apps/backend/src/research/agriguard/\n?? research/benchmarks/agriguard-postgis-measure.sql\n?? research/benchmarks/agriguard-postgis.sql\n?? research/benchmarks/run-agriguard-postgis.mjs\n?? research/results/agriguard-preliminary/\n?? research/scenarios/"
+  },
+  "nodeVersion": "v24.19.0",
+  "os": "Linux 6.18.33.2-microsoft-standard-WSL2 x64",
+  "cpu": {
+    "model": "AMD Ryzen AI 7 H 450 w/ Radeon 860M",
+    "logicalCores": 16
+  },
+  "ramBytes": 16323870720,
+  "pnpmVersion": "11.7.0",
+  "database": {
+    "databaseName": "bats",
+    "postgresqlVersion": "16.4 (Debian 16.4-1.pgdg110+2)",
+    "postgisVersion": "3.4.3"
+  },
+  "seed": "0x51a7c0de",
+  "ruleSet": [
+    "G",
+    "I",
+    "S",
+    "Y",
+    "M",
+    "C"
+  ],
+  "datasetSize": 24,
+  "deterministicArtifacts": [
+    {
+      "path": "research/scenarios/agriguard/preliminary-scenarios.json",
+      "sha256": "094d68e3f5591dc907d38ce86453d1e324e6453da7bd0696bc9f443e33e52207"
+    },
+    {
+      "path": "research/results/agriguard-preliminary/agriguard-dataset.csv",
+      "sha256": "1e8f7f60d2d6bbc93fc6fddb349918c13b25c6ec94cce9ff38948d3a86a72746"
+    },
+    {
+      "path": "research/results/agriguard-preliminary/agriguard-metrics.json",
+      "sha256": "355dce4b71889298179e7028305d981de18fdf7299fa6c16da22e34e62975bf9"
+    },
+    {
+      "path": "research/results/agriguard-preliminary/agriguard-common-support-metrics.json",
+      "sha256": "7a40aa9dcea6a5da6f4b90f698b68c4be790836504b29fd3a61f41ad3863d35c"
+    }
+  ],
+  "benchmarkProtocol": {
+    "pcie": {
+      "label": "local in-memory/single-process rule-engine microbenchmark",
+      "warmupRuns": 5,
+      "measuredRepetitions": 50,
+      "clock": "process.hrtime.bigint"
+    },
+    "postgis": {
+      "label": "single-client indexed ST_Covers lookup benchmark",
+      "polygonCounts": [
+        100,
+        1000,
+        10000,
+        100000
+      ],
+      "warmupRuns": 3,
+      "measuredRuns": 10,
+      "predicate": "ST_Covers"
+    }
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "schemaVersion": "agriguard-scenario-manifest-v1",
+  "seed": "0x51a7c0de",
+  "labelPolicy": "Ground-truth expectedFraud and expectedRules are authored independently before detector execution.",
+  "scenarios": [
+    {
+      "id": "LEG-001", "scenarioClass": "normal_harvest", "description": "Normal registered harvest.",
+      "expectedFraud": false, "expectedRules": [],
+      "events": [{ "id": "LEG-001-E1", "eventTime": "2026-07-04T08:00:00.000Z", "actorId": "FARMER-A", "plantationCode": "PLANT-A", "location": { "latitude": 10.5, "longitude": 106.5 }, "quantityKg": 1000, "season": "2026", "seasonTotalKg": 0 }]
+    },
+    {
+      "id": "LEG-002", "scenarioClass": "gps_inside", "description": "GPS strictly inside plantation A.",
+      "expectedFraud": false, "expectedRules": [],
+      "events": [{ "id": "LEG-002-E1", "eventTime": "2026-07-04T08:01:00.000Z", "actorId": "FARMER-A", "plantationCode": "PLANT-A", "location": { "latitude": 10.25, "longitude": 106.75 }, "quantityKg": 500, "season": "2026", "seasonTotalKg": 1000 }]
+    },
+    {
+      "id": "LEG-003", "scenarioClass": "gps_boundary", "description": "GPS exactly on plantation A boundary.",
+      "expectedFraud": false, "expectedRules": [],
+      "events": [{ "id": "LEG-003-E1", "eventTime": "2026-07-04T08:02:00.000Z", "actorId": "FARMER-A", "plantationCode": "PLANT-A", "location": { "latitude": 10, "longitude": 106.5 }, "quantityKg": 500, "season": "2026", "seasonTotalKg": 1500 }]
+    },
+    {
+      "id": "LEG-004", "scenarioClass": "authorized_actor", "description": "Actor has current plantation authorization.",
+      "expectedFraud": false, "expectedRules": [],
+      "events": [{ "id": "LEG-004-E1", "eventTime": "2026-08-01T08:00:00.000Z", "actorId": "FARMER-A", "plantationCode": "PLANT-A", "location": { "latitude": 10.5, "longitude": 106.5 }, "quantityKg": 500, "season": "2026", "seasonTotalKg": 2000 }]
+    },
+    {
+      "id": "LEG-005", "scenarioClass": "historically_valid_authorization", "description": "Historical actor authorization is valid at eventTime.",
+      "expectedFraud": false, "expectedRules": [],
+      "events": [{ "id": "LEG-005-E1", "eventTime": "2026-05-01T08:00:00.000Z", "actorId": "FARMER-HISTORICAL", "plantationCode": "PLANT-A", "location": { "latitude": 10.5, "longitude": 106.5 }, "quantityKg": 500, "season": "2026", "seasonTotalKg": 2500 }]
+    },
+    {
+      "id": "LEG-006", "scenarioClass": "plantation_valid_at_event_time", "description": "Plantation registry version is active at eventTime.",
+      "expectedFraud": false, "expectedRules": [],
+      "events": [{ "id": "LEG-006-E1", "eventTime": "2026-09-01T08:00:00.000Z", "actorId": "FARMER-A", "plantationCode": "PLANT-A", "location": { "latitude": 10.5, "longitude": 106.5 }, "quantityKg": 500, "season": "2026", "seasonTotalKg": 3000 }]
+    },
+    {
+      "id": "LEG-007", "scenarioClass": "yield_below_threshold", "description": "Season total is just below policy capacity.",
+      "expectedFraud": false, "expectedRules": [],
+      "events": [{ "id": "LEG-007-E1", "eventTime": "2026-10-01T08:00:00.000Z", "actorId": "FARMER-A", "plantationCode": "PLANT-A", "location": { "latitude": 10.5, "longitude": 106.5 }, "quantityKg": 999, "season": "2026", "seasonTotalKg": 20000 }]
+    },
+    {
+      "id": "LEG-008", "scenarioClass": "yield_exact_threshold", "description": "Season total equals policy capacity.",
+      "expectedFraud": false, "expectedRules": [],
+      "events": [{ "id": "LEG-008-E1", "eventTime": "2026-10-01T08:01:00.000Z", "actorId": "FARMER-A", "plantationCode": "PLANT-A", "location": { "latitude": 10.5, "longitude": 106.5 }, "quantityKg": 1000, "season": "2026", "seasonTotalKg": 20000 }]
+    },
+    {
+      "id": "LEG-009", "scenarioClass": "multiple_legitimate_harvests", "description": "Two sequential legitimate harvest declarations.",
+      "expectedFraud": false, "expectedRules": [],
+      "events": [
+        { "id": "LEG-009-E1", "eventTime": "2026-07-05T08:00:00.000Z", "actorId": "FARMER-A", "plantationCode": "PLANT-A", "location": { "latitude": 10.4, "longitude": 106.4 }, "quantityKg": 700, "season": "2026", "seasonTotalKg": 3500 },
+        { "id": "LEG-009-E2", "eventTime": "2026-07-06T08:00:00.000Z", "actorId": "FARMER-A", "plantationCode": "PLANT-A", "location": { "latitude": 10.6, "longitude": 106.6 }, "quantityKg": 800, "season": "2026", "seasonTotalKg": 4200 }
+      ]
+    },
+    {
+      "id": "LEG-010", "scenarioClass": "packing_normal_loss", "description": "Packing output reflects normal process loss.",
+      "expectedFraud": false, "expectedRules": [],
+      "events": [{ "id": "LEG-010-E1", "eventTime": "2026-07-07T08:00:00.000Z", "actorId": "FARMER-A", "plantationCode": "PLANT-A", "massBalance": { "provenancePlantationCode": "PLANT-A", "openingInventoryKg": 0, "verifiedInputs": [{ "plantationCode": "PLANT-A", "quantityKg": 1000 }], "outputKg": 900, "rho": 0.95, "epsilonPct": 0 } }]
+    },
+    {
+      "id": "LEG-011", "scenarioClass": "valid_mass_balance", "description": "Output equals provenance-scoped maximum.",
+      "expectedFraud": false, "expectedRules": [],
+      "events": [{ "id": "LEG-011-E1", "eventTime": "2026-07-07T08:01:00.000Z", "actorId": "FARMER-A", "plantationCode": "PLANT-A", "massBalance": { "provenancePlantationCode": "PLANT-A", "verifiedInputs": [{ "plantationCode": "PLANT-A", "quantityKg": 1000 }], "outputKg": 900, "rho": 0.9, "epsilonPct": 0 } }]
+    },
+    {
+      "id": "LEG-012", "scenarioClass": "valid_custody_sequence", "description": "Complete deterministic custody sequence.",
+      "expectedFraud": false, "expectedRules": [],
+      "events": [
+        { "id": "LEG-012-E1", "eventTime": "2026-07-08T08:00:00.000Z", "actorId": "FARMER-A", "plantationCode": "PLANT-A", "custody": { "currentState": "HARVESTED", "nextState": "RECEIVED", "source": "farm-a", "destination": "collector-a" } },
+        { "id": "LEG-012-E2", "eventTime": "2026-07-08T09:00:00.000Z", "actorId": "FARMER-A", "plantationCode": "PLANT-A", "custody": { "currentState": "RECEIVED", "nextState": "PACKED", "source": "collector-a", "destination": "packing-a" } },
+        { "id": "LEG-012-E3", "eventTime": "2026-07-08T10:00:00.000Z", "actorId": "FARMER-A", "plantationCode": "PLANT-A", "custody": { "currentState": "PACKED", "nextState": "SHIPPED", "source": "packing-a", "destination": "exporter-a" } }
+      ]
+    },
+    {
+      "id": "ADV-001", "scenarioClass": "outside_plantation", "description": "Reported GPS is outside the registry polygon.",
+      "expectedFraud": true, "expectedRules": ["G"],
+      "events": [{ "id": "ADV-001-E1", "eventTime": "2026-07-10T08:00:00.000Z", "actorId": "FARMER-A", "plantationCode": "PLANT-A", "location": { "latitude": 9, "longitude": 106.5 }, "quantityKg": 500, "season": "2026", "seasonTotalKg": 5000 }]
+    },
+    {
+      "id": "ADV-002", "scenarioClass": "unauthorized_actor", "description": "Actor has no plantation authorization.",
+      "expectedFraud": true, "expectedRules": ["I"],
+      "events": [{ "id": "ADV-002-E1", "eventTime": "2026-07-10T08:01:00.000Z", "actorId": "UNKNOWN-ACTOR", "plantationCode": "PLANT-A", "location": { "latitude": 10.5, "longitude": 106.5 }, "quantityKg": 500, "season": "2026", "seasonTotalKg": 5500 }]
+    },
+    {
+      "id": "ADV-003", "scenarioClass": "expired_authorization", "description": "Historical actor authorization expired before eventTime.",
+      "expectedFraud": true, "expectedRules": ["I"],
+      "events": [{ "id": "ADV-003-E1", "eventTime": "2026-07-10T08:02:00.000Z", "actorId": "FARMER-HISTORICAL", "plantationCode": "PLANT-A", "location": { "latitude": 10.5, "longitude": 106.5 }, "quantityKg": 500, "season": "2026", "seasonTotalKg": 6000 }]
+    },
+    {
+      "id": "ADV-004", "scenarioClass": "inactive_plantation", "description": "Plantation code is inactive at eventTime.",
+      "expectedFraud": true, "expectedRules": ["S"],
+      "events": [{ "id": "ADV-004-E1", "eventTime": "2026-07-10T08:03:00.000Z", "actorId": "FARMER-INACTIVE", "plantationCode": "PLANT-INACTIVE", "location": { "latitude": 14.5, "longitude": 108.5 }, "quantityKg": 500, "season": "2026", "seasonTotalKg": 0 }]
+    },
+    {
+      "id": "ADV-005", "scenarioClass": "seasonal_yield_overrun", "description": "Policy-derived seasonal capacity is exceeded.",
+      "expectedFraud": true, "expectedRules": ["Y"],
+      "events": [{ "id": "ADV-005-E1", "eventTime": "2026-10-01T08:02:00.000Z", "actorId": "FARMER-A", "plantationCode": "PLANT-A", "location": { "latitude": 10.5, "longitude": 106.5 }, "quantityKg": 1000, "season": "2026", "seasonTotalKg": 20001 }]
+    },
+    {
+      "id": "ADV-006", "scenarioClass": "mass_over_output", "description": "Output is greater than verified input capacity.",
+      "expectedFraud": true, "expectedRules": ["M"],
+      "events": [{ "id": "ADV-006-E1", "eventTime": "2026-07-11T08:00:00.000Z", "actorId": "FARMER-A", "plantationCode": "PLANT-A", "massBalance": { "provenancePlantationCode": "PLANT-A", "verifiedInputs": [{ "plantationCode": "PLANT-A", "quantityKg": 1000 }], "outputKg": 901, "rho": 0.9, "epsilonPct": 0 } }]
+    },
+    {
+      "id": "ADV-007", "scenarioClass": "wrong_provenance_substitution", "description": "Only plantation B input supports an output claimed for A.",
+      "expectedFraud": true, "expectedRules": ["M"],
+      "events": [{ "id": "ADV-007-E1", "eventTime": "2026-07-11T08:01:00.000Z", "actorId": "FARMER-A", "plantationCode": "PLANT-A", "massBalance": { "provenancePlantationCode": "PLANT-A", "verifiedInputs": [{ "plantationCode": "PLANT-B", "quantityKg": 2000 }], "outputKg": 500, "rho": 1, "epsilonPct": 0 } }]
+    },
+    {
+      "id": "ADV-008", "scenarioClass": "cross_plantation_compensation", "description": "Plantation B input attempts to hide plantation A over-output.",
+      "expectedFraud": true, "expectedRules": ["M"],
+      "events": [{ "id": "ADV-008-E1", "eventTime": "2026-07-11T08:02:00.000Z", "actorId": "FARMER-A", "plantationCode": "PLANT-A", "massBalance": { "provenancePlantationCode": "PLANT-A", "openingInventoryKg": 0, "verifiedInputs": [{ "plantationCode": "PLANT-A", "quantityKg": 500 }, { "plantationCode": "PLANT-B", "quantityKg": 1000 }], "outputKg": 600, "rho": 1, "epsilonPct": 0 } }]
+    },
+    {
+      "id": "ADV-009", "scenarioClass": "invalid_custody_transition", "description": "Harvested lot skips RECEIVED and moves directly to PACKED.",
+      "expectedFraud": true, "expectedRules": ["C"],
+      "events": [{ "id": "ADV-009-E1", "eventTime": "2026-07-12T08:00:00.000Z", "actorId": "FARMER-A", "plantationCode": "PLANT-A", "custody": { "currentState": "HARVESTED", "nextState": "PACKED", "source": "farm-a", "destination": "packing-a" } }]
+    },
+    {
+      "id": "ADV-010", "scenarioClass": "invalid_custody_location", "description": "Custody transition omits its source.",
+      "expectedFraud": true, "expectedRules": ["C"],
+      "events": [{ "id": "ADV-010-E1", "eventTime": "2026-07-12T08:01:00.000Z", "actorId": "FARMER-A", "plantationCode": "PLANT-A", "custody": { "currentState": "HARVESTED", "nextState": "RECEIVED", "destination": "collector-a" } }]
+    },
+    {
+      "id": "ADV-011", "scenarioClass": "combined_harvest_anomalies", "description": "Outside GPS, unauthorized actor and yield overrun occur together.",
+      "expectedFraud": true, "expectedRules": ["G", "I", "Y"],
+      "events": [{ "id": "ADV-011-E1", "eventTime": "2026-10-01T08:03:00.000Z", "actorId": "UNKNOWN-ACTOR", "plantationCode": "PLANT-A", "location": { "latitude": 9, "longitude": 105 }, "quantityKg": 1000, "season": "2026", "seasonTotalKg": 20001 }]
+    },
+    {
+      "id": "ADV-012", "scenarioClass": "combined_mass_custody_anomalies", "description": "Over-output accompanies an impossible custody transition.",
+      "expectedFraud": true, "expectedRules": ["M", "C"],
+      "events": [{ "id": "ADV-012-E1", "eventTime": "2026-07-12T08:02:00.000Z", "actorId": "FARMER-A", "plantationCode": "PLANT-A", "massBalance": { "provenancePlantationCode": "PLANT-A", "verifiedInputs": [{ "plantationCode": "PLANT-A", "quantityKg": 1000 }], "outputKg": 1100, "rho": 0.95, "epsilonPct": 0 }, "custody": { "currentState": "RECEIVED", "nextState": "SHIPPED", "source": "collector-a", "destination": "exporter-a" } }]
+    }
+  ]
+}

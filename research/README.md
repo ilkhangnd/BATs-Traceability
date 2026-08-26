@@ -42,6 +42,34 @@ field accuracy; independently labelled pilot data is still required.
 pnpm research:gas
 ```
 
+## Preliminary BATS-AgriGuard PCIE prototype
+
+```bash
+pnpm research:agriguard
+```
+
+This runs the isolated G/I/S/Y/M/C preliminary engine, the frozen BATS v1
+adapter, true remove-one-rule re-execution, mass-balance sensitivity and a
+local single-process PCIE microbenchmark. Independently labelled scenarios are
+stored in `research/scenarios/agriguard/`; outputs are written only to
+`research/results/agriguard-preliminary/`.
+
+With the local Docker PostGIS service running, execute the separate
+boundary-inclusive spatial benchmark:
+
+```bash
+docker compose up -d postgis
+pnpm research:agriguard:postgis
+```
+
+It uses a separate research table and `ST_Covers`; it does not modify the
+existing BATS `ST_Contains` benchmark. The registry and authorization history
+are immutable research fixtures rather than production Prisma models.
+
+> These are preliminary synthetic scenario/rule-coverage and local
+> microbenchmark results from an incomplete BATS-AgriGuard prototype. They are
+> not estimates of real-world fraud-detection accuracy.
+
 Measures median gas on the local Hardhat EVM for a BATS daily root, a direct
 event storage baseline and a minimal batch-token baseline, then projects daily
 cost for several event volumes. The token baseline is intentionally minimal,

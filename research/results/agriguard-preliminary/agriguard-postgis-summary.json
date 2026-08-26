@@ -1,0 +1,55 @@
+{
+  "generatedAt": "2026-08-26T05:35:59.683Z",
+  "benchmark": "single-client indexed ST_Covers lookup benchmark",
+  "protocol": {
+    "polygonCounts": [
+      100,
+      1000,
+      10000,
+      100000
+    ],
+    "warmupRuns": 3,
+    "measuredRuns": 10
+  },
+  "measurementSource": "server-side clock_timestamp via Docker psql",
+  "databaseMetadata": {
+    "databaseName": "bats",
+    "postgresqlVersion": "16.4 (Debian 16.4-1.pgdg110+2)",
+    "postgisVersion": "3.4.3"
+  },
+  "groups": [
+    {
+      "polygonCount": 100,
+      "measuredRuns": 10,
+      "medianMs": 0.284,
+      "p95Ms": 3.345,
+      "p99Ms": 3.345,
+      "allMatched": true
+    },
+    {
+      "polygonCount": 1000,
+      "measuredRuns": 10,
+      "medianMs": 0.26,
+      "p95Ms": 0.358,
+      "p99Ms": 0.358,
+      "allMatched": true
+    },
+    {
+      "polygonCount": 10000,
+      "measuredRuns": 10,
+      "medianMs": 0.076,
+      "p95Ms": 0.223,
+      "p99Ms": 0.223,
+      "allMatched": true
+    },
+    {
+      "polygonCount": 100000,
+      "measuredRuns": 10,
+      "medianMs": 0.078,
+      "p95Ms": 0.218,
+      "p99Ms": 0.218,
+      "allMatched": true
+    }
+  ],
+  "caveat": "Single-client indexed ST_Covers lookup benchmark; not API or end-to-end latency."
+}
