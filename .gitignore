@@ -20,3 +20,5 @@ data
 *.log
 .DS_Store
 tmp/
+AGENTS.md
+
