@@ -10,13 +10,22 @@ describe("DossierService", () => {
     const store = new StoreService();
     const bats = new BatsService(store, new ValidationService(), new MerkleService());
     await bats.onModuleInit();
-    return new DossierService(bats);
+    const batch = await bats.createHarvest({
+      farmPlotId: "plot-dlk-0001",
+      actorId: "FARMER-0001",
+      variety: "Ri6",
+      quantityKg: 1250,
+      eventTime: "2026-07-04T08:30:00+07:00",
+      location: { latitude: 12.6789, longitude: 108.1234 }
+    });
+    return { dossier: new DossierService(bats), batch };
   }
 
   it("exports CSV event rows", async () => {
-    const exported = await (await dossier()).export(
+    const fixture = await dossier();
+    const exported = await fixture.dossier.export(
       "8930000000019",
-      "SR-20260704-000001",
+      fixture.batch.id,
       "0001",
       "csv"
     );
@@ -26,9 +35,10 @@ describe("DossierService", () => {
   });
 
   it("exports a valid PDF envelope", async () => {
-    const exported = await (await dossier()).export(
+    const fixture = await dossier();
+    const exported = await fixture.dossier.export(
       "8930000000019",
-      "SR-20260704-000001",
+      fixture.batch.id,
       "0001",
       "pdf"
     );

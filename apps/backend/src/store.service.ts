@@ -1044,22 +1044,5 @@ export class StoreService implements OnModuleInit {
         anchoredAt: anchor.anchoredAt?.toISOString()
       });
     });
-    if (!this.actors.has("FARMER-0001")) {
-      await this.saveActor({
-        id: "FARMER-0001",
-        name: "Nguyễn Văn Minh",
-        phone: "0900000001",
-        role: "FARMER",
-        organization: "HTX Nông nghiệp Cây Trồng",
-        status: "active",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      });
-    }
-    for (const plot of seedPlots) {
-      if (!this.plots.has(plot.id)) {
-        await this.savePlot(plot);
-      }
-    }
   }
 }

@@ -4,7 +4,6 @@ import {
   ForbiddenException,
   Inject,
   Injectable,
-  Logger,
   NotFoundException,
   type OnModuleInit
 } from "@nestjs/common";
@@ -15,7 +14,7 @@ import {
   type BatsObjectEvent,
   type TraceEvent
 } from "@bats/shared-types";
-import type { ActorRole, Batch, CreateHarvestInput, FarmPlot, TransferInput } from "./domain.js";
+import type { ActorRole, Batch, CreateHarvestInput, TransferInput } from "./domain.js";
 import { MerkleService } from "./merkle.service.js";
 import {
   StoreService,
@@ -27,8 +26,6 @@ import { AnchorService } from "./anchor.service.js";
 
 @Injectable()
 export class BatsService implements OnModuleInit {
-  private readonly logger = new Logger(BatsService.name);
-
   constructor(
     @Inject(StoreService) private readonly store: StoreService,
     @Inject(ValidationService) private readonly validation: ValidationService,
@@ -38,203 +35,6 @@ export class BatsService implements OnModuleInit {
 
   async onModuleInit(): Promise<void> {
     await this.store.ensureReady();
-    if (this.store.batches.size > 0) return;
-    if (!this.store.plots.has("plot-dlk-0001")) {
-      this.logger.warn(
-        "Skipping demo harvest bootstrap because sample plot plot-dlk-0001 is not available."
-      );
-      return;
-    }
-    await this.createHarvest({
-      farmPlotId: "plot-dlk-0001",
-      actorId: "FARMER-0001",
-      variety: "Ri6",
-      quantityKg: 1250,
-      eventTime: "2026-07-04T08:30:00+07:00",
-      location: { latitude: 12.6789, longitude: 108.1234 },
-      evidenceHashes: [sha256("demo-field-photo")]
-    });
-    if (!process.env.VITEST) {
-      if (this.store.plots.has("plot-tg-0002")) {
-        await this.createHarvest({
-          farmPlotId: "plot-tg-0002",
-          actorId: "FARMER-0001",
-          variety: "Cát Hòa Lộc",
-          quantityKg: 2400,
-          eventTime: "2026-07-05T09:15:00+07:00",
-          location: { latitude: 10.3350, longitude: 105.8930 },
-          evidenceHashes: [sha256("demo-mango-photo")]
-        });
-      }
-      if (this.store.plots.has("plot-dlk-0003")) {
-        await this.createHarvest({
-          farmPlotId: "plot-dlk-0003",
-          actorId: "FARMER-0001",
-          variety: "Robusta Sẻ",
-          quantityKg: 5200,
-          eventTime: "2026-07-06T14:20:00+07:00",
-          location: { latitude: 12.8220, longitude: 108.0820 },
-          evidenceHashes: [sha256("demo-coffee-photo")]
-        });
-      }
-      if (this.store.plots.has("plot-bth-0004")) {
-        await this.createHarvest({
-          farmPlotId: "plot-bth-0004",
-          actorId: "FARMER-0001",
-          variety: "Ruột Đỏ LĐ1",
-          quantityKg: 3100,
-          eventTime: "2026-07-07T10:00:00+07:00",
-          location: { latitude: 10.8920, longitude: 108.0130 },
-          evidenceHashes: [sha256("demo-dragon-photo")]
-        });
-      }
-      if (this.store.plots.has("plot-btr-0005")) {
-        await this.createHarvest({
-          farmPlotId: "plot-btr-0005",
-          actorId: "FARMER-0001",
-          variety: "Da Xanh Phúc Lộc",
-          quantityKg: 1800,
-          eventTime: "2026-07-08T11:45:00+07:00",
-          location: { latitude: 10.2820, longitude: 106.3320 },
-          evidenceHashes: [sha256("demo-pomelo-photo")]
-        });
-      }
-      if (this.store.plots.has("plot-hy-0006")) {
-        await this.createHarvest({
-          farmPlotId: "plot-hy-0006",
-          actorId: "FARMER-0001",
-          variety: "Hương Chi Đặc Sản",
-          quantityKg: 3600,
-          eventTime: "2026-07-08T14:30:00+07:00",
-          location: { latitude: 20.8220, longitude: 105.9820 },
-          evidenceHashes: [sha256("demo-longan-photo")]
-        });
-      }
-      if (this.store.plots.has("plot-ld-0007")) {
-        await this.createHarvest({
-          farmPlotId: "plot-ld-0007",
-          actorId: "FARMER-0001",
-          variety: "Bơ Sáp 034",
-          quantityKg: 4100,
-          eventTime: "2026-07-09T08:15:00+07:00",
-          location: { latitude: 11.5470, longitude: 107.8220 },
-          evidenceHashes: [sha256("demo-avocado-photo")]
-        });
-      }
-      if (this.store.plots.has("plot-bd-0008")) {
-        await this.createHarvest({
-          farmPlotId: "plot-bd-0008",
-          actorId: "FARMER-0001",
-          variety: "Lái Thiêu Đặc Sản",
-          quantityKg: 2200,
-          eventTime: "2026-07-09T09:30:00+07:00",
-          location: { latitude: 10.9220, longitude: 106.6820 },
-          evidenceHashes: [sha256("demo-mangosteen-photo")]
-        });
-      }
-
-      // Bootstrap full traceability lifecycle for demo crops
-      try {
-        await this.transfer("SR-20260704-000001", {
-          actorId: "COLLECTOR-0001",
-          status: "collected",
-          eventTime: "2026-07-04T14:15:00+07:00",
-          actualWeightKg: 1250
-        });
-        await this.transfer("SR-20260704-000001", {
-          actorId: "PACKING-0001",
-          status: "packed",
-          eventTime: "2026-07-05T09:00:00+07:00",
-          actualWeightKg: 1250
-        });
-        await this.transfer("SR-20260704-000001", {
-          actorId: "PACKING-0001",
-          status: "shipped",
-          eventTime: "2026-07-05T16:45:00+07:00",
-          actualWeightKg: 1250
-        });
-
-        await this.transfer("XC-20260705-000002", {
-          actorId: "COLLECTOR-0001",
-          status: "collected",
-          eventTime: "2026-07-05T13:00:00+07:00",
-          actualWeightKg: 2400
-        });
-        await this.transfer("XC-20260705-000002", {
-          actorId: "PACKING-0001",
-          status: "packed",
-          eventTime: "2026-07-06T08:30:00+07:00",
-          actualWeightKg: 2400
-        });
-
-        await this.transfer("CP-20260706-000003", {
-          actorId: "COLLECTOR-0001",
-          status: "collected",
-          eventTime: "2026-07-06T18:00:00+07:00",
-          actualWeightKg: 5200
-        });
-
-        await this.transfer("BD-20260708-000005", {
-          actorId: "COLLECTOR-0001",
-          status: "collected",
-          eventTime: "2026-07-08T15:00:00+07:00",
-          actualWeightKg: 1800
-        });
-        await this.transfer("BD-20260708-000005", {
-          actorId: "PACKING-0001",
-          status: "packed",
-          eventTime: "2026-07-09T08:00:00+07:00",
-          actualWeightKg: 1800
-        });
-        await this.transfer("BD-20260708-000005", {
-          actorId: "PACKING-0001",
-          status: "shipped",
-          eventTime: "2026-07-09T11:30:00+07:00",
-          actualWeightKg: 1800
-        });
-
-        await this.transfer("HY-20260708-000006", {
-          actorId: "COLLECTOR-0001",
-          status: "collected",
-          eventTime: "2026-07-08T17:00:00+07:00",
-          actualWeightKg: 3600
-        });
-        await this.transfer("HY-20260708-000006", {
-          actorId: "PACKING-0001",
-          status: "packed",
-          eventTime: "2026-07-09T09:00:00+07:00",
-          actualWeightKg: 3600
-        });
-        await this.transfer("HY-20260708-000006", {
-          actorId: "PACKING-0001",
-          status: "shipped",
-          eventTime: "2026-07-09T14:00:00+07:00",
-          actualWeightKg: 3600
-        });
-
-        await this.transfer("LD-20260709-000007", {
-          actorId: "COLLECTOR-0001",
-          status: "collected",
-          eventTime: "2026-07-09T11:00:00+07:00",
-          actualWeightKg: 4100
-        });
-        await this.transfer("LD-20260709-000007", {
-          actorId: "PACKING-0001",
-          status: "packed",
-          eventTime: "2026-07-09T15:00:00+07:00",
-          actualWeightKg: 4100
-        });
-
-        await this.transfer("MC-20260709-000008", {
-          actorId: "COLLECTOR-0001",
-          status: "collected",
-          eventTime: "2026-07-09T12:00:00+07:00",
-          actualWeightKg: 2200
-        });
-      } catch (err) {
-        this.logger.warn(`Notice while bootstrapping sample transfer transitions: ${err}`);
-      }
-    }
   }
 
   plots() {
@@ -277,7 +77,7 @@ export class BatsService implements OnModuleInit {
 
   private async createHarvestCore(input: CreateHarvestInput): Promise<Batch> {
     this.assertDayOpen(input.eventTime);
-    const plot = this.store.plots.get(input.farmPlotId) ?? await this.createPlotFromMobileHarvest(input);
+    const plot = this.store.plots.get(input.farmPlotId);
     if (!plot) throw new NotFoundException("Không tìm thấy vùng trồng.");
     if (!input.quantityKg || input.quantityKg <= 0) {
       throw new BadRequestException("Khối lượng phải lớn hơn 0.");
@@ -361,55 +161,6 @@ export class BatsService implements OnModuleInit {
     return batch;
   }
 
-  private async createPlotFromMobileHarvest(input: CreateHarvestInput): Promise<FarmPlot | undefined> {
-    const canCreateMobilePlot = Boolean(input.farmPlotName) ||
-      input.farmPlotId.startsWith("manual-") ||
-      input.farmPlotId.startsWith("PLOT-RND-") ||
-      input.farmPlotId.startsWith("plot-rnd-");
-    if (!canCreateMobilePlot) return undefined;
-
-    const actor = this.store.actors.get(input.actorId);
-    if (!actor || actor.role !== "FARMER" || actor.status !== "active") return undefined;
-
-    const lat = Number(input.location?.latitude);
-    const lng = Number(input.location?.longitude);
-    if (!Number.isFinite(lat) || !Number.isFinite(lng)) return undefined;
-
-    const varietyLower = input.variety.toLowerCase();
-    const crop = varietyLower.includes("cà phê") || varietyLower.includes("robusta")
-      ? "coffee"
-      : varietyLower.includes("xoài")
-        ? "mango"
-        : varietyLower.includes("thanh long")
-          ? "dragon_fruit"
-          : varietyLower.includes("bưởi")
-            ? "pomelo"
-            : "durian";
-    const delta = 0.0008;
-    const plot: FarmPlot = {
-      id: input.farmPlotId,
-      farmerId: actor.id,
-      farmerName: actor.name,
-      plantingAreaCode: `VN-MOB-PA-${input.farmPlotId.replace(/[^a-zA-Z0-9]/g, "").slice(-8).toUpperCase()}`,
-      crop,
-      variety: input.variety,
-      areaHa: 2.5,
-      province: String(input.farmPlotName ?? "Vùng thu hoạch di động"),
-      district: "Ghi nhận từ Mini App",
-      commune: "GPS thực tế",
-      polygon: [
-        { latitude: lat - delta, longitude: lng - delta },
-        { latitude: lat - delta, longitude: lng + delta },
-        { latitude: lat + delta, longitude: lng + delta },
-        { latitude: lat + delta, longitude: lng - delta }
-      ],
-      status: "active"
-    };
-
-    await this.store.savePlot(plot);
-    return plot;
-  }
-
   async transfer(
     id: string,
     input: TransferInput,
@@ -471,7 +222,7 @@ export class BatsService implements OnModuleInit {
   }
 
   async verify(lot: string) {
-    const batch = this.resolveOrRecoverBatch("8930000000019", lot, "0001");
+    const batch = this.store.batches.get(lot);
     if (!batch) throw new NotFoundException("Không tìm thấy lô.");
     if (this.anchors) {
       const verification = await this.anchors.verification(batch);
@@ -509,68 +260,9 @@ export class BatsService implements OnModuleInit {
     };
   }
 
-  private resolveOrRecoverBatch(gtin: string, lot: string, serial: string): Batch | undefined {
-    let batch = this.store.batches.get(lot);
-    if (!batch && /^[A-Z]{2}-\d{8}-[A-Z0-9]+$/i.test(lot)) {
-      const prefix = (lot.split("-")[0] ?? "SR").toUpperCase();
-      const cropMap: Record<string, string> = {
-        SR: "durian", XC: "mango", CP: "coffee", TL: "dragon_fruit", BD: "pomelo", HY: "longan", LD: "avocado", MC: "mangosteen"
-      };
-      const varietyMap: Record<string, string> = {
-        SR: "Ri6", XC: "Cát Hòa Lộc", CP: "Robusta Sẻ", TL: "Ruột Đỏ LĐ1", BD: "Da Xanh Phúc Lộc", HY: "Hương Chi Đặc Sản", LD: "Bơ Sáp 034", MC: "Lái Thiêu Đặc Sản"
-      };
-      const plotMap: Record<string, string> = {
-        SR: "plot-dlk-0001", XC: "plot-tg-0002", CP: "plot-dlk-0003", TL: "plot-bth-0004", BD: "plot-btr-0005", HY: "plot-hy-0006", LD: "plot-ld-0007", MC: "plot-bd-0008"
-      };
-      const crop = cropMap[prefix] ?? "durian";
-      const variety = varietyMap[prefix] ?? "Ri6";
-      const farmPlotId = plotMap[prefix] ?? "plot-dlk-0001";
-      const now = new Date().toISOString();
-      batch = {
-        id: lot,
-        identity: { gtin, lot, serial },
-        farmPlotId,
-        farmerId: "FARMER-0001",
-        crop,
-        variety,
-        quantityKg: 1250,
-        status: "harvested",
-        riskScore: 0,
-        riskBand: "green",
-        accepted: true,
-        issues: [],
-        createdAt: now,
-        events: [
-          {
-            id: `event-${lot}-harvested`,
-            batchId: lot,
-            eventType: "ObjectEvent",
-            status: "harvested",
-            eventTime: now,
-            actorId: "FARMER-0001",
-            payload: {
-              eventType: "ObjectEvent",
-              eventTime: now,
-              action: "ADD",
-              bizStep: "harvesting",
-              disposition: "active",
-              readPoint: { id: "geo:12.6789,108.1234" },
-              bizLocation: { id: `urn:bats:plot:${farmPlotId}` },
-              objects: [`urn:bats:batch:${lot}`]
-            },
-            eventHash: sha256({ batchId: lot, now })
-          }
-        ]
-      };
-      this.store.batches.set(lot, batch);
-      void this.store.saveBatch(batch).catch(() => {});
-    }
-    return batch;
-  }
-
   async verifyIdentity(gtin: string, lot: string, serial: string) {
     if (!isValidGtin(gtin)) throw new BadRequestException("GTIN không có check digit hợp lệ.");
-    const batch = this.resolveOrRecoverBatch(gtin, lot, serial);
+    const batch = this.store.batches.get(lot);
     if (
       !batch ||
       batch.identity.gtin !== gtin ||
@@ -583,7 +275,7 @@ export class BatsService implements OnModuleInit {
 
   epcisDocument(gtin: string, lot: string, serial: string) {
     if (!isValidGtin(gtin)) throw new BadRequestException("GTIN không có check digit hợp lệ.");
-    const batch = this.resolveOrRecoverBatch(gtin, lot, serial);
+    const batch = this.store.batches.get(lot);
     if (
       !batch ||
       batch.identity.gtin !== gtin ||

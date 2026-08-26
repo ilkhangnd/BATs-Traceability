@@ -12,7 +12,14 @@ describe("AnchorService", () => {
     const bats = new BatsService(store, new ValidationService(), merkle);
     const anchors = new AnchorService(store, merkle);
     await bats.onModuleInit();
-    const batch = store.listBatches()[0]!;
+    const batch = await bats.createHarvest({
+      farmPlotId: "plot-dlk-0001",
+      actorId: "FARMER-0001",
+      variety: "Ri6",
+      quantityKg: 1250,
+      eventTime: "2026-07-04T08:30:00+07:00",
+      location: { latitude: 12.6789, longitude: 108.1234 }
+    });
     const tree = anchors.dailyTree("2026-07-04");
     const result = await anchors.verification(batch);
     expect(tree.leaves).toHaveLength(1);

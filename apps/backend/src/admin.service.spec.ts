@@ -1,16 +1,25 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { AdminService } from "./admin.service.js";
 import { AuthService } from "./auth.service.js";
 import { StoreService } from "./store.service.js";
 
 describe("admin access and CRUD", () => {
   it("creates an HttpOnly admin session and rejects a modified token", () => {
-    const store = new StoreService();
-    const auth = new AuthService(store);
-    const result = auth.login("admin@bats.vn", "BatsAdmin2026!");
-    expect(auth.verify(result.token).role).toBe("ADMIN");
-    expect(auth.cookie(result.token)).toContain("HttpOnly");
-    expect(() => auth.verify(`${result.token}x`)).toThrow();
+    const email = "admin.unit@bats.test";
+    const password = "unit-test-admin-password";
+    vi.stubEnv("ADMIN_EMAIL", email);
+    vi.stubEnv("ADMIN_PASSWORD", password);
+    try {
+      const store = new StoreService();
+      const auth = new AuthService(store);
+      const result = auth.login(email, password);
+      expect(result.token).toBeTruthy();
+      expect(auth.verify(result.token).role).toBe("ADMIN");
+      expect(auth.cookie(result.token)).toContain("HttpOnly");
+      expect(() => auth.verify(`${result.token}x`)).toThrow();
+    } finally {
+      vi.unstubAllEnvs();
+    }
   });
 
   it("creates, updates and soft-deletes a farm plot with audit history", async () => {

@@ -35,8 +35,10 @@ class LocalAnchorService extends AnchorService {
 
 describe("BATS HTTP workflow (e2e)", () => {
   let app: INestApplication;
+  const adminEmail = "admin.e2e@bats.test";
   const previous = {
     storage: process.env.BATS_STORAGE,
+    email: process.env.ADMIN_EMAIL,
     password: process.env.ADMIN_PASSWORD,
     secret: process.env.SESSION_SECRET,
     rpc: process.env.CHAIN_RPC_URL
@@ -44,6 +46,7 @@ describe("BATS HTTP workflow (e2e)", () => {
 
   beforeAll(async () => {
     process.env.BATS_STORAGE = "memory";
+    process.env.ADMIN_EMAIL = adminEmail;
     process.env.ADMIN_PASSWORD = "e2e-admin-password";
     process.env.SESSION_SECRET = "e2e-session-secret-at-least-32-characters";
     delete process.env.CHAIN_RPC_URL;
@@ -63,6 +66,7 @@ describe("BATS HTTP workflow (e2e)", () => {
   afterAll(async () => {
     if (app) await app.close();
     restore("BATS_STORAGE", previous.storage);
+    restore("ADMIN_EMAIL", previous.email);
     restore("ADMIN_PASSWORD", previous.password);
     restore("SESSION_SECRET", previous.secret);
     restore("CHAIN_RPC_URL", previous.rpc);
@@ -72,7 +76,7 @@ describe("BATS HTTP workflow (e2e)", () => {
     const server = app.getHttpServer();
     const login = await request(server)
       .post("/auth/admin/login")
-      .send({ email: "admin@bats.vn", password: "e2e-admin-password" })
+      .send({ email: adminEmail, password: "e2e-admin-password" })
       .expect(201);
     const cookie = login.headers["set-cookie"]?.[0];
     expect(cookie).toContain("bats_session=");
@@ -159,6 +163,53 @@ describe("BATS HTTP workflow (e2e)", () => {
         expect(body.schemaVersion).toBe("2.0");
         expect(body.epcisBody.eventList).toHaveLength(2);
       });
+  });
+
+  it("returns 404 for an unknown farm plot without creating it", async () => {
+    const server = app.getHttpServer();
+    const store = app.get(StoreService);
+    const login = await request(server)
+      .post("/auth/admin/login")
+      .send({ email: adminEmail, password: "e2e-admin-password" })
+      .expect(201);
+    const cookie = login.headers["set-cookie"]?.[0];
+    if (!cookie) throw new Error("Admin login did not return a session cookie.");
+    const issued = await request(server)
+      .post("/admin/actors/FARMER-0001/access-token")
+      .set("Cookie", cookie)
+      .expect(201);
+    const plotCount = store.plots.size;
+    const farmPlotId = "manual-farmer-0001-unknown";
+
+    await request(server)
+      .post("/batches/harvest")
+      .set("Authorization", `Bearer ${issued.body.accessToken}`)
+      .send({
+        farmPlotId,
+        farmPlotName: "Unregistered GPS plot",
+        variety: "Ri6",
+        quantityKg: 500,
+        eventTime: "2026-07-07T08:30:00+07:00",
+        location: { latitude: 11.315, longitude: 106.1 }
+      })
+      .expect(404);
+
+    expect(store.plots.size).toBe(plotCount);
+    expect(store.plots.has(farmPlotId)).toBe(false);
+  });
+
+  it("returns 404 for unknown trace identities without mutating the batch store", async () => {
+    const server = app.getHttpServer();
+    const store = app.get(StoreService);
+    const before = structuredClone(store.listBatches());
+    const identityPath = "8930000000019/SR-20991231-UNKNOWN/0001";
+
+    await request(server).get(`/verify/${identityPath}`).expect(404);
+    await request(server).get(`/01/8930000000019/10/SR-20991231-UNKNOWN/21/0001`).expect(404);
+    await request(server).get(`/epcis/${identityPath}`).expect(404);
+
+    expect(store.listBatches()).toEqual(before);
+    expect(store.batches.has("SR-20991231-UNKNOWN")).toBe(false);
   });
 });
 

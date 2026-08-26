@@ -27,7 +27,7 @@ describe("BatsService operational safeguards", () => {
     const first = await bats.createHarvest(input, "harvest-key-0001");
     const second = await bats.createHarvest(input, "harvest-key-0001");
     expect(second.id).toBe(first.id);
-    expect(store.batches.size).toBe(2);
+    expect(store.batches.size).toBe(1);
     await expect(
       bats.createHarvest({ ...input, quantityKg: 501 }, "harvest-key-0001")
     ).rejects.toThrow("Idempotency key đã được dùng");
@@ -50,7 +50,7 @@ describe("BatsService operational safeguards", () => {
     ]);
     expect(results.filter((result) => result.status === "fulfilled")).toHaveLength(1);
     expect(results.filter((result) => result.status === "rejected")).toHaveLength(1);
-    expect(store.batches.size).toBe(2);
+    expect(store.batches.size).toBe(1);
     await expect(
       bats.createHarvest(input, "concurrent-harvest-001")
     ).resolves.toMatchObject({ quantityKg: 450 });
@@ -78,7 +78,7 @@ describe("BatsService operational safeguards", () => {
     ).resolves.toMatchObject({ quantityKg: 450 });
   });
 
-  it("creates a mobile plot from GPS when Mini App submits a manual harvest area", async () => {
+  it("rejects an unknown plot without creating one from harvest GPS", async () => {
     const { bats, store } = service();
     await bats.onModuleInit();
     const input = {
@@ -93,15 +93,12 @@ describe("BatsService operational safeguards", () => {
       location: { latitude: 11.315, longitude: 106.1 }
     };
 
-    await expect(bats.createHarvest(input, "mobile-harvest-001")).resolves.toMatchObject({
-      id: "SR-20260705-MOBILE",
-      quantityKg: 620,
-      farmPlotId: "manual-farmer-0001-vuon-tay-ninh"
-    });
-    expect(store.plots.get("manual-farmer-0001-vuon-tay-ninh")).toMatchObject({
-      farmerId: "FARMER-0001",
-      province: "HTX Tây Ninh - Vườn thu hoạch"
-    });
+    const plotCount = store.plots.size;
+    await expect(bats.createHarvest(input, "mobile-harvest-001")).rejects.toThrow(
+      "Không tìm thấy vùng trồng"
+    );
+    expect(store.plots.size).toBe(plotCount);
+    expect(store.plots.has("manual-farmer-0001-vuon-tay-ninh")).toBe(false);
   });
 
   it("enforces the actor role for each transfer step", async () => {
@@ -124,14 +121,34 @@ describe("BatsService operational safeguards", () => {
   it("serves only a valid matching GS1 identity and exports EPCIS 2.0", async () => {
     const { bats } = service();
     await bats.onModuleInit();
+    const batch = await bats.createHarvest({
+      farmPlotId: "plot-dlk-0001",
+      actorId: "FARMER-0001",
+      variety: "Ri6",
+      quantityKg: 500,
+      eventTime: "2026-07-04T08:30:00+07:00",
+      location: { latitude: 12.6789, longitude: 108.1234 }
+    });
     await expect(
-      bats.verifyIdentity("8930000000019", "SR-20260704-000001", "0001")
+      bats.verifyIdentity("8930000000019", batch.id, "0001")
     ).resolves.toHaveProperty("batch.identity.gtin", "8930000000019");
     await expect(
-      bats.verifyIdentity("8930000000018", "SR-20260704-000001", "0001")
+      bats.verifyIdentity("8930000000018", batch.id, "0001")
     ).rejects.toThrow("check digit");
     expect(
-      bats.epcisDocument("8930000000019", "SR-20260704-000001", "0001")
+      bats.epcisDocument("8930000000019", batch.id, "0001")
     ).toHaveProperty("schemaVersion", "2.0");
+  });
+
+  it("does not mutate the batch store while verifying an unknown identity", async () => {
+    const { bats, store } = service();
+    await bats.onModuleInit();
+    const batchCount = store.batches.size;
+
+    await expect(
+      bats.verifyIdentity("8930000000019", "SR-20991231-UNKNOWN", "0001")
+    ).rejects.toThrow("Không tìm thấy định danh GS1 Digital Link");
+    expect(store.batches.size).toBe(batchCount);
+    expect(store.batches.has("SR-20991231-UNKNOWN")).toBe(false);
   });
 });

@@ -13,7 +13,7 @@
     "start": "node dist/main.js",
     "test": "vitest run",
     "test:e2e": "vitest run src/workflow.e2e.spec.ts",
-    "test:integration": "RUN_DB_TESTS=1 node --env-file-if-exists=../../.env node_modules/vitest/vitest.mjs run src/store.service.integration.spec.ts",
+    "test:integration": "node --env-file-if-exists=../../.env --input-type=module --eval \"process.env.RUN_DB_TESTS='1'; process.argv.push('run', 'src/store.service.integration.spec.ts'); await import('./node_modules/vitest/vitest.mjs')\"",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
