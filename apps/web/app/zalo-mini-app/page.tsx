@@ -2,9 +2,9 @@ import Link from "next/link";
 
 const steps = [
   "Mở Zalo Mini App BATS",
-  "Chọn vùng trồng và nhập sản lượng",
-  "Lấy GPS, chụp ảnh bằng chứng",
-  "Gửi ngay hoặc lưu hàng chờ khi mất mạng"
+  "Chọn vùng trồng đã được phê duyệt và nhập sản lượng",
+  "Lấy GPS, chụp ảnh bằng chứng hoặc phiếu cân",
+  "Gửi ngay hoặc lưu hàng chờ trên thiết bị khi mất mạng"
 ];
 
 export default function ZaloMiniAppPage() {
@@ -14,12 +14,12 @@ export default function ZaloMiniAppPage() {
         <div className="eyebrow">Zalo Mini App</div>
         <h1>Sổ tay nông hộ nằm ngay trong Zalo.</h1>
         <p>
-          Mini App giúp nông dân ghi nhận lô thu hoạch bằng điện thoại quen thuộc, không cần ví crypto,
-          không cần cài thêm ứng dụng phức tạp.
+          Mini App hỗ trợ nông dân ghi nhận thu hoạch và thương lái ghi nhận bàn giao bằng điện thoại quen thuộc.
+          Website chỉ hiển thị sự kiện sau khi dữ liệu được đồng bộ và kiểm tra theo các luật áp dụng.
         </p>
         <div className="heroActions">
-          <Link className="button primary" href="/admin">Admin theo dõi dữ liệu</Link>
-          <Link className="button secondary" href="/dashboard/batches">Xem lô đã ghi nhận</Link>
+          <Link className="button primary" href="/portal">Theo dõi dữ liệu đã đồng bộ</Link>
+          <Link className="button secondary" href="/admin">Quản trị vùng trồng</Link>
         </div>
       </section>
 
@@ -33,8 +33,8 @@ export default function ZaloMiniAppPage() {
       </section>
 
       <section className="infoCta">
-        <h2>Khi có mạng, dữ liệu được đồng bộ về BATS Admin.</h2>
-        <p>Admin có thể xem lô mới, rủi ro, QR truy xuất và trạng thái blockchain ở một nơi.</p>
+        <h2>Khi có mạng, dữ liệu được đồng bộ về BATS-AgriGuard.</h2>
+        <p>Website hiển thị lịch sử lô, trạng thái thu hoạch/bàn giao, bằng chứng đã gửi và hồ sơ QR. Hàng chờ offline vẫn nằm trên thiết bị Zalo cho đến khi gửi thành công.</p>
       </section>
     </main>
   );

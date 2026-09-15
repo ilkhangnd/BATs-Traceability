@@ -124,4 +124,18 @@ export class AuthController {
   async loginCollector(@Body() input: { phone: string }) {
     return this.auth.loginCollector(input.phone);
   }
+
+  @Post("cooperative/register")
+  @ApiOperation({ summary: "Đăng ký tài khoản Hợp tác xã / Cơ sở đóng gói" })
+  async registerCooperative(
+    @Body() input: { phone: string; name: string; organization?: string }
+  ) {
+    return this.auth.registerCooperative(input);
+  }
+
+  @Post("cooperative/login")
+  @ApiOperation({ summary: "Đăng nhập tài khoản Hợp tác xã bằng số điện thoại" })
+  async loginCooperative(@Body() input: { phone: string }) {
+    return this.auth.loginCooperative(input.phone);
+  }
 }

@@ -78,7 +78,7 @@ describe("BatsService operational safeguards", () => {
     ).resolves.toMatchObject({ quantityKg: 450 });
   });
 
-  it("creates a mobile plot from GPS when Mini App submits a manual harvest area", async () => {
+  it("puts a mobile-created plot into pending review instead of accepting its first harvest", async () => {
     const { bats, store } = service();
     await bats.onModuleInit();
     const input = {
@@ -93,14 +93,51 @@ describe("BatsService operational safeguards", () => {
       location: { latitude: 11.315, longitude: 106.1 }
     };
 
-    await expect(bats.createHarvest(input, "mobile-harvest-001")).resolves.toMatchObject({
-      id: "SR-20260705-MOBILE",
-      quantityKg: 620,
-      farmPlotId: "manual-farmer-0001-vuon-tay-ninh"
-    });
+    await expect(bats.createHarvest(input, "mobile-harvest-001")).rejects.toThrow();
     expect(store.plots.get("manual-farmer-0001-vuon-tay-ninh")).toMatchObject({
       farmerId: "FARMER-0001",
-      province: "HTX Tây Ninh - Vườn thu hoạch"
+      province: "HTX Tây Ninh - Vườn thu hoạch",
+      status: "pending"
+    });
+  });
+
+  it("rejects a client batch prefix that conflicts with the registered crop", async () => {
+    const { bats } = service();
+    await bats.onModuleInit();
+    await expect(
+      bats.createHarvest({
+        id: "SR-20260705-COFFEE",
+        farmPlotId: "plot-dlk-0003",
+        actorId: "FARMER-0001",
+        variety: "Robusta Sẻ",
+        quantityKg: 500,
+        eventTime: "2026-07-05T09:00:00+07:00",
+        location: { latitude: 12.822, longitude: 108.082 }
+      })
+    ).rejects.toThrow("Mã lô phải bắt đầu bằng CP-");
+  });
+
+  it("preserves collector location, evidence and device data in the transfer event", async () => {
+    const { bats } = service();
+    await bats.onModuleInit();
+    const result = await bats.transfer(
+      "SR-20260704-000001",
+      {
+        actorId: "COLLECTOR-0001",
+        status: "collected",
+        eventTime: "2026-07-05T09:00:00+07:00",
+        actualWeightKg: 1240,
+        location: { latitude: 12.68, longitude: 108.12 },
+        evidenceHashes: ["sha256:collector-weight-slip"],
+        device: { deviceId: "ZMP-COLLECTOR-0001", integrity: "trusted" }
+      },
+      "transfer-evidence-001",
+      "COLLECTOR"
+    );
+    expect(result.events.at(-1)?.payload).toMatchObject({
+      readPoint: { id: "geo:12.68,108.12" },
+      evidence: [{ sha256: "sha256:collector-weight-slip", type: "weight-slip" }],
+      device: { deviceId: "ZMP-COLLECTOR-0001" }
     });
   });
 

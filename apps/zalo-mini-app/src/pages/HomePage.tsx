@@ -23,8 +23,8 @@ export const HomePage: React.FC<HomePageProps> = ({
   const shortcuts = [
     {
       id: "harvest",
-      title: isCollector ? "Nhận lô thu mua" : "Chốt lô mới",
-      subtitle: isCollector ? "Ghi nhận từ QR" : "Ghi chép tại vườn",
+      title: isCollector ? "Ghi nhận bàn giao" : "Ghi nhận thu hoạch",
+      subtitle: isCollector ? "Quét QR, cân, bằng chứng" : "GPS, mã vùng, bằng chứng",
       icon: isCollector ? <PackageCheck size={26} color="#ffffff" /> : <Sprout size={26} color="#ffffff" />,
       bg: "linear-gradient(135deg, #155d3b, #0c3e29)",
       badge: null,
@@ -41,8 +41,8 @@ export const HomePage: React.FC<HomePageProps> = ({
     },
     {
       id: "history",
-      title: "Lịch sử lô",
-      subtitle: isCollector ? "Các phiếu đã nhận" : "Các lô đã chốt",
+      title: "Lịch sử sự kiện",
+      subtitle: isCollector ? "Các lần nhận lô" : "Các lần thu hoạch",
       icon: <History size={26} color="#ffffff" />,
       bg: "linear-gradient(135deg, #2a8a5e, #155d3b)",
       badge: null,
@@ -63,15 +63,15 @@ export const HomePage: React.FC<HomePageProps> = ({
     {
       id: 1,
       title: "Cách ghi chép lô thu hoạch nông sản ngay tại vườn",
-      desc: "Đứng tại rẫy, nhập tên vườn, sản lượng và ảnh thực tế để tạo mã lô thu hoạch.",
+      desc: "Đứng tại vườn, ghi mã vùng trồng, sản lượng, GPS và ảnh/bằng chứng để tạo sự kiện thu hoạch.",
       content: (
         <div style={{ fontSize: "14px", lineHeight: "1.65", color: "#172019", ...justifiedText }}>
           <p style={{ fontWeight: 700, color: "#155d3b", marginBottom: "8px", textAlign: "left" }}>Các bước thực hiện nhanh tại vườn:</p>
           <ol style={{ paddingLeft: "20px", marginBottom: "12px", ...justifiedText }}>
-            <li style={{ marginBottom: "6px" }}>Mở mục <strong>Chốt lô</strong>, nhập tên vườn thu hoạch thực tế.</li>
+            <li style={{ marginBottom: "6px" }}>Mở mục <strong>Thu hoạch</strong>, chọn hoặc nhập đúng vùng trồng thực tế.</li>
             <li style={{ marginBottom: "6px" }}>Nhập loại nông sản, số ký vừa hái và kiểm tra vị trí GPS.</li>
             <li style={{ marginBottom: "6px" }}>Chụp ảnh giỏ quả hoặc phiếu cân để làm minh chứng.</li>
-            <li>Bấm <strong>Xác nhận chốt lô</strong> để lưu vào lịch sử và đồng bộ khi có mạng.</li>
+            <li>Bấm <strong>Gửi sự kiện</strong> để lưu vào lịch sử và đồng bộ khi có mạng. PCIE sẽ kiểm tra dữ liệu trước khi tạo lô/QR theo quy tắc áp dụng.</li>
           </ol>
         </div>
       )
@@ -89,14 +89,14 @@ export const HomePage: React.FC<HomePageProps> = ({
     },
     {
       id: 3,
-      title: "Cách đưa mã QR cho thương lái và hợp tác xã tra cứu",
-      desc: "Dùng lịch sử lô để chứng minh nguồn gốc và thời điểm thu hoạch.",
+      title: "Cách chia sẻ QR cho thương lái và hợp tác xã",
+      desc: "Dùng lịch sử sự kiện để đối chiếu thông tin đã ghi nhận và trạng thái kiểm tra.",
       content: (
         <div style={{ fontSize: "14px", lineHeight: "1.65", color: "#172019", ...justifiedText }}>
           <ol style={{ paddingLeft: "20px", marginBottom: "12px", ...justifiedText }}>
-            <li style={{ marginBottom: "6px" }}>Vào mục <strong>Lịch sử</strong> sau khi chốt lô.</li>
-            <li style={{ marginBottom: "6px" }}>Mở cổng kiểm chứng GS1 của lô cần giao.</li>
-            <li>Đưa mã cho thương lái hoặc hợp tác xã kiểm tra thông tin thu hoạch.</li>
+            <li style={{ marginBottom: "6px" }}>Vào mục <strong>Lịch sử</strong> sau khi sự kiện đã được đồng bộ.</li>
+            <li style={{ marginBottom: "6px" }}>Mở QR/Digital Link của lô theo trạng thái được hệ thống cấp.</li>
+            <li>Đưa mã cho thương lái hoặc hợp tác xã đối chiếu thông tin thu hoạch, bằng chứng và trạng thái kiểm tra.</li>
           </ol>
         </div>
       )
@@ -111,10 +111,10 @@ export const HomePage: React.FC<HomePageProps> = ({
       content: (
         <div style={{ fontSize: "14px", lineHeight: "1.65", color: "#172019", ...justifiedText }}>
           <ol style={{ paddingLeft: "20px", marginBottom: "12px", ...justifiedText }}>
-            <li style={{ marginBottom: "6px" }}>Mở mục <strong>Thu mua</strong> khi nhận hàng tại vườn hoặc điểm cân.</li>
+            <li style={{ marginBottom: "6px" }}>Mở mục <strong>Bàn giao</strong> khi nhận hàng tại vườn hoặc điểm cân.</li>
             <li style={{ marginBottom: "6px" }}>Nhập mã lô/QR GS1 do nông dân cung cấp và số điện thoại nông dân.</li>
             <li style={{ marginBottom: "6px" }}>Nhập khối lượng cân nhận thực tế, đo GPS điểm nhận và chụp phiếu cân.</li>
-            <li>Bấm <strong>Xác nhận nhận lô</strong> để tạo phiếu thu mua.</li>
+            <li>Bấm <strong>Gửi sự kiện bàn giao</strong> để tạo phiếu thu mua; hệ thống tiếp tục kiểm tra custody và cân bằng khối lượng.</li>
           </ol>
         </div>
       )

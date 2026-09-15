@@ -34,7 +34,7 @@ const ROLES: RoleOption[] = [
   {
     id: "COLLECTOR",
     title: "Thương lái / Điểm thu mua",
-    subtitle: "Quét QR nhận bàn giao từ nông dân, kiểm định khối lượng thực tế, xác nhận phiếu cân điện tử.",
+    subtitle: "Quét QR nhận bàn giao từ nông dân, ghi khối lượng thực tế và bằng chứng phiếu cân điện tử.",
     badge: "Điều phối & Thu gom",
     colorClass: "role-collector",
     targetUrl: "/portal?role=collector",
@@ -45,7 +45,7 @@ const ROLES: RoleOption[] = [
   {
     id: "COOPERATIVE",
     title: "Hợp tác xã / Cơ sở đóng gói",
-    subtitle: "Giám sát vùng trồng thành viên, chuẩn hóa tem GS1 Digital Link, in mã QR cho lô hàng xuất khẩu.",
+    subtitle: "Quản lý vùng trồng thành viên, chuẩn hóa sự kiện GS1 Digital Link và tổ chức hồ sơ lô hàng.",
     badge: "Quản lý Đóng gói & GS1",
     colorClass: "role-cooperative",
     targetUrl: "/portal?role=cooperative",
@@ -56,7 +56,7 @@ const ROLES: RoleOption[] = [
   {
     id: "ADMIN",
     title: "Quản trị viên Hệ thống (Admin)",
-    subtitle: "Kiểm duyệt quy tắc rủi ro 6 bước, quản lý người dùng, chốt khóa Merkle root lên Blockchain.",
+    subtitle: "Quản lý quy tắc PCIE, người dùng, hàng đợi review và trạng thái neo Merkle root.",
     badge: "Toàn quyền BATS Central",
     colorClass: "role-admin",
     targetUrl: "/admin",
@@ -65,6 +65,23 @@ const ROLES: RoleOption[] = [
     defaultCode: "#ADM-0001"
   }
 ];
+
+const api = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+
+function savePortalProfile(actor: { id: string; name: string; role: RoleType; organization?: string; phone?: string }, accessToken?: string) {
+  const profile = {
+    name: actor.name,
+    org: actor.organization ?? "",
+    code: actor.id,
+    actorId: actor.id,
+    role: actor.role,
+    phone: actor.phone ?? "",
+    accessToken
+  };
+  localStorage.setItem("bats_current_user", JSON.stringify(profile));
+  localStorage.setItem("bats_current_role", actor.role);
+  window.dispatchEvent(new Event("bats-auth-change"));
+}
 
 function LoginContent() {
   const router = useRouter();
@@ -90,7 +107,7 @@ function LoginContent() {
         setOrgName(roleObj.defaultOrg);
         setPlotCode(roleObj.defaultCode);
       }
-      setEmail(`${roleObj.id.toLowerCase()}@bats.vn`);
+      if (roleObj.id === "ADMIN") setEmail("admin@bats.vn");
     }
   }, [selectedRole, mode]);
 
@@ -101,36 +118,67 @@ function LoginContent() {
     setLoading(true);
     setError("");
 
-    setTimeout(() => {
-      const userProfile = {
-        name: fullName || currentRoleInfo.defaultName,
-        org: orgName || currentRoleInfo.defaultOrg,
-        code: plotCode || currentRoleInfo.defaultCode,
-        role: selectedRole,
-        email: email || `${selectedRole.toLowerCase()}@bats.vn`,
-        phone: phone || "0912345678"
-      };
-      localStorage.setItem("bats_current_user", JSON.stringify(userProfile));
-      localStorage.setItem("bats_current_role", selectedRole);
+    try {
+      if (selectedRole === "ADMIN") {
+        const response = await fetch(`${api}/auth/admin/login`, {
+          method: "POST",
+          credentials: "include",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.message ?? "Không thể đăng nhập quản trị.");
+        savePortalProfile(data.actor);
+        router.push(currentRoleInfo.targetUrl);
+        return;
+      }
 
-      setLoading(false);
+      const rolePath = selectedRole.toLowerCase();
+      const response = await fetch(`${api}/auth/${rolePath}/${mode === "register" ? "register" : "login"}`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(mode === "register"
+          ? { phone, name: fullName, organization: orgName }
+          : { phone })
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.message ?? "Không thể xác thực tài khoản.");
+      savePortalProfile(data.actor, data.accessToken);
       router.push(currentRoleInfo.targetUrl);
-    }, 450);
+    } catch (submitError) {
+      setError((submitError as Error).message);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const quickLoginAs = (roleId: RoleType) => {
+  const quickLoginAs = async (roleId: RoleType) => {
     const roleObj = ROLES.find((r) => r.id === roleId) || ROLES[0];
-    const userProfile = {
-      name: roleObj.defaultName,
-      org: roleObj.defaultOrg,
-      code: roleObj.defaultCode,
-      role: roleObj.id,
-      email: `${roleObj.id.toLowerCase()}@bats.vn`,
-      phone: "0912345678"
-    };
-    localStorage.setItem("bats_current_user", JSON.stringify(userProfile));
-    localStorage.setItem("bats_current_role", roleObj.id);
-    router.push(roleObj.targetUrl);
+    setLoading(true);
+    setError("");
+    try {
+      if (roleId === "ADMIN") {
+        setSelectedRole("ADMIN");
+        setEmail("admin@bats.vn");
+        setPassword("");
+        setError("Vui lòng nhập mật khẩu quản trị để tiếp tục.");
+        return;
+      }
+      const demoPhone = roleId === "FARMER" ? "0900000001" : roleId === "COLLECTOR" ? "0900000002" : "0900000003";
+      const response = await fetch(`${api}/auth/${roleId.toLowerCase()}/register`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ phone: demoPhone, name: roleObj.defaultName, organization: roleObj.defaultOrg })
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.message ?? "Không thể khởi tạo phiên trải nghiệm.");
+      savePortalProfile(data.actor, data.accessToken);
+      router.push(roleObj.targetUrl);
+    } catch (quickError) {
+      setError((quickError as Error).message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -150,7 +198,7 @@ function LoginContent() {
             <div className="eyebrow">CỔNG XÁC THỰC & PHÂN QUYỀN ĐỒNG BỘ</div>
             <h1>Một nền tảng, kết nối minh bạch mọi vai trò trong chuỗi cung ứng.</h1>
             <p>
-              Dữ liệu được đồng bộ realtime từ Zalo Mini App của nông hộ thực địa lên Cổng Sổ tay Nông hộ (`/portal`) và Sổ cái bảo mật Blockchain (`/admin`).
+              Dữ liệu được đồng bộ từ Zalo Mini App và Website vào luồng BATS-AgriGuard: chuẩn hóa sự kiện, kiểm tra PCIE, lưu EPCIS và neo tóm tắt bằng chứng.
             </p>
 
             <div className="authFeatureList">
@@ -164,15 +212,15 @@ function LoginContent() {
               <div className="authFeatureItem">
                 <span className="authFeatureIcon"><BoxIcon size={18} /></span>
                 <div>
-                  <strong>Hợp tác xã chuẩn hóa GS1 & Tem QR Digital Link</strong>
-                  <small>Tự động phát hành tem truy xuất thông minh chuẩn quốc tế cho từng lô nông sản xuất khẩu.</small>
+                  <strong>Hợp tác xã tổ chức dữ liệu GS1 & QR/Digital Link</strong>
+                  <small>Quản lý vùng trồng, lô hàng và dữ liệu truy xuất phục vụ liên thông giữa các tác nhân trong chuỗi.</small>
                 </div>
               </div>
               <div className="authFeatureItem">
                 <span className="authFeatureIcon"><LockIcon size={18} /></span>
                 <div>
-                  <strong>Bảo mật bất biến trên Blockchain Merkle Root</strong>
-                  <small>Mỗi sự kiện thu hoạch và bàn giao được băm SHA-256 và neo lên chuỗi khối không thể chỉnh sửa.</small>
+                  <strong>Neo bằng chứng bằng Merkle Root</strong>
+                  <small>Các bằng chứng đã chọn được băm và neo commitment để hỗ trợ phát hiện thay đổi sau khi cam kết.</small>
                 </div>
               </div>
             </div>
@@ -229,7 +277,7 @@ function LoginContent() {
             </div>
 
             <form className="authMainForm" onSubmit={handleSubmit}>
-              {mode === "register" && (
+              {mode === "register" && selectedRole !== "ADMIN" && (
                 <div className="formRowGrid">
                   <label>
                     Họ và tên / Người đại diện
@@ -254,7 +302,7 @@ function LoginContent() {
                 </div>
               )}
 
-              {mode === "register" && (
+              {mode === "register" && selectedRole !== "ADMIN" && (
                 <div className="formRowGrid">
                   <label>
                     Tên HTX / Doanh nghiệp / Điểm thu mua
@@ -277,18 +325,29 @@ function LoginContent() {
                 </div>
               )}
 
-              <label>
-                Email đăng nhập
+              {selectedRole !== "ADMIN" && mode === "login" && <label>
+                Số điện thoại đã đăng ký
+                <input
+                  type="tel"
+                  placeholder="VD: 0900 000 001"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  required
+                />
+              </label>}
+
+              {selectedRole === "ADMIN" && <label>
+                Email quản trị
                 <input
                   type="email"
-                  placeholder={mode === "register" ? "nongdan@bats.vn" : `${selectedRole.toLowerCase()}@bats.vn`}
+                  placeholder="admin@bats.vn"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
-              </label>
+              </label>}
 
-              <label>
+              {selectedRole === "ADMIN" && <label>
                 Mật khẩu
                 <input
                   type="password"
@@ -297,18 +356,18 @@ function LoginContent() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
-              </label>
+              </label>}
 
               {error && <div className="formErrorNotice">{error}</div>}
 
               <button type="submit" className="button primary authSubmitBtn" disabled={loading}>
-                {loading ? "Đang đồng bộ quyền truy cập..." : mode === "login" ? `Đăng nhập vai trò ${currentRoleInfo.title} →` : `Đăng ký & Vào giao diện ${currentRoleInfo.title} →`}
+                {loading ? "Đang xác thực quyền truy cập..." : selectedRole === "ADMIN" ? "Đăng nhập quản trị →" : mode === "login" ? `Đăng nhập ${currentRoleInfo.title} →` : `Đăng ký & vào dashboard →`}
               </button>
             </form>
 
             <div className="authQuickDemo">
               <div className="demoDivider">
-                <span>Hoặc bấm chọn trải nghiệm nhanh tức thì (Không cần nhập mật khẩu)</span>
+                <span>Hoặc mở nhanh phiên trải nghiệm theo vai trò</span>
               </div>
               <div className="quickBtnGrid">
                 <button type="button" className="quickRoleBtn" onClick={() => quickLoginAs("FARMER")}>

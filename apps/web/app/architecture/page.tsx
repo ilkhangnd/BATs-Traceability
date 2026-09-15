@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 type Status = "live" | "prototype" | "prepared";
 
 function NodeCard({
@@ -14,9 +12,9 @@ function NodeCard({
   status?: Status;
 }) {
   const labels: Record<Status, string> = {
-    live: "Hoạt động chính thức",
-    prototype: "Đã tích hợp Zalo/Web",
-    prepared: "Sẵn sàng mở rộng"
+    live: "Thành phần hiện có",
+    prototype: "Phạm vi MVP/PoC",
+    prepared: "Hướng mở rộng"
   };
   return (
     <article className={`architectureNode ${status}`}>
@@ -39,115 +37,153 @@ function FlowArrow({ label }: { label: string }) {
   );
 }
 
+const workflowStages = [
+  {
+    number: "01",
+    actor: "Nông dân / nông hộ",
+    title: "Ghi nhận thu hoạch tại vùng trồng",
+    description: "Tạo sự kiện thu hoạch kèm mã số vùng trồng, GPS, thời gian, khối lượng và ảnh/chứng từ làm bằng chứng.",
+    checks: "PCIE kiểm tra G/I/S/Y/D/T: geofence, định danh, trạng thái, năng suất, trùng lặp và thời gian.",
+    result: "PASS: lưu sự kiện; REVIEW: đưa vào hàng đợi; BLOCK: không tạo batch và trả lý do hiệu chỉnh."
+  },
+  {
+    number: "02",
+    actor: "Thương lái / đơn vị thu gom",
+    title: "Quét mã và ghi nhận bàn giao",
+    description: "Quét QR/Digital Link để xem tóm tắt batch; khi nhận hàng, ghi cân thực tế, GPS điểm nhận và bằng chứng bàn giao.",
+    checks: "PCIE kiểm tra W/C cùng custody graph và mass balance để đối chiếu sự tiếp nối và khối lượng.",
+    result: "Kết quả trả về xác nhận hoặc cảnh báo review để các bên tiếp tục xử lý theo quy trình."
+  },
+  {
+    number: "03",
+    actor: "Hợp tác xã / cơ sở đóng gói / doanh nghiệp",
+    title: "Chuẩn hóa, neo bằng chứng và tra cứu",
+    description: "Sự kiện được tổ chức theo EPCIS, tạo canonical envelope hash, gom Merkle batch và neo daily root lên EVM blockchain.",
+    checks: "Website vận hành hiển thị provenance, PCIE result, custody/mass balance; QR công khai hiển thị dữ liệu phù hợp quyền truy cập.",
+    result: "Anchor/proof giúp đối chiếu tính toàn vẹn sau cam kết; không tự khẳng định dữ liệu đầu vào là đúng."
+  }
+];
+
 export default function ArchitecturePage() {
   return (
     <main className="architecturePage">
       <section className="architectureHero">
         <div>
-          <div className="eyebrow">KIẾN TRÚC HỆ THỐNG · CHUẨN TRUY XUẤT NÔNG SẢN BATS</div>
-          <h1>Kiến trúc Minh bạch & Đơn giản cho Nông nghiệp.</h1>
+          <div className="eyebrow">CÁCH BATS-AGRIGUARD HOẠT ĐỘNG</div>
+          <h1>Từ ghi nhận tại vườn đến tra cứu lô hàng.</h1>
         </div>
         <div className="architectureLead">
           <p>
-            Hệ thống BATS được thiết kế linh hoạt, bảo mật và cực kỳ dễ sử dụng: kết nối trực tiếp từ nông hộ qua Zalo Mini App, kiểm định thực địa tự động và lưu trữ bằng chứng an toàn tuyệt đối trên Blockchain.
+            Quy trình gồm ba chặng dễ theo dõi: ghi nhận tại vùng trồng, bàn giao/tiếp nhận và tra cứu. Ở mỗi chặng, dữ liệu được kiểm tra trước khi lưu; blockchain chỉ neo commitment bằng chứng sau khi dữ liệu đã được cam kết.
           </p>
           <div className="legend">
-            <span className="legendLive"><i />Hoạt động chính thức</span>
-            <span className="legendPrototype"><i />Đã tích hợp Zalo/Web</span>
-            <span className="legendPrepared"><i />Sẵn sàng mở rộng</span>
+            <span className="legendLive"><i />Thành phần hiện có</span>
+            <span className="legendPrototype"><i />Phạm vi MVP/PoC</span>
+            <span className="legendPrepared"><i />Hướng mở rộng</span>
           </div>
         </div>
+      </section>
+
+      <section className="workflowExplainer" aria-labelledby="workflow-title">
+        <div className="workflowExplainerIntro">
+          <div>
+            <div className="eyebrow">QUY TRÌNH NGHIỆP VỤ</div>
+            <h2 id="workflow-title">Ba chặng, một chuỗi dữ liệu liên tục</h2>
+          </div>
+          <p>Phần này diễn giải workflow trước; sơ đồ kiến trúc bên dưới cho biết các thành phần phần mềm hiện thực hóa từng bước như thế nào.</p>
+        </div>
+        <ol className="workflowStageList">
+          {workflowStages.map((stage) => (
+            <li key={stage.number} className="workflowStage">
+              <div className="workflowStageNumber" aria-hidden="true">{stage.number}</div>
+              <div className="workflowStageBody">
+                <span className="workflowStageActor">{stage.actor}</span>
+                <h3>{stage.title}</h3>
+                <p>{stage.description}</p>
+                <dl>
+                  <div><dt>Hệ thống kiểm tra</dt><dd>{stage.checks}</dd></div>
+                  <div><dt>Kết quả xử lý</dt><dd>{stage.result}</dd></div>
+                </dl>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <p className="workflowBoundary"><strong>Nguyên tắc xuyên suốt:</strong> validation diễn ra trước evidence hashing và blockchain anchoring; evidence anchor hỗ trợ kiểm toán tính toàn vẹn sau khi cam kết.</p>
       </section>
 
       <section className="architectureCanvas" aria-label="Sơ đồ kiến trúc triển khai BATS">
         <div className="architectureLayer clientLayer">
           <div className="layerHeading">
             <span>01</span>
-            <div><strong>Lớp Giao diện Người dùng (Điểm chạm thực tế)</strong><small>Kết nối đơn giản cho từng vai trò trong chuỗi cung ứng</small></div>
+            <div><strong>Lớp người dùng và thu thập dữ liệu</strong><small>Ghi nhận theo vai trò; gắn actor, thời gian, vị trí và bằng chứng</small></div>
           </div>
           <div className="nodeGrid three">
-            <NodeCard code="QR" title="Tra cứu Nguồn gốc (Mã QR)" description="Người tiêu dùng quét mã tra cứu toàn bộ nhật ký lô hàng, hình ảnh thực địa và bằng chứng minh bạch." />
-            <NodeCard code="ZA" title="Zalo Mini App Nông hộ" description="Ứng dụng cho nông dân ghi nhận thu hoạch ngay trên Zalo, hoạt động mượt mà cả khi ở vườn mất mạng internet." />
-            <NodeCard code="WD" title="Cổng Quản trị & Điều hành" description="Giao diện dành cho hợp tác xã và nhà quản lý theo dõi vùng trồng, kiểm soát lô hàng và cảnh báo rủi ro." />
+            <NodeCard code="QR" title="QR / Digital Link công khai" description="Tra cứu thông tin được công bố phù hợp với quyền truy cập: hành trình, trạng thái kiểm tra và trạng thái bằng chứng." />
+            <NodeCard code="ZA" title="Zalo Mini App hiện trường" description="Nông dân và đơn vị thu gom ghi sự kiện thu hoạch/bàn giao, GPS, khối lượng và bằng chứng; hỗ trợ hàng chờ khi mất kết nối." />
+            <NodeCard code="WD" title="Website registry & vận hành" description="Hợp tác xã và đơn vị quản lý đăng ký vùng trồng, quản lý actor, xử lý review và theo dõi chuỗi lô hàng." />
           </div>
         </div>
 
-        <FlowArrow label="Đồng bộ dữ liệu nhanh chóng & hoạt động không cần mạng liên tục" />
+        <FlowArrow label="Data capture → đồng bộ/hàng chờ → Backend API" />
 
         <div className="architectureLayer coreLayer">
           <div className="layerHeading">
             <span>02</span>
-            <div><strong>Lớp Xử lý Nghiệp vụ & Chuẩn hóa Dữ liệu</strong><small>Tiếp nhận, chuẩn hóa và xác minh trung thực dữ liệu nông nghiệp</small></div>
+            <div><strong>Lớp xử lý nghiệp vụ và chuẩn hóa dữ liệu</strong><small>Xác thực phiên, phân quyền và mô hình hóa sự kiện truy xuất</small></div>
           </div>
           <div className="nodeGrid four">
-            <NodeCard code="AU" title="Quản lý Người dùng & Phân quyền" description="Định danh an toàn cho Nông dân, Hợp tác xã, Thương lái, Doanh nghiệp và Cơ quan kiểm định." />
-            <NodeCard code="EP" title="Nhật ký Chuỗi Cung ứng" description="Ghi nhận chuẩn xác các sự kiện thu hoạch, đóng gói, vận chuyển theo tiêu chuẩn truy xuất quốc tế." />
-            <NodeCard code="EV" title="Xác thực Hình ảnh & Phiếu cân" description="Đảm bảo hình ảnh thực địa, tọa độ GPS và chứng từ thu hoạch nguyên bản, chống chỉnh sửa." />
-            <NodeCard code="FP" title="Bản đồ Vùng trồng (GPS)" description="Lưu trữ chính xác ranh giới vườn cây (Polygon GPS) để ngăn chặn việc lấy nông sản bên ngoài gán vào lô hàng." />
+            <NodeCard code="AU" title="Authentication & Role Management" description="Quản lý actor và phạm vi quyền của nông dân, hợp tác xã, thu gom, đóng gói và doanh nghiệp." />
+            <NodeCard code="EP" title="EPCIS Traceability Service" description="Tổ chức các sự kiện ObjectEvent/TransformationEvent theo actor, thời gian, địa điểm, batch/lot, lượng và bằng chứng." />
+            <NodeCard code="EV" title="Evidence Capture & Hashing" description="Liên kết ảnh, phiếu cân và chứng từ với sự kiện; tạo dấu băm để phục vụ đối chiếu toàn vẹn sau này." />
+            <NodeCard code="FP" title="Plantation Registry / PostGIS" description="Lưu mã vùng trồng, polygon, cây trồng và các thuộc tính phục vụ kiểm tra phù hợp không gian-thời gian." />
           </div>
         </div>
 
         <div className="splitConnector">
-          <FlowArrow label="Kiểm tra tự động trước khi lưu" />
-          <FlowArrow label="Lưu trữ dữ liệu an toàn" />
+          <FlowArrow label="PCIE validation trước khi chấp nhận/đưa vào review" />
+          <FlowArrow label="EPCIS Event Store và kho bằng chứng" />
         </div>
 
         <div className="architectureSplit">
           <div className="architectureLayer validationLayer">
             <div className="layerHeading compact">
               <span>03A</span>
-              <div><strong>Lớp Kiểm tra Rủi ro Tự động</strong><small>Hệ thống kiểm định thông minh ngay tại vườn</small></div>
+              <div><strong>PCIE Validation Engine</strong><small>Kiểm tra tính nhất quán và phân luồng PASS / REVIEW / BLOCK</small></div>
             </div>
             <div className="validationPipeline">
-              <NodeCard code="RE" title="Bộ 6 Tiêu chí Kiểm tra Thực tế" description="Kiểm tra tự động: Tọa độ GPS thu hoạch, Năng suất tối đa, Trùng lặp hình ảnh, Thời gian, Quy trình và Trọng lượng." />
+              <NodeCard code="RE" title="Nhóm luật kiểm tra sự kiện" description="Location, actor/role, crop, yield, batch, timestamp, evidence; với các bàn giao bổ sung custody, mass balance và cross-event consistency." />
               <div className="miniArrow">↓</div>
-              <NodeCard code="RS" title="Chấm Điểm Tin Cậy (0 – 100 điểm)" description="Vùng Xanh: Hợp lệ tự duyệt · Vùng Vàng: Cần kiểm tra bổ sung · Vùng Đỏ: Chặn lô hàng gian lận." />
+              <NodeCard code="RS" title="Kết quả và hàng đợi rà soát" description="PASS được lưu theo chính sách; REVIEW chuyển hàng đợi có lý do; BLOCK từ chối tạo/tiếp tục sự kiện và yêu cầu hiệu chỉnh. Kết quả phản ánh kiểm tra quy tắc, không phải xác nhận tuyệt đối nguồn gốc." />
             </div>
           </div>
 
           <div className="architectureLayer storageLayer">
             <div className="layerHeading compact">
               <span>03B</span>
-              <div><strong>Lớp Lưu trữ Dữ liệu Bền vững</strong><small>Tách biệt dữ liệu vận hành và bằng chứng bảo mật</small></div>
+              <div><strong>Lớp dữ liệu truy xuất và bằng chứng</strong><small>Tách dữ liệu vận hành, chỉ mục không gian và đối tượng bằng chứng</small></div>
             </div>
             <div className="nodeGrid two">
-              <NodeCard code="DB" title="Cơ sở Dữ liệu Bản đồ & Nghiệp vụ" description="Hệ thống cơ sở dữ liệu tích hợp bản đồ không gian lưu trữ an toàn toàn bộ quy trình." />
-              <NodeCard code="OS" title="Kho Hình ảnh & Chứng từ Nguyên bản" description="Lưu giữ hình ảnh thực địa và phiếu cân với mã xác thực số chống làm giả." />
+              <NodeCard code="DB" title="EPCIS Event Store · PostgreSQL/PostGIS" description="Lưu sự kiện, quan hệ batch/custody, registry vùng trồng và dữ liệu phục vụ truy xuất, kiểm tra không gian-thời gian." />
+              <NodeCard code="OS" title="Kho ảnh và chứng từ" description="Lưu đối tượng bằng chứng; canonical envelope/hash dùng để kiểm tra thay đổi của bằng chứng đã cam kết." />
             </div>
           </div>
         </div>
 
-        <FlowArrow label="Đóng gói & khóa bảo mật định kỳ" />
+        <FlowArrow label="Canonical envelope hash → Merkle batch → EVM anchor" />
 
         <div className="architectureLayer chainLayer">
           <div className="layerHeading">
             <span>04</span>
-            <div><strong>Lớp Bảo mật Bất biến (Blockchain)</strong><small>Lưu trữ minh bạch, không thể chỉnh sửa hay làm giả</small></div>
+            <div><strong>Lớp neo bằng chứng blockchain</strong><small>Cam kết tóm tắt dữ liệu để tăng khả năng kiểm toán sau khi validation</small></div>
           </div>
           <div className="chainFlow">
-            <NodeCard code="MT" title="Khóa Minh bạch Hàng ngày" description="Đóng gói toàn bộ nhật ký thu hoạch trong ngày thành một mã bảo mật duy nhất, tối ưu chi phí và bảo vệ bí mật kinh doanh." />
-            <div className="horizontalArrow"><span>Khóa bảo mật</span><i /></div>
-            <NodeCard code="SC" title="Hợp đồng Sổ cái Bất biến" description="Lưu giữ mã xác thực trên sổ cái Blockchain, giúp đối tác quốc tế kiểm chứng độc lập độ trung thực của dữ liệu." />
+            <NodeCard code="MT" title="Canonical envelope & Merkle batch" description="Chuẩn hóa tập bằng chứng/sự kiện đã chọn, tạo hash và Merkle root để giảm dữ liệu cần neo và hỗ trợ tạo proof." />
+            <div className="horizontalArrow"><span>Neo tóm tắt</span><i /></div>
+            <NodeCard code="SC" title="EVM Blockchain Anchor" description="Lưu Merkle root hoặc commitment. Lớp này hỗ trợ phát hiện thay đổi sau khi cam kết; không tự xác minh dữ liệu đầu vào là đúng." />
           </div>
         </div>
       </section>
 
-      <section className="implementationStatus">
-        <div className="sectionIntro">
-          <div><div className="eyebrow">HIỆN TRẠNG TRIỂN KHAI HỆ THỐNG</div><h2>Sẵn sàng phục vụ chuỗi nông sản đặc sản Việt Nam.</h2></div>
-          <p>Toàn bộ các thành phần của hệ thống đã được đồng bộ, vận hành trơn tru và dễ dàng cho mọi nông hộ sử dụng.</p>
-        </div>
-        <div className="repoMap">
-          <article><span>Cổng Web Dashboard</span><strong>Cổng Thông tin & Quản trị</strong><p>Giao diện tra cứu minh bạch cho người tiêu dùng và bảng điều hành cho hợp tác xã.</p></article>
-          <article><span>Zalo Mini App</span><strong>Ứng dụng Nông hộ Zalo</strong><p>Công cụ ghi nhận thu hoạch đơn giản bằng nút bấm lớn ngay trên điện thoại di động.</p></article>
-          <article><span>Backend Service</span><strong>Hệ thống Xử lý Trung tâm</strong><p>Tiếp nhận dữ liệu, kiểm tra tự động 6 quy tắc rủi ro thực địa và khóa bảo mật.</p></article>
-          <article><span>Blockchain & PostGIS</span><strong>Hạ tầng Bảo mật & Bản đồ</strong><p>Lưu trữ bản đồ vùng trồng GPS và neo bằng chứng bất biến trên sổ cái bảo mật.</p></article>
-        </div>
-        <div className="nextMilestone">
-          <div><span>HỆ THỐNG HOÀN CHỈNH</span><h3>BATS đã kết nối thành công dữ liệu từ nông hộ, kiểm định tự động và chốt mã bảo mật Blockchain.</h3></div>
-          <Link className="button primary" href="/dashboard/batches">Mở Bảng điều hành chuỗi</Link>
-        </div>
-      </section>
     </main>
   );
 }

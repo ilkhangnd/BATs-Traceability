@@ -12,6 +12,7 @@ type Plot = MapPlot & {
   province: string;
   district: string;
   commune: string;
+  status: "active" | "pending" | "inactive";
 };
 
 export default function PlotsPage() {
@@ -19,7 +20,7 @@ export default function PlotsPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    void fetch(`${api}/plots?pageSize=100`)
+      void fetch(`${api}/plots?status=active&pageSize=100`)
       .then((response) => {
         if (!response.ok) throw new Error();
         return response.json();
@@ -39,7 +40,7 @@ export default function PlotsPage() {
         {plots.map((plot) => (
           <article className="plotCard" key={plot.id}>
             <div className="plotBody">
-              <span className="status">Đang hoạt động</span>
+              <span className="status">{plot.status === "active" ? "Đang hoạt động" : plot.status === "pending" ? "Chờ phê duyệt" : "Ngừng hoạt động"}</span>
               <h2>{plot.plantingAreaCode}</h2>
               <p>{plot.commune}, {plot.district}, {plot.province}</p>
               <dl><div><dt>Diện tích</dt><dd>{plot.areaHa} ha</dd></div><div><dt>Chủ hộ</dt><dd>{plot.farmerName}</dd></div></dl>

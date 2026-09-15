@@ -124,7 +124,7 @@ export const CollectorPage: React.FC<CollectorPageProps> = ({ session, isOnline,
         }
       }
 
-      setMessage({ type: "success", text: "Đã quét QR và tự điền mã lô. Thương lái có thể kiểm tra lại thông tin trước khi xác nhận." });
+      setMessage({ type: "success", text: "Đã quét QR và tự điền mã lô. Hãy đối chiếu thông tin, khối lượng cân và bằng chứng trước khi gửi sự kiện bàn giao." });
     } catch {
       setMessage({ type: "warning", text: "Chưa quét được QR. Có thể chuyển sang nhập tay mã lô/GS1." });
       setEntryMode("manual");
@@ -223,18 +223,21 @@ export const CollectorPage: React.FC<CollectorPageProps> = ({ session, isOnline,
         body: JSON.stringify({
           status: "collected",
           eventTime,
-          actualWeightKg: Number(quantityKg)
+          actualWeightKg: Number(quantityKg),
+          location: payload.location,
+          evidenceHashes: payload.evidenceHashes,
+          device: payload.device
         })
       });
 
       if (response.ok) {
         saveHarvestHistory({ ...historyBase, status: "COLLECTED" }, transferId);
-        setMessage({ type: "success", text: "Đã ghi nhận thương lái nhận lô thành công." });
+        setMessage({ type: "success", text: "Đã gửi sự kiện bàn giao. Hệ thống sẽ kiểm tra chuỗi custody và cân bằng khối lượng trước khi cập nhật trạng thái." });
         setSubmittedReceipt({
           title: "Đã ghi nhận nhận lô",
-          description: "Phiếu thu mua đã được lưu vào sổ tay BATS.",
+          description: "Phiếu bàn giao đã được lưu. Trạng thái kiểm tra custody và cân bằng khối lượng sẽ được cập nhật sau.",
           code: transferId,
-          statusText: "Đã đồng bộ"
+          statusText: "Đã gửi kiểm tra"
         });
         onSubmitted();
       } else {
@@ -350,7 +353,7 @@ export const CollectorPage: React.FC<CollectorPageProps> = ({ session, isOnline,
       >
         <h2 style={{ fontSize: "22px", fontWeight: 800, color: "#0c3e29", marginBottom: "18px", display: "flex", alignItems: "center", gap: "10px", lineHeight: 1.2 }}>
           <PackageCheck size={26} color="#59b22c" />
-          <span>Ghi nhận thu mua</span>
+          <span>Ghi nhận sự kiện bàn giao</span>
         </h2>
 
         <div style={{ marginBottom: "16px" }}>

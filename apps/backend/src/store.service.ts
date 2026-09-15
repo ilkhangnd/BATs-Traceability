@@ -196,6 +196,7 @@ type BatchWithEvents = Prisma.BatchGetPayload<{
 export interface BatchPageQuery extends PageQuery {
   status?: string;
   riskBand?: string;
+  actorId?: string;
 }
 
 export interface PlotPageQuery extends PageQuery {
@@ -376,6 +377,7 @@ export class StoreService implements OnModuleInit {
         (batch) =>
           (!query.status || batch.status === query.status) &&
           (!query.riskBand || batch.riskBand === query.riskBand) &&
+          (!query.actorId || batch.farmerId === query.actorId || batch.events.some((event) => event.actorId === query.actorId)) &&
           containsText(
             query.q,
             batch.id,
@@ -392,11 +394,21 @@ export class StoreService implements OnModuleInit {
     const where: Prisma.BatchWhereInput = {
       ...(query.status ? { status: query.status } : {}),
       ...(query.riskBand ? { riskBand: query.riskBand } : {}),
+      ...(query.actorId
+        ? {
+            OR: [
+              { farmerId: query.actorId },
+              { events: { some: { actorId: query.actorId } } }
+            ]
+          }
+        : {}),
       ...(query.q
         ? {
-            OR: ["id", "gtin", "lot", "variety", "status", "riskBand"].map((field) => ({
-              [field]: { contains: query.q, mode: "insensitive" }
-            }))
+            AND: [{
+              OR: ["id", "gtin", "lot", "variety", "status", "riskBand"].map((field) => ({
+                [field]: { contains: query.q, mode: "insensitive" }
+              }))
+            }]
           }
         : {})
     };

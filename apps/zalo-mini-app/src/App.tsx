@@ -112,8 +112,8 @@ export const App: React.FC = () => {
             <img src="./bats-logo.png" alt="BATS" style={{ width: "27px", height: "27px", objectFit: "contain" }} onError={(e) => { (e.target as HTMLElement).style.display = 'none'; }} />
           </div>
           <div style={{ minWidth: 0 }}>
-            <div style={{ fontSize: "10px", fontWeight: 800, letterSpacing: "0.4px", textTransform: "uppercase", color: "#d9f683", lineHeight: "1.15", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Hệ thống nông nghiệp số</div>
-            <div style={{ fontSize: "15px", fontWeight: 800, letterSpacing: 0, color: "#ffffff", lineHeight: "1.2", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Sổ tay nông hộ BATS</div>
+            <div style={{ fontSize: "10px", fontWeight: 800, letterSpacing: "0.4px", textTransform: "uppercase", color: "#d9f683", lineHeight: "1.15", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>BATS-AgriGuard</div>
+            <div style={{ fontSize: "15px", fontWeight: 800, letterSpacing: 0, color: "#ffffff", lineHeight: "1.2", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>Ghi nhận sự kiện truy xuất</div>
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "5px", fontSize: "12px", fontWeight: 800, backgroundColor: isOnline ? "rgba(203, 237, 113, 0.22)" : "rgba(228, 167, 52, 0.85)", color: isOnline ? "#d9f683" : "#ffffff", padding: "6px 10px", borderRadius: "20px", flexShrink: 0, marginLeft: "10px", lineHeight: 1 }}>
@@ -206,7 +206,7 @@ export const App: React.FC = () => {
       >
         {([
           { id: "home" as TabType, icon: <LayoutGrid size={20} />, label: "Tổng quan" },
-          { id: "harvest" as TabType, icon: isCollector ? <PackageCheck size={20} /> : <Sprout size={20} />, label: isCollector ? "Thu mua" : "Chốt lô" },
+          { id: "harvest" as TabType, icon: isCollector ? <PackageCheck size={20} /> : <Sprout size={20} />, label: isCollector ? "Bàn giao" : "Thu hoạch" },
           { id: "queue" as TabType, icon: <Layers size={20} />, label: "Hàng chờ", badge: queueCount },
           { id: "history" as TabType, icon: <History size={20} />, label: "Lịch sử" },
           { id: "profile" as TabType, icon: <User size={20} />, label: "Hồ sơ" },

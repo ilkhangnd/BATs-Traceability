@@ -42,6 +42,18 @@ function createManualPlotId(plotName: string, actorId: string) {
   return `manual-${actorId.toLowerCase()}-${slug}`;
 }
 
+function cropPrefix(cropType: string) {
+  const crop = normalizeText(cropType);
+  if (/(ca-phe|coffee|robusta)/.test(crop)) return "CP";
+  if (/(thanh-long|dragon)/.test(crop)) return "TL";
+  if (/(xoai|mango)/.test(crop)) return "XC";
+  if (/(buoi|pomelo)/.test(crop)) return "BD";
+  if (/(nhan|longan)/.test(crop)) return "HY";
+  if (/(bo|avocado)/.test(crop)) return "LD";
+  if (/(mang-cut|mangosteen)/.test(crop)) return "MC";
+  return "SR";
+}
+
 export const HarvestPage: React.FC<HarvestPageProps> = ({ session, isOnline, onSubmitted, onViewHistory }) => {
   const [plotsList, setPlotsList] = useState<FarmPlot[]>(PRESET_PLOTS);
   const [selectedPlot, setSelectedPlot] = useState<FarmPlot>(PRESET_PLOTS[0]!);
@@ -136,12 +148,13 @@ export const HarvestPage: React.FC<HarvestPageProps> = ({ session, isOnline, onS
 
     const idempotencyKey = createClientId();
     const eventTime = new Date().toISOString();
-    const localBatchId = `SR-${eventTime.slice(0, 10).replace(/-/g, "")}-${idempotencyKey.slice(0, 6).toUpperCase()}`;
+    const selectedCrop = cropType || activePlot.cropType || "Sầu riêng Ri6";
+    const localBatchId = `${cropPrefix(selectedCrop)}-${eventTime.slice(0, 10).replace(/-/g, "")}-${idempotencyKey.slice(0, 6).toUpperCase()}`;
     const actorId = session?.actor.id ?? "FARMER-0001";
     const plotId = matchedPlot?.id ?? session?.actor.plot?.id ?? createManualPlotId(normalizedHarvestPlotName, actorId);
     const historyBase = {
       id: localBatchId,
-      cropType: cropType || activePlot.cropType || "Sầu riêng Ri6",
+      cropType: selectedCrop,
       quantityKg: Number(quantityKg),
       createdAt: eventTime,
       actorId,
@@ -153,7 +166,7 @@ export const HarvestPage: React.FC<HarvestPageProps> = ({ session, isOnline, onS
       farmPlotId: plotId,
       farmPlotName: normalizedHarvestPlotName,
       actorId,
-      variety: cropType || activePlot.cropType || "Sầu riêng Ri6",
+      variety: selectedCrop,
       quantityKg: Number(quantityKg),
       eventTime,
       location: location
@@ -216,17 +229,17 @@ export const HarvestPage: React.FC<HarvestPageProps> = ({ session, isOnline, onS
         saveHarvestHistory({
           ...historyBase,
           id: batchId,
-          status: data.status === "ANCHORED" || data.batch?.status === "ANCHORED" ? "ANCHORED" : "COLLECTED"
+          status: data.status === "ANCHORED" || data.batch?.status === "ANCHORED" ? "ANCHORED" : "HARVESTED"
         }, localBatchId);
         setMessage({
           type: "success",
-          text: `✅ Đã chốt lô thu hoạch mới thành công! Mã lô hàng: #${batchId} | Tình trạng rẫy: Khớp vị trí GPS thật.`
+          text: `Đã gửi sự kiện thu hoạch #${batchId} lên BATS-AgriGuard. PCIE sẽ kiểm tra mã vùng, vị trí, thời gian, sản lượng và bằng chứng trước khi cập nhật trạng thái.`
         });
         setSubmittedReceipt({
           title: "Đã ghi nhận thu hoạch",
-          description: "Lô thu hoạch đã được lưu vào sổ tay BATS.",
+          description: "Sự kiện thu hoạch đã được lưu. Trạng thái kiểm tra PCIE sẽ được cập nhật sau.",
           code: batchId,
-          statusText: "Đã đồng bộ"
+          statusText: "Đã gửi kiểm tra"
         });
         onSubmitted();
       } else {
@@ -334,7 +347,7 @@ export const HarvestPage: React.FC<HarvestPageProps> = ({ session, isOnline, onS
       <form onSubmit={handleSubmit} style={{ backgroundColor: "#ffffff", borderRadius: "20px", padding: "20px", boxShadow: "0 10px 28px rgba(12, 62, 41, 0.08)", border: "1px solid #dfe3da", textAlign: "left" }}>
         <h3 style={{ fontSize: "21px", fontWeight: 800, color: "#0c3e29", marginBottom: "18px", display: "flex", alignItems: "center", gap: "9px", lineHeight: 1.2 }}>
           <Sprout size={24} color="#63b51f" strokeWidth={2.4} />
-          Chốt lô thu hoạch mới
+          Ghi nhận sự kiện thu hoạch
         </h3>
 
         {/* Plot Name */}
@@ -458,11 +471,11 @@ export const HarvestPage: React.FC<HarvestPageProps> = ({ session, isOnline, onS
                 <div style={{ display: "flex", alignItems: "center", gap: "7px", marginBottom: "3px" }}>
                   <span style={{ width: "8px", height: "8px", borderRadius: "999px", backgroundColor: isWithinPlot() ? "#20b22d" : "#e4a734", boxShadow: `0 0 0 3px ${isWithinPlot() ? "rgba(32, 178, 45, 0.14)" : "rgba(228, 167, 52, 0.18)"}`, flexShrink: 0 }} />
                   <span style={{ fontSize: "13px", fontWeight: 800, lineHeight: 1.2, color: isWithinPlot() ? "#0c3e29" : "#8c6500" }}>
-                    {isWithinPlot() ? (hasMatchedPlot ? "Đúng vị trí vườn" : "Đã ghi nhận vị trí vườn") : "Cần kiểm tra vị trí"}
+                    {isWithinPlot() ? (hasMatchedPlot ? "GPS phù hợp sơ bộ với vùng đã chọn" : "Đã ghi nhận GPS hiện trường") : "Cần kiểm tra lại vị trí"}
                   </span>
                 </div>
                 <div style={{ fontSize: "11.5px", lineHeight: 1.35, color: isWithinPlot() ? "#4f6358" : "#8c6500" }}>
-                  {isWithinPlot() ? (hasMatchedPlot ? "Khớp với rẫy đã chọn." : "Dùng GPS hiện tại cho vườn tự nhập.") : "Nên đo lại trước khi chốt."}
+                  {isWithinPlot() ? (hasMatchedPlot ? "Kết quả cuối cùng do PCIE đánh giá cùng các dữ liệu liên quan." : "Dùng GPS hiện tại cho vườn tự nhập.") : "Nên đo lại trước khi gửi sự kiện."}
                 </div>
               </div>
             </div>
@@ -564,7 +577,7 @@ export const HarvestPage: React.FC<HarvestPageProps> = ({ session, isOnline, onS
           {loadingSubmit
             ? "Đang ghi nhận vào sổ tay nông nghiệp..."
             : isOnline
-            ? "Xác nhận chốt lô & lưu vào sổ tay"
+            ? "Gửi sự kiện thu hoạch để kiểm tra"
             : "📴 Lưu tạm vào máy (chờ có mạng gửi sau)"}
         </button>
       </form>

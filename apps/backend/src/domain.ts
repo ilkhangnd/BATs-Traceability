@@ -19,7 +19,7 @@ export interface FarmPlot {
   district: string;
   commune: string;
   polygon: GeoPoint[];
-  status: "active" | "inactive";
+  status: "active" | "inactive" | "pending";
 }
 
 export type ActorRole =
@@ -134,4 +134,25 @@ export interface TransferInput {
   status: Exclude<BatchStatus, "harvested">;
   eventTime: string;
   actualWeightKg?: number;
+  location?: GeoPoint;
+  evidenceHashes?: string[];
+  device?: CreateHarvestInput["device"];
+}
+
+
+export type MarketplaceRequestStatus = "pending" | "accepted" | "declined";
+
+export interface MarketplaceRequest {
+  id: string;
+  batchId: string;
+  requesterId: string;
+  requesterName: string;
+  requesterOrganization?: string;
+  quantityKg: number;
+  proposedPickupDate?: string;
+  note?: string;
+  status: MarketplaceRequestStatus;
+  createdAt: string;
+  updatedAt: string;
+  responseNote?: string;
 }

@@ -1,0 +1,336 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nyt/global//global/global/global}
+    \entry{ahmad2021}{inproceedings}{}{}
+      \name{author}{2}{}{%
+        {{hash=abab6613b89edd44490cdf98902250c1}{%
+           family={Ahmad},
+           familyi={A\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=e0925c9b2e4b9eb2bc085fe60d8f6cec}{%
+           family={Bailey},
+           familyi={B\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod}}}%
+      }
+      \strng{namehash}{80134fa10609e28444dd6e1463532c24}
+      \strng{fullhash}{80134fa10609e28444dd6e1463532c24}
+      \strng{fullhashraw}{80134fa10609e28444dd6e1463532c24}
+      \strng{bibnamehash}{80134fa10609e28444dd6e1463532c24}
+      \strng{authorbibnamehash}{80134fa10609e28444dd6e1463532c24}
+      \strng{authornamehash}{80134fa10609e28444dd6e1463532c24}
+      \strng{authorfullhash}{80134fa10609e28444dd6e1463532c24}
+      \strng{authorfullhashraw}{80134fa10609e28444dd6e1463532c24}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2021 32nd Irish Signals and Systems Conference (ISSC)}
+      \field{title}{Blockchain in food traceability: A systematic literature review}
+      \field{year}{2021}
+      \field{pages}{1\bibrangedash 6}
+      \range{pages}{6}
+    \endentry
+    \entry{ahn2023}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=ea917da3358e6127c0bdf1c53e87d72e}{%
+           family={Ahn},
+           familyi={A\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{c6364aa6d2793b2d53c434a7efb27911}
+      \strng{fullhash}{c6364aa6d2793b2d53c434a7efb27911}
+      \strng{fullhashraw}{c6364aa6d2793b2d53c434a7efb27911}
+      \strng{bibnamehash}{c6364aa6d2793b2d53c434a7efb27911}
+      \strng{authorbibnamehash}{c6364aa6d2793b2d53c434a7efb27911}
+      \strng{authornamehash}{c6364aa6d2793b2d53c434a7efb27911}
+      \strng{authorfullhash}{c6364aa6d2793b2d53c434a7efb27911}
+      \strng{authorfullhashraw}{c6364aa6d2793b2d53c434a7efb27911}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{SoftwareX}
+      \field{title}{Oliot EPCIS: An open-source EPCIS 2.0 system for supply chain transparency}
+      \field{volume}{23}
+      \field{year}{2023}
+      \field{pages}{101477}
+      \range{pages}{1}
+    \endentry
+    \entry{albizri2021}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=10c3678761f0f0137de15994fea15a5c}{%
+           family={Albizri},
+           familyi={A\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=d32b515aadc94daf4970f0e82fbc2d05}{%
+           family={Appelbaum},
+           familyi={A\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{0890ec78d9ef3a542e39e3d2cc9453f9}
+      \strng{fullhash}{0890ec78d9ef3a542e39e3d2cc9453f9}
+      \strng{fullhashraw}{0890ec78d9ef3a542e39e3d2cc9453f9}
+      \strng{bibnamehash}{0890ec78d9ef3a542e39e3d2cc9453f9}
+      \strng{authorbibnamehash}{0890ec78d9ef3a542e39e3d2cc9453f9}
+      \strng{authornamehash}{0890ec78d9ef3a542e39e3d2cc9453f9}
+      \strng{authorfullhash}{0890ec78d9ef3a542e39e3d2cc9453f9}
+      \strng{authorfullhashraw}{0890ec78d9ef3a542e39e3d2cc9453f9}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Information Systems}
+      \field{number}{2}
+      \field{title}{Trust but verify: The oracle paradox of blockchain smart contracts}
+      \field{volume}{35}
+      \field{year}{2021}
+      \field{pages}{1\bibrangedash 16}
+      \range{pages}{16}
+    \endentry
+    \entry{caro2018}{inproceedings}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=d73dded591122c7839a14095803cd55c}{%
+           family={Caro},
+           familyi={C\bibinitperiod},
+           given={M.\bibnamedelimi P.},
+           giveni={M\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \strng{namehash}{40e1d68dfafeabc07be0eef2b5acecba}
+      \strng{fullhash}{40e1d68dfafeabc07be0eef2b5acecba}
+      \strng{fullhashraw}{40e1d68dfafeabc07be0eef2b5acecba}
+      \strng{bibnamehash}{40e1d68dfafeabc07be0eef2b5acecba}
+      \strng{authorbibnamehash}{40e1d68dfafeabc07be0eef2b5acecba}
+      \strng{authornamehash}{40e1d68dfafeabc07be0eef2b5acecba}
+      \strng{authorfullhash}{40e1d68dfafeabc07be0eef2b5acecba}
+      \strng{authorfullhashraw}{40e1d68dfafeabc07be0eef2b5acecba}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{IOT Tuscany}
+      \field{title}{Blockchain-based traceability in Agri-Food supply chain management: A practical implementation}
+      \field{year}{2018}
+      \field{pages}{1\bibrangedash 4}
+      \range{pages}{4}
+    \endentry
+    \entry{ellahi2023}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=91d94c43ec9cc7140ef5cd2b21fa03b4}{%
+           family={Ellahi},
+           familyi={E\bibinitperiod},
+           given={R.\bibnamedelimi M.},
+           giveni={R\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=0d1e297659c27131414f21c0028dbc7a}{%
+           family={Wood},
+           familyi={W\bibinitperiod},
+           given={L.\bibnamedelimi C.},
+           giveni={L\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=7395f17998a3cbe611844f856e7e1dc3}{%
+           family={Bekhit},
+           familyi={B\bibinitperiod},
+           given={A.\bibnamedelimi E.-D.\bibnamedelimi A.},
+           giveni={A\bibinitperiod\bibinitdelim E\bibinithyphendelim D\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \strng{namehash}{e4c3dc003fe653cfc8c3a2db2c9f0b08}
+      \strng{fullhash}{e4c3dc003fe653cfc8c3a2db2c9f0b08}
+      \strng{fullhashraw}{e4c3dc003fe653cfc8c3a2db2c9f0b08}
+      \strng{bibnamehash}{e4c3dc003fe653cfc8c3a2db2c9f0b08}
+      \strng{authorbibnamehash}{e4c3dc003fe653cfc8c3a2db2c9f0b08}
+      \strng{authornamehash}{e4c3dc003fe653cfc8c3a2db2c9f0b08}
+      \strng{authorfullhash}{e4c3dc003fe653cfc8c3a2db2c9f0b08}
+      \strng{authorfullhashraw}{e4c3dc003fe653cfc8c3a2db2c9f0b08}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Foods}
+      \field{number}{16}
+      \field{title}{Blockchain-based frameworks for food traceability: A systematic review}
+      \field{volume}{12}
+      \field{year}{2023}
+      \field{pages}{3026}
+      \range{pages}{1}
+    \endentry
+    \entry{miloudi2019}{inproceedings}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=00e213cf528674e121d26799d33add3d}{%
+           family={Miloudi},
+           familyi={M\bibinitperiod},
+           given={L.},
+           giveni={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{ac41e100cac8582dff2af9ed569e5325}
+      \strng{fullhash}{ac41e100cac8582dff2af9ed569e5325}
+      \strng{fullhashraw}{ac41e100cac8582dff2af9ed569e5325}
+      \strng{bibnamehash}{ac41e100cac8582dff2af9ed569e5325}
+      \strng{authorbibnamehash}{ac41e100cac8582dff2af9ed569e5325}
+      \strng{authornamehash}{ac41e100cac8582dff2af9ed569e5325}
+      \strng{authorfullhash}{ac41e100cac8582dff2af9ed569e5325}
+      \strng{authorfullhashraw}{ac41e100cac8582dff2af9ed569e5325}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{International Conference on Advanced Intelligent Systems for Sustainable Development}
+      \field{title}{Smart sustainable farming management using integrated approach of IoT, blockchain \& geospatial technologies}
+      \field{year}{2019}
+      \field{pages}{340\bibrangedash 347}
+      \range{pages}{8}
+    \endentry
+    \entry{pranto2021}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=2b27dcf75e00cf347455f0579b3d1a37}{%
+           family={Pranto},
+           familyi={P\bibinitperiod},
+           given={T.\bibnamedelimi H.},
+           giveni={T\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+      }
+      \strng{namehash}{2d06bd0d984d3d61e3a290deae5826ee}
+      \strng{fullhash}{2d06bd0d984d3d61e3a290deae5826ee}
+      \strng{fullhashraw}{2d06bd0d984d3d61e3a290deae5826ee}
+      \strng{bibnamehash}{2d06bd0d984d3d61e3a290deae5826ee}
+      \strng{authorbibnamehash}{2d06bd0d984d3d61e3a290deae5826ee}
+      \strng{authornamehash}{2d06bd0d984d3d61e3a290deae5826ee}
+      \strng{authorfullhash}{2d06bd0d984d3d61e3a290deae5826ee}
+      \strng{authorfullhashraw}{2d06bd0d984d3d61e3a290deae5826ee}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{PeerJ Computer Science}
+      \field{title}{Blockchain and smart contract for IoT enabled smart agriculture}
+      \field{volume}{7}
+      \field{year}{2021}
+      \field{pages}{e407}
+      \range{pages}{-1}
+    \endentry
+    \entry{shahid2020}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=5000bf35d64dcd693b71350a1cb4d44e}{%
+           family={Shahid},
+           familyi={S\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{dc4e66aaf72e7cfd5705e0239b5e7d72}
+      \strng{fullhash}{dc4e66aaf72e7cfd5705e0239b5e7d72}
+      \strng{fullhashraw}{dc4e66aaf72e7cfd5705e0239b5e7d72}
+      \strng{bibnamehash}{dc4e66aaf72e7cfd5705e0239b5e7d72}
+      \strng{authorbibnamehash}{dc4e66aaf72e7cfd5705e0239b5e7d72}
+      \strng{authornamehash}{dc4e66aaf72e7cfd5705e0239b5e7d72}
+      \strng{authorfullhash}{dc4e66aaf72e7cfd5705e0239b5e7d72}
+      \strng{authorfullhashraw}{dc4e66aaf72e7cfd5705e0239b5e7d72}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Access}
+      \field{title}{Blockchain-based agri-food supply chain: A complete solution}
+      \field{volume}{8}
+      \field{year}{2020}
+      \field{pages}{69230\bibrangedash 69243}
+      \range{pages}{14}
+    \endentry
+    \entry{spitalleri2023}{inproceedings}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=62c0ea487cfc40a52955e84c1bbca974}{%
+           family={Spitalleri},
+           familyi={S\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{9eaa72b7aac3e28331950fe61a0e1fcc}
+      \strng{fullhash}{9eaa72b7aac3e28331950fe61a0e1fcc}
+      \strng{fullhashraw}{9eaa72b7aac3e28331950fe61a0e1fcc}
+      \strng{bibnamehash}{9eaa72b7aac3e28331950fe61a0e1fcc}
+      \strng{authorbibnamehash}{9eaa72b7aac3e28331950fe61a0e1fcc}
+      \strng{authornamehash}{9eaa72b7aac3e28331950fe61a0e1fcc}
+      \strng{authorfullhash}{9eaa72b7aac3e28331950fe61a0e1fcc}
+      \strng{authorfullhashraw}{9eaa72b7aac3e28331950fe61a0e1fcc}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{ICCNS}
+      \field{title}{BioTrak: A blockchain-based platform for food chain logistics traceability}
+      \field{year}{2023}
+      \field{pages}{105\bibrangedash 110}
+      \range{pages}{6}
+    \endentry
+    \entry{wu2023}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=30dea90e19629b6b7395a1f947eed163}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod}}}%
+        {{hash=969e89612b8c1fcb83d15a13b7447ff4}{%
+           family={Jiang},
+           familyi={J\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=3cec0f5b4f98c013123343f9b73c4808}{%
+           family={Cao},
+           familyi={C\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{b4404a451d8d48b7b5e4ef9ebba2dbd3}
+      \strng{fullhash}{b4404a451d8d48b7b5e4ef9ebba2dbd3}
+      \strng{fullhashraw}{b4404a451d8d48b7b5e4ef9ebba2dbd3}
+      \strng{bibnamehash}{b4404a451d8d48b7b5e4ef9ebba2dbd3}
+      \strng{authorbibnamehash}{b4404a451d8d48b7b5e4ef9ebba2dbd3}
+      \strng{authornamehash}{b4404a451d8d48b7b5e4ef9ebba2dbd3}
+      \strng{authorfullhash}{b4404a451d8d48b7b5e4ef9ebba2dbd3}
+      \strng{authorfullhashraw}{b4404a451d8d48b7b5e4ef9ebba2dbd3}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Transactions on Intelligent Transportation Systems}
+      \field{number}{4}
+      \field{title}{High-efficiency blockchain-based supply chain traceability}
+      \field{volume}{24}
+      \field{year}{2023}
+      \field{pages}{3748\bibrangedash 3758}
+      \range{pages}{11}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

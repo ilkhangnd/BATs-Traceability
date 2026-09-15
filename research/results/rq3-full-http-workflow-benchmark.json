@@ -1,0 +1,856 @@
+{
+  "benchmark": "full-http-workflow-rq3",
+  "executedAt": "2026-08-27T13:38:30.908Z",
+  "warmupRuns": 5,
+  "measuredRuns": 100,
+  "concurrency": 1,
+  "workflow": "harvest → transfer → local anchor → Digital Link verification → EPCIS export",
+  "scope": "HTTP API, request validation, PCIE, in-memory persistence adapter, canonicalization, Merkle, local anchor and response serialization",
+  "excluded": "PostgreSQL/PostGIS, file upload/object storage, external RPC/public-chain confirmation, real gas cost and concurrent client load",
+  "resultsMs": {
+    "workflowMs": {
+      "p50": 4.2,
+      "p95": 7.182,
+      "p99": 13.329,
+      "mean": 4.796
+    },
+    "harvestMs": {
+      "p50": 0.805,
+      "p95": 1.244,
+      "p99": 3.805,
+      "mean": 1.021
+    },
+    "transferMs": {
+      "p50": 0.803,
+      "p95": 1.263,
+      "p99": 2.139,
+      "mean": 0.917
+    },
+    "anchorMs": {
+      "p50": 0.779,
+      "p95": 1.297,
+      "p99": 2.064,
+      "mean": 0.875
+    },
+    "verifyMs": {
+      "p50": 1.137,
+      "p95": 1.605,
+      "p99": 2.222,
+      "mean": 1.224
+    },
+    "epcisExportMs": {
+      "p50": 0.642,
+      "p95": 1.249,
+      "p99": 3.497,
+      "mean": 0.756
+    }
+  },
+  "rawMeasuredRuns": [
+    {
+      "workflowMs": 4.675082999999859,
+      "harvestMs": 0.8926250000001801,
+      "transferMs": 0.8954999999998563,
+      "anchorMs": 0.9647499999998672,
+      "verifyMs": 1.2616249999998672,
+      "epcisExportMs": 0.6565000000000509
+    },
+    {
+      "workflowMs": 4.644500000000107,
+      "harvestMs": 0.9707080000000587,
+      "transferMs": 0.9199590000000626,
+      "anchorMs": 0.8655840000001263,
+      "verifyMs": 1.20962499999996,
+      "epcisExportMs": 0.6742080000001351
+    },
+    {
+      "workflowMs": 4.625334000000066,
+      "harvestMs": 0.8961249999999836,
+      "transferMs": 0.9360830000000533,
+      "anchorMs": 0.8474160000000666,
+      "verifyMs": 1.2055420000001504,
+      "epcisExportMs": 0.7362090000001444
+    },
+    {
+      "workflowMs": 6.073457999999846,
+      "harvestMs": 0.9058340000001408,
+      "transferMs": 0.9358340000001135,
+      "anchorMs": 0.870958999999857,
+      "verifyMs": 1.304540999999972,
+      "epcisExportMs": 2.051584000000048
+    },
+    {
+      "workflowMs": 5.690333999999893,
+      "harvestMs": 1.0082910000000993,
+      "transferMs": 1.130083999999897,
+      "anchorMs": 1.5402499999997872,
+      "verifyMs": 1.2697499999999309,
+      "epcisExportMs": 0.7372919999997976
+    },
+    {
+      "workflowMs": 5.477959000000055,
+      "harvestMs": 0.8762500000000273,
+      "transferMs": 1.2629590000001372,
+      "anchorMs": 1.1487919999999576,
+      "verifyMs": 1.4111669999999776,
+      "epcisExportMs": 0.7722080000000915
+    },
+    {
+      "workflowMs": 4.736041999999998,
+      "harvestMs": 0.9872920000000249,
+      "transferMs": 0.9017080000000988,
+      "anchorMs": 0.8482910000000174,
+      "verifyMs": 1.3121659999999338,
+      "epcisExportMs": 0.6817499999999654
+    },
+    {
+      "workflowMs": 5.591832999999951,
+      "harvestMs": 0.9382080000000315,
+      "transferMs": 1.0415420000001632,
+      "anchorMs": 1.2972500000000764,
+      "verifyMs": 1.490542000000005,
+      "epcisExportMs": 0.8188749999999345
+    },
+    {
+      "workflowMs": 13.328917000000047,
+      "harvestMs": 3.8046249999999873,
+      "transferMs": 2.035082999999986,
+      "anchorMs": 1.7864580000000387,
+      "verifyMs": 2.1965000000000146,
+      "epcisExportMs": 3.4966249999999945
+    },
+    {
+      "workflowMs": 6.296624999999949,
+      "harvestMs": 2.4721669999998994,
+      "transferMs": 0.9895420000000286,
+      "anchorMs": 0.9264579999999114,
+      "verifyMs": 1.1836659999999029,
+      "epcisExportMs": 0.7183330000000296
+    },
+    {
+      "workflowMs": 4.1881249999999,
+      "harvestMs": 0.8302499999999782,
+      "transferMs": 0.8334580000000642,
+      "anchorMs": 0.7836250000000291,
+      "verifyMs": 1.0985000000000582,
+      "epcisExportMs": 0.6397080000001552
+    },
+    {
+      "workflowMs": 4.186042000000043,
+      "harvestMs": 0.8047500000000127,
+      "transferMs": 0.8010830000000624,
+      "anchorMs": 0.8337500000000091,
+      "verifyMs": 1.1013339999999516,
+      "epcisExportMs": 0.6428329999998823
+    },
+    {
+      "workflowMs": 3.9168750000001182,
+      "harvestMs": 0.6938329999998132,
+      "transferMs": 0.7645840000000135,
+      "anchorMs": 0.7300829999999223,
+      "verifyMs": 1.0838750000000346,
+      "epcisExportMs": 0.6422919999999976
+    },
+    {
+      "workflowMs": 5.257082999999966,
+      "harvestMs": 0.8805829999998878,
+      "transferMs": 1.2517080000000078,
+      "anchorMs": 1.0612079999998514,
+      "verifyMs": 1.2931659999999283,
+      "epcisExportMs": 0.7678750000000036
+    },
+    {
+      "workflowMs": 4.4440830000000915,
+      "harvestMs": 0.9215839999999389,
+      "transferMs": 0.8535829999998441,
+      "anchorMs": 0.8014160000000174,
+      "verifyMs": 1.1130419999999503,
+      "epcisExportMs": 0.7522089999999935
+    },
+    {
+      "workflowMs": 4.020792000000029,
+      "harvestMs": 0.7828329999999823,
+      "transferMs": 0.7799170000000686,
+      "anchorMs": 0.7620409999999538,
+      "verifyMs": 1.064040999999861,
+      "epcisExportMs": 0.6300000000001091
+    },
+    {
+      "workflowMs": 3.9432500000000346,
+      "harvestMs": 0.7616669999999885,
+      "transferMs": 0.7692090000000462,
+      "anchorMs": 0.7619170000000395,
+      "verifyMs": 1.0410830000000715,
+      "epcisExportMs": 0.6073750000000473
+    },
+    {
+      "workflowMs": 3.9998330000000806,
+      "harvestMs": 0.7632920000000922,
+      "transferMs": 0.7879169999998794,
+      "anchorMs": 0.7437079999999696,
+      "verifyMs": 1.090708000000177,
+      "epcisExportMs": 0.6121669999999995
+    },
+    {
+      "workflowMs": 3.9724579999999605,
+      "harvestMs": 0.7509169999998448,
+      "transferMs": 0.7524999999998272,
+      "anchorMs": 0.7570000000000618,
+      "verifyMs": 1.0703330000001188,
+      "epcisExportMs": 0.639667000000145
+    },
+    {
+      "workflowMs": 3.9661250000001473,
+      "harvestMs": 0.7412080000001424,
+      "transferMs": 0.7226250000001073,
+      "anchorMs": 0.7142499999999927,
+      "verifyMs": 1.0694579999999405,
+      "epcisExportMs": 0.7165829999999005
+    },
+    {
+      "workflowMs": 4.142416000000139,
+      "harvestMs": 0.8853750000000673,
+      "transferMs": 0.788082999999915,
+      "anchorMs": 0.7598330000000715,
+      "verifyMs": 1.068875000000162,
+      "epcisExportMs": 0.6380830000000515
+    },
+    {
+      "workflowMs": 4.226125000000138,
+      "harvestMs": 0.7549579999999878,
+      "transferMs": 0.7488749999999982,
+      "anchorMs": 0.9199999999998454,
+      "verifyMs": 1.1298329999999623,
+      "epcisExportMs": 0.6704999999999472
+    },
+    {
+      "workflowMs": 5.053041000000121,
+      "harvestMs": 1.1577080000001843,
+      "transferMs": 1.0582079999999223,
+      "anchorMs": 0.9045830000000024,
+      "verifyMs": 1.2462909999999283,
+      "epcisExportMs": 0.6837080000000242
+    },
+    {
+      "workflowMs": 4.288708000000042,
+      "harvestMs": 0.8635000000001583,
+      "transferMs": 0.8580830000000788,
+      "anchorMs": 0.82487500000002,
+      "verifyMs": 1.118249999999989,
+      "epcisExportMs": 0.6218340000000353
+    },
+    {
+      "workflowMs": 4.200209000000086,
+      "harvestMs": 0.791582999999946,
+      "transferMs": 0.8288340000001426,
+      "anchorMs": 0.762333000000126,
+      "verifyMs": 1.1757920000000013,
+      "epcisExportMs": 0.6394169999998667
+    },
+    {
+      "workflowMs": 4.118291999999883,
+      "harvestMs": 0.800457999999935,
+      "transferMs": 0.7691250000000309,
+      "anchorMs": 0.7917499999998654,
+      "verifyMs": 1.124667000000045,
+      "epcisExportMs": 0.6302089999999225
+    },
+    {
+      "workflowMs": 4.43095900000003,
+      "harvestMs": 0.7907500000001164,
+      "transferMs": 0.7574999999999363,
+      "anchorMs": 0.7583329999999933,
+      "verifyMs": 1.4058330000000296,
+      "epcisExportMs": 0.7164170000000922
+    },
+    {
+      "workflowMs": 4.099917000000005,
+      "harvestMs": 0.7775420000000395,
+      "transferMs": 0.7597089999999298,
+      "anchorMs": 0.7286670000000868,
+      "verifyMs": 1.1010839999999007,
+      "epcisExportMs": 0.7308339999999589
+    },
+    {
+      "workflowMs": 4.6885829999998805,
+      "harvestMs": 0.9267499999998563,
+      "transferMs": 0.8781249999999545,
+      "anchorMs": 1.0214579999999387,
+      "verifyMs": 1.178416999999854,
+      "epcisExportMs": 0.6816670000000613
+    },
+    {
+      "workflowMs": 4.296416999999792,
+      "harvestMs": 0.8675829999999678,
+      "transferMs": 0.8329169999999522,
+      "anchorMs": 0.7367919999999231,
+      "verifyMs": 1.2064170000001013,
+      "epcisExportMs": 0.65037499999994
+    },
+    {
+      "workflowMs": 4.1599999999998545,
+      "harvestMs": 0.7999580000000606,
+      "transferMs": 0.8022499999999582,
+      "anchorMs": 0.7579579999999169,
+      "verifyMs": 1.1616249999999582,
+      "epcisExportMs": 0.6352500000000418
+    },
+    {
+      "workflowMs": 4.180292000000009,
+      "harvestMs": 0.823415999999952,
+      "transferMs": 0.8079159999999774,
+      "anchorMs": 0.770334000000048,
+      "verifyMs": 1.117917000000034,
+      "epcisExportMs": 0.6586250000000291
+    },
+    {
+      "workflowMs": 3.954917000000023,
+      "harvestMs": 0.7574999999999363,
+      "transferMs": 0.7352079999998296,
+      "anchorMs": 0.746167000000014,
+      "verifyMs": 1.097834000000148,
+      "epcisExportMs": 0.6161669999999049
+    },
+    {
+      "workflowMs": 4.088457999999946,
+      "harvestMs": 0.7722919999998794,
+      "transferMs": 0.7392909999998665,
+      "anchorMs": 0.7099580000001424,
+      "verifyMs": 1.2301660000000538,
+      "epcisExportMs": 0.634499999999889
+    },
+    {
+      "workflowMs": 6.370707999999922,
+      "harvestMs": 0.83462499999996,
+      "transferMs": 0.8204170000001341,
+      "anchorMs": 0.7667919999998958,
+      "verifyMs": 3.235834000000068,
+      "epcisExportMs": 0.7106249999999363
+    },
+    {
+      "workflowMs": 4.739417000000003,
+      "harvestMs": 0.8540420000001632,
+      "transferMs": 1.0038750000001073,
+      "anchorMs": 0.990500000000111,
+      "verifyMs": 1.221125000000029,
+      "epcisExportMs": 0.6674169999998867
+    },
+    {
+      "workflowMs": 4.190249999999878,
+      "harvestMs": 0.8589580000000296,
+      "transferMs": 0.7988750000001801,
+      "anchorMs": 0.7794160000000829,
+      "verifyMs": 1.131167000000005,
+      "epcisExportMs": 0.6197090000000571
+    },
+    {
+      "workflowMs": 4.484459000000015,
+      "harvestMs": 0.9484170000000631,
+      "transferMs": 0.9374169999998685,
+      "anchorMs": 0.8122080000000551,
+      "verifyMs": 1.1730000000000018,
+      "epcisExportMs": 0.611417000000074
+    },
+    {
+      "workflowMs": 4.145334000000048,
+      "harvestMs": 0.8103749999997945,
+      "transferMs": 0.8076249999999163,
+      "anchorMs": 0.7870419999999285,
+      "verifyMs": 1.1081249999999727,
+      "epcisExportMs": 0.6302079999998114
+    },
+    {
+      "workflowMs": 4.110582999999906,
+      "harvestMs": 0.7600840000000062,
+      "transferMs": 0.8839159999999993,
+      "anchorMs": 0.7737079999999423,
+      "verifyMs": 1.0825420000001031,
+      "epcisExportMs": 0.6082910000000084
+    },
+    {
+      "workflowMs": 4.033000000000129,
+      "harvestMs": 0.7591660000000502,
+      "transferMs": 0.8026250000000346,
+      "anchorMs": 0.7172920000000431,
+      "verifyMs": 1.1025829999998678,
+      "epcisExportMs": 0.6494579999998678
+    },
+    {
+      "workflowMs": 4.368750000000091,
+      "harvestMs": 0.8074999999998909,
+      "transferMs": 0.7935829999998987,
+      "anchorMs": 0.8802080000000387,
+      "verifyMs": 1.2345839999998134,
+      "epcisExportMs": 0.650707999999895
+    },
+    {
+      "workflowMs": 3.8461660000000393,
+      "harvestMs": 0.7515419999999722,
+      "transferMs": 0.7503750000000764,
+      "anchorMs": 0.7079169999999522,
+      "verifyMs": 1.0682500000000346,
+      "epcisExportMs": 0.5660000000000309
+    },
+    {
+      "workflowMs": 3.8367909999999483,
+      "harvestMs": 0.7437079999999696,
+      "transferMs": 0.7060830000000351,
+      "anchorMs": 0.7049580000000333,
+      "verifyMs": 1.0578330000000733,
+      "epcisExportMs": 0.6220829999999751
+    },
+    {
+      "workflowMs": 4.674125000000004,
+      "harvestMs": 1.0319159999999101,
+      "transferMs": 0.8512909999999465,
+      "anchorMs": 0.7735419999999067,
+      "verifyMs": 1.0765000000001237,
+      "epcisExportMs": 0.9386669999998958
+    },
+    {
+      "workflowMs": 5.745083000000022,
+      "harvestMs": 0.9671659999999065,
+      "transferMs": 1.3530410000000757,
+      "anchorMs": 1.1873329999998532,
+      "verifyMs": 1.6047499999999673,
+      "epcisExportMs": 0.6300420000000031
+    },
+    {
+      "workflowMs": 4.240125000000035,
+      "harvestMs": 0.9079580000000078,
+      "transferMs": 0.8436670000000959,
+      "anchorMs": 0.7850839999998698,
+      "verifyMs": 1.0985410000000684,
+      "epcisExportMs": 0.6023340000001554
+    },
+    {
+      "workflowMs": 3.954208000000108,
+      "harvestMs": 0.7786250000001473,
+      "transferMs": 0.8067080000000715,
+      "anchorMs": 0.7404160000000957,
+      "verifyMs": 1.075207999999975,
+      "epcisExportMs": 0.5512089999999716
+    },
+    {
+      "workflowMs": 4.327457999999979,
+      "harvestMs": 0.8047910000000229,
+      "transferMs": 0.7581250000000637,
+      "anchorMs": 0.8136250000000018,
+      "verifyMs": 1.2113749999998618,
+      "epcisExportMs": 0.7373330000000351
+    },
+    {
+      "workflowMs": 4.0021670000000995,
+      "harvestMs": 0.7807080000000042,
+      "transferMs": 0.8048750000000382,
+      "anchorMs": 0.7403329999999642,
+      "verifyMs": 1.0535829999998896,
+      "epcisExportMs": 0.6205420000001141
+    },
+    {
+      "workflowMs": 4.012292000000116,
+      "harvestMs": 0.7300839999998061,
+      "transferMs": 0.6868329999999787,
+      "anchorMs": 0.6689170000001923,
+      "verifyMs": 1.1005419999999049,
+      "epcisExportMs": 0.8237920000001395
+    },
+    {
+      "workflowMs": 6.705042000000049,
+      "harvestMs": 1.0856249999999363,
+      "transferMs": 2.139499999999998,
+      "anchorMs": 1.3743750000001,
+      "verifyMs": 1.424833000000035,
+      "epcisExportMs": 0.6775000000000091
+    },
+    {
+      "workflowMs": 5.1570829999998296,
+      "harvestMs": 1.1654160000000502,
+      "transferMs": 1.0852910000000975,
+      "anchorMs": 0.9377920000001723,
+      "verifyMs": 1.2423750000000382,
+      "epcisExportMs": 0.7231670000001031
+    },
+    {
+      "workflowMs": 4.861625000000004,
+      "harvestMs": 1.0870840000000044,
+      "transferMs": 1.0437079999999241,
+      "anchorMs": 0.8954169999999522,
+      "verifyMs": 1.2147079999999733,
+      "epcisExportMs": 0.6183329999998932
+    },
+    {
+      "workflowMs": 8.02520800000002,
+      "harvestMs": 0.8158750000000055,
+      "transferMs": 4.4966669999998885,
+      "anchorMs": 0.9437089999998989,
+      "verifyMs": 1.1369170000000395,
+      "epcisExportMs": 0.6293749999999818
+    },
+    {
+      "workflowMs": 3.951665999999932,
+      "harvestMs": 0.8087080000000242,
+      "transferMs": 0.7607910000001539,
+      "anchorMs": 0.7547080000001642,
+      "verifyMs": 1.0703329999998914,
+      "epcisExportMs": 0.5550419999999576
+    },
+    {
+      "workflowMs": 3.7740410000001248,
+      "harvestMs": 0.7581669999999576,
+      "transferMs": 0.6347090000001572,
+      "anchorMs": 0.724083999999948,
+      "verifyMs": 1.0889580000000478,
+      "epcisExportMs": 0.5658339999999953
+    },
+    {
+      "workflowMs": 3.6777079999999387,
+      "harvestMs": 0.7134170000001632,
+      "transferMs": 0.722208000000137,
+      "anchorMs": 0.6702080000000024,
+      "verifyMs": 1.019125000000031,
+      "epcisExportMs": 0.5507500000001073
+    },
+    {
+      "workflowMs": 6.64995799999997,
+      "harvestMs": 0.721042000000125,
+      "transferMs": 0.7298749999999927,
+      "anchorMs": 1.2692500000000564,
+      "verifyMs": 2.2215419999999995,
+      "epcisExportMs": 1.7040419999998448
+    },
+    {
+      "workflowMs": 4.983040999999957,
+      "harvestMs": 1.5559169999999085,
+      "transferMs": 0.9250829999998587,
+      "anchorMs": 0.7770410000000538,
+      "verifyMs": 1.1421250000000782,
+      "epcisExportMs": 0.5795000000000528
+    },
+    {
+      "workflowMs": 3.6110409999998865,
+      "harvestMs": 0.7378750000000309,
+      "transferMs": 0.7046249999998508,
+      "anchorMs": 0.6572919999998703,
+      "verifyMs": 0.9696250000001783,
+      "epcisExportMs": 0.5396249999998872
+    },
+    {
+      "workflowMs": 5.326499999999896,
+      "harvestMs": 0.6710420000001704,
+      "transferMs": 0.6619160000000193,
+      "anchorMs": 0.6604589999999462,
+      "verifyMs": 2.0812080000000606,
+      "epcisExportMs": 1.2489169999998921
+    },
+    {
+      "workflowMs": 5.0938750000000255,
+      "harvestMs": 1.244374999999991,
+      "transferMs": 1.0242080000000442,
+      "anchorMs": 0.9157920000000104,
+      "verifyMs": 1.2644159999999829,
+      "epcisExportMs": 0.642334000000119
+    },
+    {
+      "workflowMs": 4.013915999999881,
+      "harvestMs": 0.8057080000000951,
+      "transferMs": 0.7695840000001226,
+      "anchorMs": 0.775124999999889,
+      "verifyMs": 1.1210419999999885,
+      "epcisExportMs": 0.5402079999998932
+    },
+    {
+      "workflowMs": 4.246249999999918,
+      "harvestMs": 0.7192079999999805,
+      "transferMs": 0.7654589999999644,
+      "anchorMs": 0.7631250000001728,
+      "verifyMs": 1.2150420000000395,
+      "epcisExportMs": 0.7810420000000704
+    },
+    {
+      "workflowMs": 4.91233299999999,
+      "harvestMs": 1.0149169999999685,
+      "transferMs": 0.9692500000001019,
+      "anchorMs": 1.1495420000001104,
+      "verifyMs": 1.1780839999998989,
+      "epcisExportMs": 0.5979589999999462
+    },
+    {
+      "workflowMs": 3.906624999999849,
+      "harvestMs": 0.7434580000001461,
+      "transferMs": 0.6869999999998981,
+      "anchorMs": 0.7788749999999709,
+      "verifyMs": 1.1042090000000826,
+      "epcisExportMs": 0.5908329999999751
+    },
+    {
+      "workflowMs": 3.8454999999999018,
+      "harvestMs": 0.762916000000132,
+      "transferMs": 0.7552500000001601,
+      "anchorMs": 0.7188340000000153,
+      "verifyMs": 1.0887920000000122,
+      "epcisExportMs": 0.5174589999999171
+    },
+    {
+      "workflowMs": 3.6744169999999485,
+      "harvestMs": 0.706333000000086,
+      "transferMs": 0.7102080000001934,
+      "anchorMs": 0.7369999999998527,
+      "verifyMs": 0.9931669999998576,
+      "epcisExportMs": 0.5257080000001224
+    },
+    {
+      "workflowMs": 3.9043329999999514,
+      "harvestMs": 0.6313750000001619,
+      "transferMs": 0.6563329999999041,
+      "anchorMs": 0.7587499999999636,
+      "verifyMs": 1.212624999999889,
+      "epcisExportMs": 0.6431250000000546
+    },
+    {
+      "workflowMs": 3.959082999999964,
+      "harvestMs": 0.8089169999998376,
+      "transferMs": 0.7263330000000678,
+      "anchorMs": 0.7807500000001255,
+      "verifyMs": 1.047458000000006,
+      "epcisExportMs": 0.5932920000000195
+    },
+    {
+      "workflowMs": 4.503541999999925,
+      "harvestMs": 0.7230420000000777,
+      "transferMs": 0.8890830000000278,
+      "anchorMs": 0.7412090000000262,
+      "verifyMs": 1.319250000000011,
+      "epcisExportMs": 0.8282500000000255
+    },
+    {
+      "workflowMs": 5.2472499999998945,
+      "harvestMs": 1.1884999999999764,
+      "transferMs": 1.039209000000028,
+      "anchorMs": 0.9194159999999556,
+      "verifyMs": 1.3662500000000364,
+      "epcisExportMs": 0.7310829999998987
+    },
+    {
+      "workflowMs": 4.098666000000094,
+      "harvestMs": 0.8058329999998932,
+      "transferMs": 0.741457999999966,
+      "anchorMs": 0.6731670000001486,
+      "verifyMs": 1.1387499999998454,
+      "epcisExportMs": 0.7369999999998527
+    },
+    {
+      "workflowMs": 4.344749999999976,
+      "harvestMs": 0.794166000000132,
+      "transferMs": 0.8893749999999727,
+      "anchorMs": 0.8628340000000208,
+      "verifyMs": 1.1534169999999904,
+      "epcisExportMs": 0.6423330000000078
+    },
+    {
+      "workflowMs": 4.3448329999998805,
+      "harvestMs": 0.7924160000000029,
+      "transferMs": 0.7714579999999387,
+      "anchorMs": 0.735834000000068,
+      "verifyMs": 1.3205419999999322,
+      "epcisExportMs": 0.7222079999999096
+    },
+    {
+      "workflowMs": 16.892249999999876,
+      "harvestMs": 12.597541000000092,
+      "transferMs": 1.1315409999999702,
+      "anchorMs": 1.0932080000000042,
+      "verifyMs": 1.3910000000000764,
+      "epcisExportMs": 0.6757500000001073
+    },
+    {
+      "workflowMs": 4.27495799999997,
+      "harvestMs": 0.8867079999999987,
+      "transferMs": 0.9898329999998623,
+      "anchorMs": 0.7900830000000951,
+      "verifyMs": 1.0545830000000933,
+      "epcisExportMs": 0.5512080000000878
+    },
+    {
+      "workflowMs": 4.138582999999926,
+      "harvestMs": 0.7238750000001346,
+      "transferMs": 0.6803330000000187,
+      "anchorMs": 0.7408750000001874,
+      "verifyMs": 1.1906659999999647,
+      "epcisExportMs": 0.7996669999999995
+    },
+    {
+      "workflowMs": 4.707540999999992,
+      "harvestMs": 1.1568750000001273,
+      "transferMs": 0.972332999999935,
+      "anchorMs": 0.8715420000000904,
+      "verifyMs": 1.1254590000000917,
+      "epcisExportMs": 0.5789580000000569
+    },
+    {
+      "workflowMs": 4.082625000000007,
+      "harvestMs": 0.7345000000000255,
+      "transferMs": 0.7727910000000975,
+      "anchorMs": 0.8106250000000728,
+      "verifyMs": 1.0884159999998246,
+      "epcisExportMs": 0.673917000000074
+    },
+    {
+      "workflowMs": 3.800958000000037,
+      "harvestMs": 0.7534160000000156,
+      "transferMs": 0.8233339999999316,
+      "anchorMs": 0.6764159999997901,
+      "verifyMs": 1.0025410000000647,
+      "epcisExportMs": 0.54300000000012
+    },
+    {
+      "workflowMs": 4.054499999999962,
+      "harvestMs": 0.7222499999998035,
+      "transferMs": 0.685457999999926,
+      "anchorMs": 0.8755000000001019,
+      "verifyMs": 1.1420000000000528,
+      "epcisExportMs": 0.6268330000000333
+    },
+    {
+      "workflowMs": 4.147291999999879,
+      "harvestMs": 0.7374580000000606,
+      "transferMs": 0.748209000000088,
+      "anchorMs": 0.9660000000001219,
+      "verifyMs": 1.0997920000002068,
+      "epcisExportMs": 0.5930839999998625
+    },
+    {
+      "workflowMs": 3.9202499999998963,
+      "harvestMs": 0.7357500000000528,
+      "transferMs": 0.7359170000001996,
+      "anchorMs": 0.7149580000000242,
+      "verifyMs": 1.084541000000172,
+      "epcisExportMs": 0.6468330000000151
+    },
+    {
+      "workflowMs": 3.7097080000000915,
+      "harvestMs": 0.7557919999999285,
+      "transferMs": 0.7236250000000837,
+      "anchorMs": 0.6841249999999945,
+      "verifyMs": 0.9955420000001141,
+      "epcisExportMs": 0.5482499999998254
+    },
+    {
+      "workflowMs": 4.178208999999924,
+      "harvestMs": 0.8123749999999745,
+      "transferMs": 0.7730830000000424,
+      "anchorMs": 0.7152079999998477,
+      "verifyMs": 1.0645829999998568,
+      "epcisExportMs": 0.8103750000000218
+    },
+    {
+      "workflowMs": 4.942166999999927,
+      "harvestMs": 0.9726659999998901,
+      "transferMs": 1.1968749999998636,
+      "anchorMs": 0.8981249999999363,
+      "verifyMs": 1.2247079999999642,
+      "epcisExportMs": 0.6469170000000304
+    },
+    {
+      "workflowMs": 4.73741700000005,
+      "harvestMs": 0.9494170000000395,
+      "transferMs": 1.0284580000000005,
+      "anchorMs": 0.8225410000000011,
+      "verifyMs": 1.2643329999998514,
+      "epcisExportMs": 0.6701250000000982
+    },
+    {
+      "workflowMs": 3.879750000000058,
+      "harvestMs": 0.7987499999999272,
+      "transferMs": 0.7866659999999683,
+      "anchorMs": 0.6893749999999272,
+      "verifyMs": 1.0275830000000497,
+      "epcisExportMs": 0.5751659999998537
+    },
+    {
+      "workflowMs": 5.667957999999999,
+      "harvestMs": 0.8355840000001535,
+      "transferMs": 0.9890000000000327,
+      "anchorMs": 2.0637080000001333,
+      "verifyMs": 1.1463750000000346,
+      "epcisExportMs": 0.6304999999999836
+    },
+    {
+      "workflowMs": 3.819208000000117,
+      "harvestMs": 0.7332920000001195,
+      "transferMs": 0.7452500000001692,
+      "anchorMs": 0.7129169999998339,
+      "verifyMs": 1.0452080000000024,
+      "epcisExportMs": 0.5802920000000995
+    },
+    {
+      "workflowMs": 4.05579200000011,
+      "harvestMs": 0.7644169999998667,
+      "transferMs": 0.6860410000001593,
+      "anchorMs": 0.7259160000000975,
+      "verifyMs": 1.1466250000000855,
+      "epcisExportMs": 0.730542000000014
+    },
+    {
+      "workflowMs": 3.7652499999999236,
+      "harvestMs": 0.7057079999999587,
+      "transferMs": 0.7036249999998745,
+      "anchorMs": 0.6991250000000946,
+      "verifyMs": 1.0739999999998417,
+      "epcisExportMs": 0.5807089999998425
+    },
+    {
+      "workflowMs": 4.3120420000000195,
+      "harvestMs": 0.7420000000001892,
+      "transferMs": 0.7142089999999826,
+      "anchorMs": 0.894457999999986,
+      "verifyMs": 1.2963750000001255,
+      "epcisExportMs": 0.6623749999998836
+    },
+    {
+      "workflowMs": 3.8135000000002037,
+      "harvestMs": 0.7845830000001115,
+      "transferMs": 0.692792000000054,
+      "anchorMs": 0.7352080000000569,
+      "verifyMs": 1.0612079999998514,
+      "epcisExportMs": 0.5376249999999345
+    },
+    {
+      "workflowMs": 7.47829200000001,
+      "harvestMs": 0.7734159999999974,
+      "transferMs": 1.0090829999999187,
+      "anchorMs": 2.6393329999998514,
+      "verifyMs": 1.7708339999999225,
+      "epcisExportMs": 1.2825000000000273
+    },
+    {
+      "workflowMs": 7.1820829999999205,
+      "harvestMs": 2.030749999999898,
+      "transferMs": 1.8974590000000262,
+      "anchorMs": 1.0626250000000255,
+      "verifyMs": 1.4482500000001437,
+      "epcisExportMs": 0.7293329999999969
+    },
+    {
+      "workflowMs": 9.069750000000113,
+      "harvestMs": 1.0785000000000764,
+      "transferMs": 0.9546669999999722,
+      "anchorMs": 1.020917000000054,
+      "verifyMs": 1.5597500000001219,
+      "epcisExportMs": 4.452125000000024
+    },
+    {
+      "workflowMs": 4.106999999999971,
+      "harvestMs": 0.8705829999998969,
+      "transferMs": 0.8400420000000395,
+      "anchorMs": 0.774167000000034,
+      "verifyMs": 1.0640829999999823,
+      "epcisExportMs": 0.5555830000000697
+    }
+  ],
+  "environment": {
+    "node": "v24.19.0",
+    "platform": "darwin 27.0.0",
+    "hostname": "Mac.lan",
+    "cpus": 10
+  }
+}

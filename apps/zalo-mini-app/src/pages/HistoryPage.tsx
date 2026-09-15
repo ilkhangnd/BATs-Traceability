@@ -12,10 +12,11 @@ type Batch = HarvestHistoryBatch & {
   id: string;
   cropType: string;
   quantityKg: number;
-  status: "COLLECTED" | "ANCHORED" | "PENDING_SYNC";
+  status: "HARVESTED" | "COLLECTED" | "ANCHORED" | "PENDING_SYNC" | "FAILED_VALIDATION";
   createdAt: string;
   actorId: string;
   plotId: string;
+  validationMessage?: string;
 };
 
 function normalizeServerBatch(batch: any): Batch {
@@ -23,7 +24,11 @@ function normalizeServerBatch(batch: any): Batch {
     id: String(batch.id ?? batch.batchId ?? "SR-LOCAL"),
     cropType: String(batch.cropType ?? batch.variety ?? "Sầu riêng Ri6"),
     quantityKg: Number(batch.quantityKg ?? 0),
-    status: batch.status === "ANCHORED" ? "ANCHORED" : "COLLECTED",
+    status: batch.status === "ANCHORED"
+      ? "ANCHORED"
+      : batch.status === "harvested"
+        ? "HARVESTED"
+        : "COLLECTED",
     createdAt: String(batch.createdAt ?? batch.eventTime ?? new Date().toISOString()),
     actorId: String(batch.actorId ?? "FARMER-0001"),
     plotId: String(batch.plotId ?? batch.farmPlotId ?? "PLOT-EAYONG-01")
@@ -108,6 +113,20 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({ session }) => {
         color: "#b45309"
       };
     }
+    if (status === "FAILED_VALIDATION") {
+      return {
+        text: "Cần chỉnh sửa dữ liệu",
+        backgroundColor: "#fee2e2",
+        color: "#b91c1c"
+      };
+    }
+    if (status === "HARVESTED") {
+      return {
+        text: "Đã thu hoạch",
+        backgroundColor: "#eff6ff",
+        color: "#1d4ed8"
+      };
+    }
     return {
       text: isCollector ? "Đã nhận lô" : "Đã thu gom",
       backgroundColor: "#eff6ff",
@@ -158,7 +177,7 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({ session }) => {
                 <div style={{ fontSize: "14px", color: "#172019", fontWeight: 800, wordBreak: "break-word", marginBottom: "8px" }}>{portalPreview.batch.id}</div>
                 <div style={{ fontSize: "12px", color: "#667069", fontWeight: 700 }}>Trạng thái</div>
                 <div style={{ display: "inline-flex", marginTop: "4px", padding: "5px 10px", borderRadius: "999px", backgroundColor: portalPreview.batch.status === "PENDING_SYNC" ? "#fef3c7" : "#e8f0eb", color: portalPreview.batch.status === "PENDING_SYNC" ? "#b45309" : "#155d3b", fontSize: "12px", fontWeight: 800 }}>
-                  {portalPreview.batch.status === "PENDING_SYNC" ? "Chờ đồng bộ" : "Đã ghi nhận"}
+                  {getStatusBadge(portalPreview.batch.status).text}
                 </div>
               </div>
             </div>
@@ -258,6 +277,12 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({ session }) => {
               <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", color: "#94a3b8", marginTop: "4px" }}>
                 <Calendar size={13} /> Thời gian: {new Date(b.createdAt).toLocaleString("vi-VN")}
               </div>
+
+              {b.status === "FAILED_VALIDATION" && b.validationMessage && (
+                <p style={{ margin: "10px 0 0", padding: "9px 10px", borderRadius: "10px", backgroundColor: "#fff1f2", color: "#9f1239", fontSize: "12px", lineHeight: 1.5, textAlign: "justify" }}>
+                  Cần chỉnh sửa trước khi gửi lại: {b.validationMessage}
+                </p>
+              )}
 
               <div
                 style={{

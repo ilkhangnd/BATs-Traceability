@@ -25,6 +25,17 @@ import {
 import { ValidationService } from "./validation.service.js";
 import { AnchorService } from "./anchor.service.js";
 
+const CROP_IDENTITY: Record<string, { prefix: string; gtin: string }> = {
+  durian: { prefix: "SR", gtin: "8930000000019" },
+  mango: { prefix: "XC", gtin: "8930000000026" },
+  coffee: { prefix: "CP", gtin: "8930000000033" },
+  dragon_fruit: { prefix: "TL", gtin: "8930000000040" },
+  pomelo: { prefix: "BD", gtin: "8930000000057" },
+  longan: { prefix: "HY", gtin: "8930000000064" },
+  avocado: { prefix: "LD", gtin: "8930000000071" },
+  mangosteen: { prefix: "MC", gtin: "8930000000088" }
+};
+
 @Injectable()
 export class BatsService implements OnModuleInit {
   private readonly logger = new Logger(BatsService.name);
@@ -292,20 +303,17 @@ export class BatsService implements OnModuleInit {
       geofenceContains,
       actor
     );
+    if (!validation.accepted) {
+      throw new BadRequestException(validation);
+    }
     const sequence = String(await this.store.nextBatchSequence()).padStart(6, "0");
     const date = input.eventTime.slice(0, 10).replaceAll("-", "");
-    const cropConfig: Record<string, { prefix: string; gtin: string }> = {
-      durian: { prefix: "SR", gtin: "8930000000019" },
-      mango: { prefix: "XC", gtin: "8930000000026" },
-      coffee: { prefix: "CP", gtin: "8930000000033" },
-      dragon_fruit: { prefix: "TL", gtin: "8930000000040" },
-      pomelo: { prefix: "BD", gtin: "8930000000057" },
-      longan: { prefix: "HY", gtin: "8930000000064" },
-      avocado: { prefix: "LD", gtin: "8930000000071" },
-      mangosteen: { prefix: "MC", gtin: "8930000000088" }
-    };
-    const { prefix, gtin } = cropConfig[plot.crop] ?? { prefix: "NS", gtin: "8930000000095" };
-    const id = input.id ?? input.batchId ?? `${prefix}-${date}-${sequence}`;
+    const { prefix, gtin } = CROP_IDENTITY[plot.crop] ?? { prefix: "NS", gtin: "8930000000095" };
+    const requestedId = input.id ?? input.batchId;
+    if (requestedId && !requestedId.startsWith(`${prefix}-`)) {
+      throw new BadRequestException(`Mã lô phải bắt đầu bằng ${prefix}- đối với nông sản của vùng trồng này.`);
+    }
+    const id = requestedId ?? `${prefix}-${date}-${sequence}`;
     const payload: BatsObjectEvent = {
       eventType: "ObjectEvent",
       eventTime: input.eventTime,
@@ -403,7 +411,7 @@ export class BatsService implements OnModuleInit {
         { latitude: lat + delta, longitude: lng + delta },
         { latitude: lat + delta, longitude: lng - delta }
       ],
-      status: "active"
+      status: "pending"
     };
 
     await this.store.savePlot(plot);
@@ -441,12 +449,28 @@ export class BatsService implements OnModuleInit {
     const snapshot = structuredClone(batch);
     const result = this.validation.validateTransfer(batch, input);
     if (!result.accepted) throw new BadRequestException(result);
-    const payload = {
+    const payload: BatsObjectEvent = {
       eventType: "ObjectEvent",
       action: "OBSERVE",
-      bizStep: input.status,
-      batchId: id,
-      actualWeightKg: input.actualWeightKg ?? batch.quantityKg
+      eventTime: input.eventTime,
+      bizStep: input.status === "collected" ? "collecting" : input.status === "packed" ? "packing" : "shipping",
+      disposition: input.status === "collected" ? "in_transit" : input.status,
+      readPoint: { id: input.location ? `geo:${input.location.latitude},${input.location.longitude}` : `urn:bats:batch:${id}` },
+      bizLocation: { id: `urn:bats:transfer:${input.status}` },
+      objects: [`urn:bats:batch:${id}`],
+      ilmd: {
+        crop: batch.crop,
+        variety: batch.variety,
+        quantityKg: input.actualWeightKg ?? batch.quantityKg,
+        plantingAreaCode: this.store.plots.get(batch.farmPlotId)?.plantingAreaCode ?? "unknown",
+        farmerId: batch.farmerId
+      },
+      evidence: (input.evidenceHashes ?? []).map((hash) => ({
+        type: "weight-slip",
+        sha256: hash,
+        storageRef: `local://uploads/${hash}`
+      })),
+      ...(input.device ? { device: input.device } : {})
     };
     batch.events.push({
       id: `event-${id}-${input.status}`,
@@ -463,6 +487,7 @@ export class BatsService implements OnModuleInit {
     batch.issues.push(...result.issues);
     try {
       await this.store.saveBatch(batch, result.issues.length > 0);
+      for (const hash of input.evidenceHashes ?? []) this.store.evidenceHashes.add(hash);
       return batch;
     } catch (error) {
       this.store.batches.set(id, snapshot);

@@ -33,11 +33,13 @@ import { ApiPagination } from "./openapi.decorators.js";
 interface PlotQuery extends PageQuery {
   province?: string;
   district?: string;
+  status?: "active" | "inactive" | "pending";
 }
 
 interface BatchQuery extends PageQuery {
   status?: string;
   riskBand?: string;
+  actorId?: string;
 }
 
 interface DownloadResponse {
@@ -98,8 +100,16 @@ export class AppController {
   @ApiPagination()
   @ApiQuery({ name: "status", required: false, enum: ["harvested", "collected", "packed", "shipped"] })
   @ApiQuery({ name: "riskBand", required: false, enum: ["green", "yellow", "red"] })
-  batches(@Query() query: BatchQuery) {
-    return this.bats.pageBatches(query);
+  async batches(@Query() query: BatchQuery) {
+    const page = await this.bats.pageBatches(query);
+    return {
+      ...page,
+      items: page.items.map((batch) => ({
+        ...batch,
+        // Zalo Mini App uses actorId to retain each actor's local history view.
+        actorId: query.actorId ?? batch.farmerId
+      }))
+    };
   }
 
   @Post("batches/harvest")

@@ -48,6 +48,14 @@ export class ValidationService {
     actor?: Actor
   ): ValidationResult {
     const issues: ValidationIssue[] = [];
+    if (plot.status !== "active") {
+      issues.push({
+        code: "S",
+        severity: "block",
+        score: RISK_WEIGHTS.S,
+        message: "Vùng trồng đang chờ hợp tác xã hoặc quản trị viên phê duyệt."
+      });
+    }
     if (!(geofenceContains ?? pointInPolygon(input.location, plot.polygon))) {
       issues.push({
         code: "G",

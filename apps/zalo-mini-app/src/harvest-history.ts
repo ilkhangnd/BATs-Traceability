@@ -2,10 +2,11 @@ export interface HarvestHistoryBatch {
   id: string;
   cropType: string;
   quantityKg: number;
-  status: "COLLECTED" | "ANCHORED" | "PENDING_SYNC";
+  status: "HARVESTED" | "COLLECTED" | "ANCHORED" | "PENDING_SYNC" | "FAILED_VALIDATION";
   createdAt: string;
   actorId: string;
   plotId: string;
+  validationMessage?: string;
 }
 
 const STORAGE_KEY = "bats_harvest_history";
@@ -57,10 +58,18 @@ export function saveHarvestHistory(batch: HarvestHistoryBatch, replaceId?: strin
   writeAllHistory([batch, ...withoutDuplicate].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
 }
 
-export function markHarvestHistoryStatus(id: string | undefined, status: HarvestHistoryBatch["status"]) {
+export function markHarvestHistoryStatus(
+  id: string | undefined,
+  status: HarvestHistoryBatch["status"],
+  validationMessage?: string
+) {
   if (!id) return;
   const items = readAllHistory();
-  const nextItems = items.map((item) => (item.id === id ? { ...item, status } : item));
+  const nextItems = items.map((item) => (
+    item.id === id
+      ? { ...item, status, ...(validationMessage ? { validationMessage } : {}) }
+      : item
+  ));
   writeAllHistory(nextItems);
 }
 

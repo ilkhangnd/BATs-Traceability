@@ -39,4 +39,34 @@ describe("admin access and CRUD", () => {
     expect((await admin.deletePlot(plot.id, "ADMIN-0001")).status).toBe("inactive");
     expect((await admin.logs()).items).toHaveLength(3);
   });
+
+  it("marks a GPS plot created during mobile farmer registration as pending review", async () => {
+    const store = new StoreService();
+    const auth = new AuthService(store);
+    const result = await auth.registerFarmer({
+      phone: "0909000001",
+      name: "Nông hộ thử nghiệm",
+      latitude: 12.7,
+      longitude: 108.1,
+      plotId: "plot-rnd-review-001"
+    });
+    expect(store.plots.get("plot-rnd-review-001")).toMatchObject({
+      farmerId: result.actor.id,
+      status: "pending"
+    });
+    expect(store.listPlots().some((plot) => plot.id === "plot-rnd-review-001")).toBe(false);
+  });
+
+  it("registers and signs in a cooperative with a scoped actor token", async () => {
+    const store = new StoreService();
+    const auth = new AuthService(store);
+    const registered = await auth.registerCooperative({
+      phone: "0909000002",
+      name: "HTX Thử nghiệm",
+      organization: "HTX BATS"
+    });
+    const signedIn = await auth.loginCooperative("0909000002");
+    expect(registered.actor.role).toBe("COOPERATIVE");
+    expect(auth.verify(signedIn.accessToken).id).toBe(registered.actor.id);
+  });
 });

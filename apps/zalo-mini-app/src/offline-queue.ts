@@ -224,7 +224,10 @@ function buildQueuedRequest(item: QueuedHarvest, apiBaseUrl: string) {
       body: {
         status: "collected",
         eventTime: String(item.payload.eventTime ?? new Date().toISOString()),
-        actualWeightKg: Number(item.payload.quantityKg ?? item.payload.actualWeightKg ?? 0)
+        actualWeightKg: Number(item.payload.quantityKg ?? item.payload.actualWeightKg ?? 0),
+        location: item.payload.location,
+        evidenceHashes: item.payload.evidenceHashes,
+        device: item.payload.device
       }
     };
   }
@@ -323,14 +326,21 @@ export async function syncHarvestQueue(apiBaseUrl: string, actorId?: string, cur
         body: JSON.stringify(request.body)
       });
       if (!response.ok) {
+        const errorMessage = await readResponseMessage(response);
+        if (response.status === 400) {
+          await deleteIndexedDbQueueItem(item.id);
+          deleteFallbackQueueItem(item);
+          markHarvestHistoryStatus(item.localHistoryId, "FAILED_VALIDATION", errorMessage);
+          continue;
+        }
         item.attempts = (item.attempts ?? 0) + 1;
-        item.lastError = await readResponseMessage(response);
+        item.lastError = errorMessage;
         await persistQueueItem(item);
         continue;
       }
       await deleteIndexedDbQueueItem(item.id);
       deleteFallbackQueueItem(item);
-      markHarvestHistoryStatus(item.localHistoryId, "COLLECTED");
+      markHarvestHistoryStatus(item.localHistoryId, item.endpoint === "/batches/transfer" ? "COLLECTED" : "HARVESTED");
       synced += 1;
     } catch {
       item.attempts = (item.attempts ?? 0) + 1;

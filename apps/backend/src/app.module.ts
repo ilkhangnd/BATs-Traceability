@@ -23,6 +23,8 @@ import { RateLimitInterceptor } from "./rate-limit.guard.js";
 import { AnchorSchedulerService } from "./anchor-scheduler.service.js";
 import { PilotResearchController } from "./research/pilot.controller.js";
 import { PilotResearchService } from "./research/pilot.service.js";
+import { MarketplaceController } from "./marketplace.controller.js";
+import { MarketplaceService } from "./marketplace.service.js";
 
 @Module({
   imports: [DatabaseModule],
@@ -32,6 +34,7 @@ import { PilotResearchService } from "./research/pilot.service.js";
     AdminController,
     EvidenceController,
     AnchorController,
+    MarketplaceController,
     PilotResearchController
   ],
   providers: [
@@ -49,6 +52,7 @@ import { PilotResearchService } from "./research/pilot.service.js";
     DossierService,
     MetricsService,
     PilotResearchService,
+    MarketplaceService,
     {
       provide: APP_INTERCEPTOR,
       useClass: ObservabilityInterceptor

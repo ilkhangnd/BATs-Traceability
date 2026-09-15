@@ -213,7 +213,7 @@ export class AuthService {
           { latitude: lat + 0.0008, longitude: lng + 0.0008 },
           { latitude: lat + 0.0008, longitude: lng - 0.0008 }
         ],
-        status: "active" as const
+        status: "pending" as const
       };
       this.store.plots.set(newPlot.id, newPlot);
       if (this.store.persistent && (this.store as any).prisma) {
@@ -230,7 +230,7 @@ export class AuthService {
             district: newPlot.district,
             commune: newPlot.commune,
             polygonGeojson: { coordinates: [[ [lng-0.0008, lat-0.0008], [lng+0.0008, lat-0.0008], [lng+0.0008, lat+0.0008], [lng-0.0008, lat+0.0008], [lng-0.0008, lat-0.0008] ]] },
-            status: "active"
+            status: "pending"
           }
         }).catch(() => {});
       }
@@ -308,6 +308,57 @@ export class AuthService {
     );
     if (!actor) {
       throw new UnauthorizedException("Số điện thoại thương lái chưa được đăng ký trong hệ thống BATS.");
+    }
+    return { actor, accessToken: this.tokenFor(actor), expiresIn: 31536000 };
+  }
+
+  async registerCooperative(input: {
+    phone: string;
+    name: string;
+    organization?: string;
+  }): Promise<{ actor: Actor; accessToken: string; expiresIn: number }> {
+    const existing = [...this.store.actors.values()].find(
+      (actor) => actor.role === "COOPERATIVE" && (actor.phone === input.phone || actor.id === input.phone) && actor.status === "active"
+    );
+    if (existing) {
+      return { actor: existing, accessToken: this.tokenFor(existing), expiresIn: 31536000 };
+    }
+
+    const now = new Date().toISOString();
+    const actor: Actor = {
+      id: `COOPERATIVE-${Date.now().toString().slice(-6)}`,
+      name: input.name || `Hợp tác xã (${input.phone})`,
+      phone: input.phone,
+      role: "COOPERATIVE",
+      organization: input.organization || "Hợp tác xã BATS",
+      status: "active",
+      createdAt: now,
+      updatedAt: now
+    };
+    this.store.actors.set(actor.id, actor);
+
+    if (this.store.persistent && (this.store as any).prisma) {
+      await (this.store as any).prisma.actor.create({
+        data: {
+          id: actor.id,
+          name: actor.name,
+          phone: actor.phone,
+          role: "COOPERATIVE",
+          organization: actor.organization,
+          status: "active"
+        }
+      }).catch(() => {});
+    }
+
+    return { actor, accessToken: this.tokenFor(actor), expiresIn: 31536000 };
+  }
+
+  async loginCooperative(phone: string): Promise<{ actor: Actor; accessToken: string; expiresIn: number }> {
+    const actor = [...this.store.actors.values()].find(
+      (item) => item.role === "COOPERATIVE" && (item.phone === phone || item.id === phone) && item.status === "active"
+    );
+    if (!actor) {
+      throw new UnauthorizedException("Số điện thoại hợp tác xã chưa được đăng ký trong hệ thống BATS.");
     }
     return { actor, accessToken: this.tokenFor(actor), expiresIn: 31536000 };
   }

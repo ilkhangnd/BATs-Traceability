@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import Link from "next/link";
+import { AuthNavigation } from "./components/AuthNavigation";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -12,7 +13,7 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   title: "BATS Traceability",
-  description: "Nền tảng truy xuất nguồn gốc nông sản, quản lý vùng trồng, lô hàng và QR xác thực."
+  description: "BATS-AgriGuard: truy xuất nông sản, kiểm tra tính nhất quán vùng trồng và neo bằng chứng phục vụ kiểm toán."
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -27,47 +28,34 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               style={{ width: "42px", height: "42px", objectFit: "contain" }}
             />
             <span className="brandText">
-              <strong>BATS</strong> <span className="brandSub">Blockchain Agriculture Traceability System</span>
+              <strong>BATS</strong> <span className="brandSub">Truy xuất nông sản</span>
             </span>
           </Link>
           <nav>
-            <Link href="/benefits">Giải pháp</Link>
-            <Link href="/architecture">Cách hoạt động</Link>
-            <Link href="/zalo-mini-app">Đối tượng sử dụng</Link>
-            <Link href="/verify/8930000000019/SR-20260704-000001/0001">Tra cứu nguồn gốc</Link>
-            <Link href="/about">Tài liệu</Link>
-            <Link href="/portal">Cổng Nông hộ</Link>
-            <Link className="navPrimary solid" href="/login">Đăng nhập</Link>
+            <Link href="/verify/8930000000019/SR-20260704-000001/0001">Tra cứu QR / mã lô</Link>
+            <Link href="/connect">Kết nối chuỗi</Link>
+            <Link href="/portal">Dữ liệu đồng bộ</Link>
+            <AuthNavigation />
           </nav>
         </header>
         {children}
         <footer className="siteFooter">
-          <div>
-            <Link className="brand footerBrand" href="/">
-              <img
-                src="/bats-logo.png"
-                alt="BATS Traceability"
-                style={{ width: "38px", height: "38px", objectFit: "contain" }}
-              />
-              <span className="brandText">
-                <strong>BATS</strong> <span className="brandSub">Traceability</span>
-              </span>
-            </Link>
-            <p>
-              Quản lý vùng trồng, lô hàng và hồ sơ QR truy xuất nguồn gốc cho chuỗi nông sản Việt Nam.
-            </p>
-          </div>
+          <Link className="brand footerBrand" href="/">
+            <img
+              src="/bats-logo.png"
+              alt="BATS Traceability"
+              style={{ width: "42px", height: "42px", objectFit: "contain" }}
+            />
+            <span className="brandText">
+              <strong>BATS</strong> <span className="brandSub">Truy xuất nông sản</span>
+            </span>
+          </Link>
           <div className="footerLinks">
-            <Link href="/about">Giới thiệu</Link>
-            <Link href="/benefits">Lợi ích</Link>
-            <Link href="/zalo-mini-app">Zalo Mini App</Link>
-            <Link href="/admin">Quản trị</Link>
-            <Link href="/dashboard/batches">Lô hàng</Link>
-            <Link href="/dashboard/plots">Vùng trồng</Link>
-            <Link href="/architecture">Kiến trúc</Link>
-            <Link href="/verify/8930000000019/SR-20260704-000001/0001">QR mẫu</Link>
+            <Link href="/verify/8930000000019/SR-20260704-000001/0001">Tra cứu QR / mã lô</Link>
+            <Link href="/connect">Kết nối chuỗi</Link>
+            <Link href="/portal">Dữ liệu đồng bộ</Link>
+            <AuthNavigation footer />
           </div>
-          <span className="footerMeta">BATS Traceability · 2026</span>
         </footer>
       </body>
     </html>

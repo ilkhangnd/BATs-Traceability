@@ -40,7 +40,7 @@ function getCropAndOriginInfo(batch: any): { name: string; icon: string; code: s
   if (crop === "mangosteen" || lot.startsWith("MC-")) {
     return { name: "Măng Cụt Lái Thiêu", icon: "🟣", code: batch.farmPlotId || "VN-BD-PA-0008", location: "Thuận An, Bình Dương" };
   }
-  return { name: "Nông sản Việt Nam", icon: "🌿", code: batch.farmPlotId || "VN-PA-GENERIC", location: "Vùng trồng đạt chuẩn GlobalGAP / VietGAP" };
+  return { name: "Nông sản Việt Nam", icon: "🌿", code: batch.farmPlotId || "VN-PA-GENERIC", location: "Thông tin vùng trồng theo hồ sơ lô" };
 }
 
 export default async function VerifyPage({
@@ -64,12 +64,12 @@ export default async function VerifyPage({
         <div className="verifiedSeal">✓</div>
         <div>
           <div className="eyebrow">
-            {onChain ? "BẰNG CHỨNG ĐÃ ĐƯỢC XÁC MINH TRÊN CHUỖI" : "BẰNG CHỨNG ĐANG CHỜ NEO BLOCKCHAIN"}
+            {onChain ? "COMMITMENT BẰNG CHỨNG ĐÃ ĐƯỢC XÁC MINH TRÊN CHUỖI" : "COMMITMENT BẰNG CHỨNG ĐANG CHỜ NEO"}
           </div>
           <h1>{cropInfo.icon} {cropInfo.name} {batch.variety ? `· ${batch.variety}` : ""}</h1>
           <p>Lô <strong>{batch.id}</strong> · {batch.quantityKg.toLocaleString("vi-VN")} kg</p>
         </div>
-        <div className={`scoreCard ${batch.riskBand}`}><span>Điểm rủi ro</span><strong>{batch.riskScore}</strong><small>{batch.riskBand === "green" ? "Độ tin cậy cao" : "Cần xác minh"}</small></div>
+        <div className={`scoreCard ${batch.riskBand}`}><span>Chỉ số PCIE</span><strong>{batch.riskScore}</strong><small>{batch.riskBand === "green" ? "Không có cảnh báo theo luật hiện hành" : "Cần rà soát bổ sung"}</small></div>
       </section>
       <div className="verifyGrid">
         <section className="panel tracePanel">
@@ -78,7 +78,7 @@ export default async function VerifyPage({
             {batch.events.map((event: any, index: number) => (
               <article key={event.id}>
                 <div className="timelineDot">{index + 1}</div>
-                <div><span>{new Date(event.eventTime).toLocaleString("vi-VN")}</span><h3>{event.status}</h3><p>Người ghi nhận: {event.actorId}</p><code>{event.eventHash.slice(0, 18)}…</code><p>{proofs[index]?.proofValid ? `✓ Bằng chứng bảo mật hợp lệ` : "⚠ Bằng chứng đang kiểm định"}</p></div>
+                <div><span>{new Date(event.eventTime).toLocaleString("vi-VN")}</span><h3>{event.status}</h3><p>Người ghi nhận: {event.actorId}</p><code>{event.eventHash.slice(0, 18)}…</code><p>{proofs[index]?.proofValid ? `✓ Hash bằng chứng khớp commitment` : "⚠ Bằng chứng chưa có proof neo"}</p></div>
               </article>
             ))}
           </div>
@@ -86,13 +86,13 @@ export default async function VerifyPage({
         <aside>
           <section className="proofCard">
             <div className="proofIcon">{proofValid ? "✓" : "!"}</div>
-            <h2>{proofValid ? "Bằng chứng Blockchain hợp lệ" : "Đang kiểm tra bằng chứng"}</h2>
+            <h2>{proofValid ? "Commitment bằng chứng khớp" : "Đang kiểm tra commitment"}</h2>
             <p>
               {onChain
-                ? "Mã bảo mật khớp với hợp đồng Blockchain, xác nhận toàn bộ nhật ký nguyên bản và không bị thay đổi."
-                : "Nhật ký sự kiện đã hợp lệ tại hệ thống và đang chờ neo xác thực định kỳ lên Blockchain."}
+                ? "Hash của bằng chứng đang hiển thị khớp với commitment đã neo. Kết quả này hỗ trợ phát hiện thay đổi sau khi cam kết, không thay thế việc xác minh thực địa dữ liệu đầu vào."
+                : "Dữ liệu hiển thị đang chờ hoặc chưa có commitment blockchain có thể kiểm tra. Trạng thái validation và bằng chứng gốc vẫn cần được xem xét theo quy trình."}
             </p>
-            <dl><div><dt>Tiêu chuẩn</dt><dd>{anchor.schemaVersion}</dd></div><div><dt>Ngày xác thực</dt><dd>{anchor.date}</dd></div><div><dt>Trạng thái chuỗi</dt><dd>{anchor.chainStatus}</dd></div></dl>
+            <dl><div><dt>Lược đồ dữ liệu</dt><dd>{anchor.schemaVersion}</dd></div><div><dt>Ngày neo</dt><dd>{anchor.date}</dd></div><div><dt>Trạng thái chuỗi</dt><dd>{anchor.chainStatus}</dd></div></dl>
             <code className="rootHash">{anchor.merkleRoot}</code>
             {anchor.txHash && <code className="rootHash">Tx: {anchor.txHash}</code>}
             <div className="formActions">

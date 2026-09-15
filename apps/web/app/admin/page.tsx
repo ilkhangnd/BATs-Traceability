@@ -27,7 +27,7 @@ type Plot = {
   district: string;
   commune: string;
   polygon: MapPoint[];
-  status: "active" | "inactive";
+  status: "active" | "inactive" | "pending";
 };
 type AuditLog = {
   id: string;
@@ -67,7 +67,8 @@ const emptyPlot = {
   province: "Đắk Lắk",
   district: "Krông Pắc",
   commune: "Ea Yông",
-  polygon: [] as MapPoint[]
+  polygon: [] as MapPoint[],
+  status: "active" as "active" | "inactive" | "pending"
 };
 
 function getRoleLabel(role: string): string {
@@ -83,14 +84,16 @@ function getRoleLabel(role: string): string {
 }
 
 function getPlotStatusLabel(status: string): string {
-  return status === "active" ? "Đang hoạt động" : "Đã ngừng";
+  if (status === "active") return "Đang hoạt động";
+  if (status === "pending") return "Chờ phê duyệt";
+  return "Đã ngừng";
 }
 
 function getAnchorStatusLabel(status: string): string {
   switch (status) {
-    case "confirmed": return "Đã chốt Blockchain";
-    case "pending": return "Đang neo sổ cái";
-    case "failed": return "Lỗi xác thực";
+    case "confirmed": return "Đã neo bằng chứng";
+    case "pending": return "Đang neo commitment";
+    case "failed": return "Neo không thành công";
     default: return status;
   }
 }
@@ -101,15 +104,15 @@ function getBatchStatusLabel(status: string): string {
     case "collected": return "Đã thu mua (Mini App)";
     case "packed": return "Đã đóng gói";
     case "shipped": return "Đã xuất kho";
-    case "verified": return "Đã kiểm tra thực địa";
+    case "verified": return "Đã qua kiểm tra theo luật";
     default: return status || "Chờ xử lý";
   }
 }
 
 function getBatchRiskLabel(band: string): string {
   switch (band) {
-    case "green": return "Khớp kiểm định Rule Engine";
-    case "yellow": return "Cần tra soát GPS / Lô";
+    case "green": return "Không có cảnh báo theo luật hiện hành";
+    case "yellow": return "Cần rà soát GPS / lô";
     case "red": return "Cảnh báo sai lệch dữ liệu";
     default: return "Đang kiểm định";
   }
@@ -193,6 +196,14 @@ export default function AdminPage() {
       });
       setAuthenticated(true);
       setAdminName(data.actor.name);
+      localStorage.setItem("bats_current_user", JSON.stringify({
+        name: data.actor.name,
+        actorId: data.actor.id,
+        role: "ADMIN",
+        org: data.actor.organization ?? ""
+      }));
+      localStorage.setItem("bats_current_role", "ADMIN");
+      window.dispatchEvent(new Event("bats-auth-change"));
       setError("");
       await loadAdmin();
     } catch (loginError) {
@@ -237,6 +248,19 @@ export default function AdminPage() {
       await loadAdmin();
     } catch (deleteError) {
       setError((deleteError as Error).message);
+    }
+  }
+
+  async function approvePlot(id: string) {
+    try {
+      await request(`/admin/plots/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify({ status: "active" })
+      });
+      setError("");
+      await loadAdmin();
+    } catch (approveError) {
+      setError((approveError as Error).message);
     }
   }
 
@@ -321,7 +345,7 @@ export default function AdminPage() {
               <div>
                 <div className="eyebrow">Sổ tay nông hộ BATS</div>
                 <h2>Xin chào, {adminName || "Admin"} 👋</h2>
-                <p>Theo dõi nhanh dữ liệu từ Mini App, vùng trồng, lô hàng và trạng thái xác thực.</p>
+                <p>Theo dõi dữ liệu từ Mini App, registry vùng trồng, hàng đợi review, lô hàng và trạng thái neo bằng chứng.</p>
               </div>
               <button className="button secondary" onClick={() => void loadAdmin()}>
                 <RefreshIcon size={15} /> Làm mới
@@ -518,6 +542,13 @@ export default function AdminPage() {
                 <label>Tỉnh<input value={plotForm.province} onChange={(e) => setPlotForm({...plotForm, province:e.target.value})} /></label>
                 <label>Huyện<input value={plotForm.district} onChange={(e) => setPlotForm({...plotForm, district:e.target.value})} /></label>
                 <label>Xã<input value={plotForm.commune} onChange={(e) => setPlotForm({...plotForm, commune:e.target.value})} /></label>
+                <label>Trạng thái
+                  <select value={plotForm.status} onChange={(e) => setPlotForm({...plotForm, status:e.target.value as Plot["status"]})}>
+                    <option value="active">Đang hoạt động</option>
+                    <option value="pending">Chờ phê duyệt</option>
+                    <option value="inactive">Ngừng hoạt động</option>
+                  </select>
+                </label>
               </div>
               <GoogleMap
                 key={editingPlot ?? "new"}
@@ -533,10 +564,11 @@ export default function AdminPage() {
             </form>
             <div className="adminList">
               {plots.map((plot) => (
-                <article key={plot.id} className={plot.status === "inactive" ? "inactive" : ""}>
+                <article key={plot.id} className={plot.status === "inactive" ? "inactive" : plot.status === "pending" ? "pending" : ""}>
                   <div><span className="status">{getPlotStatusLabel(plot.status)}</span><h3>{plot.plantingAreaCode}</h3><p>{plot.farmerName} · {plot.areaHa} ha · {plot.variety}</p></div>
                   <div className="rowActions">
                     <button onClick={() => {setEditingPlot(plot.id);setPlotForm({...plot});}}>Sửa</button>
+                    {plot.status === "pending" && <button onClick={() => void approvePlot(plot.id)}>Phê duyệt</button>}
                     {plot.status === "active" && <button className="delete" onClick={() => void softDelete("plots",plot.id)}>Ngừng</button>}
                   </div>
                 </article>
