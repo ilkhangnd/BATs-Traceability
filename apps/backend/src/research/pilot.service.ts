@@ -23,7 +23,7 @@ export class PilotResearchService {
   private readonly logger = new Logger(PilotResearchService.name);
   private readonly filePath = resolve(
     process.cwd(),
-    "../../research/field-study/pilot-results.json"
+    "../../data/pilot-results.json"
   );
 
   constructor() {

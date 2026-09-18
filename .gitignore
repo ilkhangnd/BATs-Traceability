@@ -20,3 +20,17 @@ data
 *.log
 .DS_Store
 tmp/
+
+# Non-paper BATS-AgriGuard/NCKHSV materials (kept locally, never published).
+bats-agriguard/
+BATS-AgriGuard_Du_thao_Thuyet_minh_NCKHSV_2026.docx
+build_thuyet_minh_nckhsv.py
+Khang_BATS_Blockchain_Project/
+latex-bats-agri-guard/
+report-latex-bats/
+docs/
+research/field-study/
+research/paper/
+ROADMAP_PROJECT_PAPER.md
+output/
+outputs/

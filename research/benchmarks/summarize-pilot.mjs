@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
-const filePath = resolve("research/field-study/pilot-results.json");
+const filePath = resolve("data/pilot-results.json");
 
 if (!existsSync(filePath)) {
   console.log("===============================================================================");
@@ -11,7 +11,7 @@ if (!existsSync(filePath)) {
   console.log("File path:", filePath);
   console.log("\nTo collect real participant data:");
   console.log("1. Open Zalo Mini App (`pnpm dev` or staging link).");
-  console.log("2. Invite 3-5 participants (Nông hộ / HTX or Thu mua) according to `PILOT_PROTOCOL_VI.md`.");
+  console.log("2. Invite 3-5 participants (Nông hộ / HTX or Thu mua) using an approved study protocol.");
   console.log("3. After completing the task, tap [📊 Khảo sát NCKH] or submit through the auto-survey modal.");
   console.log("4. Run `pnpm research:pilot` again to calculate exact real task time, error rate, and SUS score.");
   console.log("===============================================================================");

@@ -4,12 +4,6 @@ This directory turns the MVP into a measurable research artifact. Generated
 files go to `research/results/` and must be archived together with the commit
 hash, machine specification and raw command output used in the paper.
 
-Field-study preparation is in `research/field-study/`. The evidence-bounded
-manuscript draft, literature matrix, results tables, k6 diagnostic analysis and
-submission checklist are in `research/paper/`. These files are preparation
-artifacts, not evidence that a pilot or full systematic literature review has
-already been completed.
-
 ## 1. Merkle scalability
 
 ```bash
@@ -77,7 +71,7 @@ auth, idempotency and database issues before the formal k6 campaign.
 Current status: a k6 staging suite has been run and stored in
 `research/results/k6-benchmark-staging-suite.*`, but it currently shows high
 latency and high error rates. Treat it as diagnostic evidence, not as a
-successful scalability result. See `research/paper/K6_LOAD_ANALYSIS.md`.
+successful scalability result.
 
 ## 5. PostGIS geofence
 
@@ -110,12 +104,3 @@ pnpm research:charts
 ```
 
 Figures are written to `research/results/figures/`.
-
-## Paper drafting artifacts
-
-- `research/paper/MANUSCRIPT_DRAFT.md` — current evidence-bounded paper draft.
-- `research/paper/RESULTS_AND_FIGURES.md` — tables and figure plan.
-- `research/paper/CLAIM_EVIDENCE_MATRIX.md` — which claims are safe to make.
-- `research/paper/RELATED_WORK_MATRIX.md` — verified-source first-pass related work.
-- `research/paper/K6_LOAD_ANALYSIS.md` — load-test interpretation and next diagnostics.
-- `research/paper/PAPER_PROGRESS_TRACKER.md` — progress toward conference/journal readiness.
