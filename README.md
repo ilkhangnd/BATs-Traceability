@@ -71,9 +71,3 @@ Merkle hashing, signed receipts, threshold signing, concurrency/crash-recovery
 testing, full load telemetry, EPCIS conformance tests, and independently labelled
 field evaluation remain future work.
 
-## Repository boundary
-
-Proposal drafts, BATS-AgriGuard/NCKHSV documents, legacy LaTeX projects,
-roadmaps, implementation notes, and generated office-document outputs are local
-only and are excluded by `.gitignore`. This repository is limited to the paper’s
-reproducibility materials.
